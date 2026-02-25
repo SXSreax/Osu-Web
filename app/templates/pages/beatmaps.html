@@ -1,0 +1,41 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Beatmaps{% endblock
+%} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/beatmaps.css') }}"
+/>
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>Beatmaps</h2>
+  </div>
+</div>
+{% endblock %}
+<div class="beatmaps">
+  {% for bm in beatmaps %}
+  <a
+    href="{{ url_for('map.map_detail', beatmap_id=bm.id) }}"
+    class="beatmap-card-link"
+  >
+    <div class="beatmap-card" data-beatmap-id="{{ bm.id }}">
+      <div
+        class="beatmap-cover"
+        style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+      ></div>
+      <div
+        class="beatmap-content"
+        style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+      >
+        <div class="beatmap-info">
+          <div class="beatmap-title">{{ bm.name }}</div>
+          <div class="beatmap-artist">by {{ bm.artist }}</div>
+          <div class="beatmap-uploader" title="{{ bm.uploader }}">
+            uploaded by <span>{{ bm.uploader }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

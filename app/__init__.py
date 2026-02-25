@@ -1,13 +1,15 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from app.models import db
 import os
 
 from app.routes.pages.home import home_bp as home
-
-db = SQLAlchemy()
+from app.routes.pages.beatmaps import beatmaps_bp as beatmaps
+from app.routes.pages.map import map_bp as map
+from app.routes.pages.upload import upload_bp as upload
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
+    app.config['SECRET_KEY'] = 'dont-hack-me'
     
     # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'flaskr.sqlite')
@@ -16,8 +18,14 @@ def create_app():
     
     # Initialize database with app
     db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
     
     # Register blueprints
     app.register_blueprint(home)
+    app.register_blueprint(beatmaps)
+    app.register_blueprint(map)
+    app.register_blueprint(upload)
     
     return app

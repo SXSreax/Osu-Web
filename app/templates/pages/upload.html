@@ -1,0 +1,28 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Upload{% endblock
+%} {% block content %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>Upload Beatmap</h2>
+  </div>
+</div>
+{% endblock %}
+<form
+  action="{{ url_for('upload.upload_store') }}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {{ form.hidden_tag() }}
+  <div class="form-row">
+    {{ form.file.label }}<br />
+    {{ form.file() }}
+  </div>
+  <div class="form-row">
+    {{ form.uploader.label }}<br />
+    {{ form.uploader(size=40) }}
+  </div>
+  <div class="form-row">{{ form.submit(class_='btn') }}</div>
+</form>
+{% endblock %}

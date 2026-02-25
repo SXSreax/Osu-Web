@@ -1,12 +1,21 @@
 {% extends 'components/base.html' %} {% block title %}osu! - Home{% endblock %}
 {% block content %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>home</title>
-  </head>
-  <body></body>
-</html>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>home</title>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/main.css') }}"
+/>
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>Welcome to osu! Web</h2>
+  </div>
+</div>
+{% endblock %}
+<p>Browse uploaded beatmaps or upload your own (.zip or .osz).</p>
+<p>
+  <a href="{{ url_for('upload.upload') }}" class="btn">Upload a beatmap</a>
+</p>
 {% endblock %}

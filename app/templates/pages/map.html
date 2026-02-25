@@ -1,0 +1,78 @@
+{% extends 'components/base.html' %} {% block title %}{{ bm.name }} by {{
+bm.artist }} - osu!{% endblock %} {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}" />
+<div class="page-header">
+  {% block page_header %}
+  <div class="container">
+    <h2>Beatmap Info</h2>
+  </div>
+</div>
+{% endblock %}
+<div
+  class="map-content-wrapper"
+  style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+>
+  <div class="map-detail">
+    <div class="map-info-section">
+      <div class="map-info-overlay">
+        <div class="map-info-name">{{ bm.name }}</div>
+        <div class="map-info-artist">by {{ bm.artist }}</div>
+        <div class="map-info-uploader">Uploaded by {{ bm.uploader }}</div>
+        <div class="map-btn">
+          <button class="btn" id="download-trigger-btn">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="download-modal" class="download-modal">
+    <div class="download-modal-overlay"></div>
+    <div class="download-modal-content">
+      <h3>Download Format</h3>
+      <p>Choose your preferred format:</p>
+      <div class="download-format-buttons">
+        <a
+          href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='osz') }}"
+          class="download-format-btn osz-btn"
+        >
+          <strong>.osz</strong>
+          <small>osu! format</small>
+        </a>
+        <a
+          href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='zip') }}"
+          class="download-format-btn zip-btn"
+        >
+          <strong>.zip</strong>
+          <small>Standard zip</small>
+        </a>
+      </div>
+      <button id="close-modal-btn" class="close-modal-btn">&times;</button>
+    </div>
+  </div>
+
+  <script>
+    const downloadModal = document.getElementById("download-modal");
+    const downloadTrigger = document.getElementById("download-trigger-btn");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const modalOverlay = document.querySelector(".download-modal-overlay");
+
+    downloadTrigger.addEventListener("click", () => {
+      downloadModal.classList.add("active");
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+      downloadModal.classList.remove("active");
+    });
+
+    modalOverlay.addEventListener("click", () => {
+      downloadModal.classList.remove("active");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        downloadModal.classList.remove("active");
+      }
+    });
+  </script>
+  {% endblock %}
+</div>

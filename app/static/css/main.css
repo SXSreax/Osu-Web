@@ -10,17 +10,19 @@
     "Helvetica Neue",
     Arial;
   margin: 0;
+  height: 128.5px;
+  border-bottom: #333 1px solid;
 }
 
 .site-header {
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .site-header .logo {
   font-weight: 800;
   font-size: 32px;
   margin-top: 10px;
+  color: #f062a1;
 }
 
 .container {
@@ -33,10 +35,89 @@
   margin-top: -50px;
 }
 .main-nav a {
-  color: var(--muted);
+  color: #999;
   text-decoration: none;
   margin-left: 18px;
 }
 .main-nav a:hover {
-  color: var(--accent-2);
+  color: #f062a1;
+}
+
+.btn {
+  display: inline-block;
+  background: #f062a1;
+  color: #081018;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: #e04a8f;
+}
+
+.content-box {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 20px 0;
+  border: 1px solid #333;
+}
+
+.content-box .page-header {
+  margin: -24px -24px 24px -24px;
+  padding: 16px 24px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  border-radius: 8px 8px 0 0;
+}
+
+.content-box .page-header h1,
+.content-box .page-header h2,
+.content-box .page-header h3 {
+  margin: 0;
+  color: #fff;
+}
+
+.content-box .page-header h1 {
+  font-size: 28px;
+}
+
+.content-box .page-header h2 {
+  font-size: 24px;
+}
+
+.content-box .page-tabs {
+  display: flex;
+  gap: 24px;
+  margin: -16px 0;
+}
+
+.content-box .page-tab {
+  color: #999;
+  padding: 16px 0;
+  border-bottom: 2px solid transparent;
+  cursor: default;
+}
+
+.content-box .page-tab.active {
+  color: #fff;
+  border-bottom-color: #f062a1;
+}
+
+.form-row {
+  margin-bottom: 12px;
+}
+input[type="text"],
+input[type="file"],
+textarea {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: inherit;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
 }

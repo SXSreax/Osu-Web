@@ -15,10 +15,14 @@
         <h1 class="logo">osu!</h1>
         <nav class="main-nav">
           <a href="{{ url_for('home.home') }}">Home</a>
+          <a href="{{ url_for('beatmaps.beatmaps') }}">Beatmaps</a>
+          <a href="{{ url_for('upload.upload') }}">Upload</a>
         </nav>
       </div>
     </header>
 
-    <main class="container">{% block content %}{% endblock %}</main>
+    <main class="container">
+      <div class="content-box">{% block content %}{% endblock %}</div>
+    </main>
   </body>
 </html>
