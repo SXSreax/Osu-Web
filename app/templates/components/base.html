@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}osu!Web{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+  </head>
+  <body class="osu-bg">
+    <header class="site-header">
+      <div class="container">
+        <h1 class="logo">osu!</h1>
+        <nav class="main-nav">
+          <a href="{{ url_for('home.home') }}">Home</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">{% block content %}{% endblock %}</main>
+  </body>
+</html>
