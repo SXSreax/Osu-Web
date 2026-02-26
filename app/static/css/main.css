@@ -120,3 +120,78 @@ textarea {
   border-radius: 6px;
   width: 100%;
 }
+
+.flash-container {
+  position: fixed;
+  margin-left: 100px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.flash {
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  min-width: 250px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+  opacity: 1;
+  animation: fadeOut 5s forwards;
+}
+
+.flash.success {
+  background: #4caf50;
+}
+
+.flash.warning {
+  background: #ff9800;
+}
+
+.flash.error {
+  background: #f44336;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.play-button img {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}

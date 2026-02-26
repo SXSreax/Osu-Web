@@ -27,7 +27,7 @@ def fetch_star_rate(beatmapset_id: int, beatmap_id: int):
     token = token_res.json()["access_token"]
 
     headers = {"Authorization": f"Bearer {token}"}
-    url = f"https://osu.ppy.sh/api/v2/beatmaps/{beatmap_id}"
+    url = f"https://osu.ppy.sh/api/v2/beatmaps/{beatmap_id}?mode=mania"
     response = requests.get(url, headers=headers)
     data = response.json()
 
@@ -50,6 +50,7 @@ def get_file_info(beatmap_path):
         current_section = None
         lines = content.splitlines()
         title = None
+        version = None
 
         for line in lines:
             line = line.strip()
@@ -71,17 +72,27 @@ def get_file_info(beatmap_path):
                     m = re.match(r'Title\s*:\s*(.+)', line)
                     if m:
                         title = m.group(1).strip()
+
+                elif line.startswith('Version:') and version is None:
+                    m = re.match(r'Version\s*:\s*(.+)', line)
+                    if m:
+                        version = m.group(1).strip()
+
                 elif line.startswith('BeatmapID:'):
                     m = re.match(r'BeatmapID\s*:\s*(\d+)', line)
                     if m:
                         beatmap_id = int(m.group(1))
+
                 elif line.startswith('BeatmapSetID:'):
                     m = re.match(r'BeatmapSetID\s*:\s*(\d+)', line)
                     if m:
                         beatmapset_id = int(m.group(1))
                         
         if title:
-            map_name = title
+            if version:
+                map_name = f"{title} [{version}]"
+            else:
+                map_name = title
 
     except Exception as e:
         print(f"Error extracting IDs from {beatmap_path}: {e}")
@@ -157,40 +168,48 @@ def upload_store():
         existing.artist = artist or existing.artist
         existing.uploader = uploader
         existing.filepath = relative_path
-        db.session.commit()
-
-        flash('Beatmap updated successfully.', 'success')
-        return redirect(url_for('home.home'))
-
-    beatmap = Beatmap(
-        id=map_id,
-        name=name,
-        artist=artist,
-        uploader=uploader,
-        filepath=relative_path
-    )
-    db.session.add(beatmap)
+    else:
+        beatmap = Beatmap(
+            id=map_id,
+            name=name,
+            artist=artist,
+            uploader=uploader,
+            filepath=relative_path
+        )
+        db.session.add(beatmap)
     db.session.commit()
 
     try:
         osu_files = [f for f in os.listdir(extract_folder) if f.endswith('.osu')]
+        mania_found = False
         for osu_file in osu_files:
             osu_path = os.path.join(extract_folder, osu_file)
             map_name_file, beatmap_id_file, beatmapset_id_file, mode_file = get_file_info(osu_path)
+
+            if mode_file != 3:
+                continue
+
+            mania_found = True
             
             if beatmap_id_file and beatmapset_id_file:
                 star_rating = fetch_star_rate(beatmapset_id_file, beatmap_id_file)
-                star_truncated = round(star_rating, 2)
+                star_truncated = int(star_rating * 100) / 100
                 beatmap_diff = BeatmapDiff(
-                    map_id=beatmap_id_file,
+                    map_id=beatmapset_id_file,
                     map_name=map_name_file,
                     star_diff=star_truncated
                 )
                 db.session.add(beatmap_diff)
+        
         db.session.commit()
+
     except Exception as e:
         print(f"Error fetching/storing star ratings: {e}")
+        flash("Beatmap uploaded but failed to fetch mania star ratings.", "warning")
+        return redirect(url_for('upload.upload'))
 
-    flash('Beatmap updated successfully.', 'success')
+    if mania_found:
+        flash('Beatmap updated successfully.', 'success')
+    else:
+        flash("This beatmapset contains no osu!mania maps.", "warning")
     return redirect(url_for('home.home'))
-

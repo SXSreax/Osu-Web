@@ -13,18 +13,25 @@
 {% endblock %}
 <div class="beatmaps">
   {% for bm in beatmaps %}
-  <a
-    href="{{ url_for('map.map_detail', beatmap_id=bm.id) }}"
-    class="beatmap-card-link"
-  >
-    <div class="beatmap-card" data-beatmap-id="{{ bm.id }}">
-      <div
-        class="beatmap-cover"
-        style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
-      ></div>
-      <div
-        class="beatmap-content"
-        style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+  <div class="beatmap-card" data-beatmap-id="{{ bm.id }}">
+    <div
+      class="beatmap-cover"
+      style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+    >
+      <button class="play-button" title="Play 15s preview">
+        <img
+          src="{{ url_for('static', filename='images/trialplay.png') }}"
+          alt="Play"
+        />
+      </button>
+    </div>
+    <div
+      class="beatmap-content"
+      style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
+    >
+      <a
+        href="{{ url_for('map.map_detail', beatmap_id=bm.id) }}"
+        class="beatmap-card-link"
       >
         <div class="beatmap-info">
           <div class="beatmap-title">{{ bm.name }}</div>
@@ -32,10 +39,130 @@
           <div class="beatmap-uploader" title="{{ bm.uploader }}">
             uploaded by <span>{{ bm.uploader }}</span>
           </div>
+          <div class="beatmap-star-bar" data-max-star="{{ bm.max_star }}">
+            {% for diff in bm.difficulties|sort(attribute='star') %} {#
+            Calculate color based on star rating #} {% set star = diff.star %}
+            {% if star < 2.0 %} {% set color_class = 'star-color-0' %} {% elif
+            star < 2.7 %} {% set color_class = 'star-color-1' %} {% elif star <
+            4.0 %} {% set color_class = 'star-color-3' %} {% elif star < 5.3 %}
+            {% set color_class = 'star-color-4' %} {% elif star < 6.5 %} {% set
+            color_class = 'star-color-5' %} {% else %} {% set color_class =
+            'star-color-8' %} {% endif %}
+            <div
+              class="star-segment {{ color_class }}"
+              data-star="{{ star }}"
+              data-name="{{ diff.name }}"
+            ></div>
+            {% endfor %}
+          </div>
         </div>
-      </div>
+      </a>
     </div>
-  </a>
+  </div>
   {% endfor %}
 </div>
+<audio id="audio-player" style="display: none"></audio>
+<script>
+  // Wait for the page to load
+  document.addEventListener("DOMContentLoaded", function () {
+    // Audio player functionality
+    const playButtons = document.querySelectorAll(".play-button");
+    const audioPlayer = document.getElementById("audio-player");
+    let previewTimeout = null;
+
+    playButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const card = button.closest(".beatmap-card");
+        const beatmapId = card.dataset.beatmapId;
+
+        try {
+          audioPlayer.pause();
+          if (previewTimeout) {
+            clearTimeout(previewTimeout);
+            previewTimeout = null;
+          }
+
+          const response = await fetch(`/get-beatmap-audio/${beatmapId}`);
+          const data = await response.json();
+
+          if (data.audio_url) {
+            audioPlayer.src = data.audio_url;
+            audioPlayer.currentTime = 0;
+            await audioPlayer.play();
+            previewTimeout = setTimeout(() => {
+              audioPlayer.pause();
+              previewTimeout = null;
+            }, 15000);
+          } else {
+            alert("No audio found for this beatmap");
+          }
+        } catch (err) {
+          console.error("Error loading audio:", err);
+          alert("Error loading audio");
+        }
+      });
+    });
+
+    // Apply colors to star segments
+    applyStarColors();
+  });
+
+  // Helper function for color interpolation
+  function lerpColor(color1, color2, t) {
+    const r = Math.round(color1[0] + (color2[0] - color1[0]) * t);
+    const g = Math.round(color1[1] + (color2[1] - color1[1]) * t);
+    const b = Math.round(color1[2] + (color2[2] - color1[2]) * t);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Main function to get color based on star rating
+  function getStarColor(starRating) {
+    // Clamp rating between 0 and 8
+    const rating = Math.max(0, Math.min(8, starRating));
+
+    const gradients = [
+      { start: 0.0, end: 2.0, color1: [0, 255, 255], color2: [0, 255, 0] },
+      { start: 2.0, end: 2.7, color1: [0, 255, 0], color2: [255, 255, 0] },
+      { start: 2.7, end: 4.0, color1: [255, 255, 0], color2: [255, 200, 0] },
+      { start: 4.0, end: 5.3, color1: [255, 165, 0], color2: [255, 0, 127] },
+      { start: 5.3, end: 6.5, color1: [255, 0, 127], color2: [200, 0, 255] },
+      { start: 6.5, end: 8.0, color1: [200, 0, 255], color2: [100, 0, 255] },
+    ];
+
+    for (const segment of gradients) {
+      if (rating >= segment.start && rating <= segment.end) {
+        const t = (rating - segment.start) / (segment.end - segment.start);
+        return lerpColor(segment.color1, segment.color2, t);
+      }
+    }
+
+    return lerpColor(
+      gradients[gradients.length - 1].color2,
+      gradients[gradients.length - 1].color2,
+      1,
+    );
+  }
+
+  // Function to apply colors to all star elements
+  function applyStarColors() {
+    // Color the star segments
+    document.querySelectorAll(".star-segment").forEach((segment) => {
+      const star = parseFloat(segment.dataset.star);
+      if (!isNaN(star)) {
+        segment.style.backgroundColor = getStarColor(star);
+      }
+    });
+
+    // Color difficulty badges (if they exist)
+    document.querySelectorAll(".difficulty-star-badge").forEach((badge) => {
+      const star = parseFloat(badge.dataset.star);
+      if (!isNaN(star)) {
+        badge.style.backgroundColor = getStarColor(star);
+      }
+    });
+  }
+</script>
 {% endblock %}
