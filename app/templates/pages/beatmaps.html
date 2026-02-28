@@ -13,7 +13,10 @@
 {% endblock %}
 <div class="beatmaps">
   {% for bm in beatmaps %}
-  <div class="beatmap-card" data-beatmap-id="{{ bm.id }}">
+  <div class="beatmap-wrap">
+  <div class="beatmap-card" 
+  data-beatmap-id="{{ bm.id }}"
+  data-difficulties="{{ bm.difficulties | tojson }}">
     <div
       class="beatmap-cover"
       style="background-image: url('{{ url_for('beatmaps.serve_instance_file', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}');"
@@ -58,111 +61,21 @@
         </div>
       </a>
     </div>
+    <div class="beatmap-difficulties-list">
+      {% for diff in bm.difficulties|sort(attribute='star') %}
+      <div class="difficulty-item">
+        <div class="difficulty-star-badge" data-star="{{ diff.star }}">
+          {{ "%.2f" | format(diff.star) }}
+        </div>
+        <div class="difficulty-name">{{ diff.name }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  <audio id="audio-player" style="display: none"></audio>
+  <script src="{{ url_for('static', filename='js/beatmaps.js') }}"></script>
+  {% endblock %}
 </div>
-<audio id="audio-player" style="display: none"></audio>
-<script>
-  // Wait for the page to load
-  document.addEventListener("DOMContentLoaded", function () {
-    // Audio player functionality
-    const playButtons = document.querySelectorAll(".play-button");
-    const audioPlayer = document.getElementById("audio-player");
-    let previewTimeout = null;
-
-    playButtons.forEach((button) => {
-      button.addEventListener("click", async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const card = button.closest(".beatmap-card");
-        const beatmapId = card.dataset.beatmapId;
-
-        try {
-          audioPlayer.pause();
-          if (previewTimeout) {
-            clearTimeout(previewTimeout);
-            previewTimeout = null;
-          }
-
-          const response = await fetch(`/get-beatmap-audio/${beatmapId}`);
-          const data = await response.json();
-
-          if (data.audio_url) {
-            audioPlayer.src = data.audio_url;
-            audioPlayer.currentTime = 0;
-            await audioPlayer.play();
-            previewTimeout = setTimeout(() => {
-              audioPlayer.pause();
-              previewTimeout = null;
-            }, 15000);
-          } else {
-            alert("No audio found for this beatmap");
-          }
-        } catch (err) {
-          console.error("Error loading audio:", err);
-          alert("Error loading audio");
-        }
-      });
-    });
-
-    // Apply colors to star segments
-    applyStarColors();
-  });
-
-  // Helper function for color interpolation
-  function lerpColor(color1, color2, t) {
-    const r = Math.round(color1[0] + (color2[0] - color1[0]) * t);
-    const g = Math.round(color1[1] + (color2[1] - color1[1]) * t);
-    const b = Math.round(color1[2] + (color2[2] - color1[2]) * t);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-
-  // Main function to get color based on star rating
-  function getStarColor(starRating) {
-    // Clamp rating between 0 and 8
-    const rating = Math.max(0, Math.min(8, starRating));
-
-    const gradients = [
-      { start: 0.0, end: 2.0, color1: [0, 255, 255], color2: [0, 255, 0] },
-      { start: 2.0, end: 2.7, color1: [0, 255, 0], color2: [255, 255, 0] },
-      { start: 2.7, end: 4.0, color1: [255, 255, 0], color2: [255, 200, 0] },
-      { start: 4.0, end: 5.3, color1: [255, 165, 0], color2: [255, 0, 127] },
-      { start: 5.3, end: 6.5, color1: [255, 0, 127], color2: [200, 0, 255] },
-      { start: 6.5, end: 8.0, color1: [200, 0, 255], color2: [100, 0, 255] },
-    ];
-
-    for (const segment of gradients) {
-      if (rating >= segment.start && rating <= segment.end) {
-        const t = (rating - segment.start) / (segment.end - segment.start);
-        return lerpColor(segment.color1, segment.color2, t);
-      }
-    }
-
-    return lerpColor(
-      gradients[gradients.length - 1].color2,
-      gradients[gradients.length - 1].color2,
-      1,
-    );
-  }
-
-  // Function to apply colors to all star elements
-  function applyStarColors() {
-    // Color the star segments
-    document.querySelectorAll(".star-segment").forEach((segment) => {
-      const star = parseFloat(segment.dataset.star);
-      if (!isNaN(star)) {
-        segment.style.backgroundColor = getStarColor(star);
-      }
-    });
-
-    // Color difficulty badges (if they exist)
-    document.querySelectorAll(".difficulty-star-badge").forEach((badge) => {
-      const star = parseFloat(badge.dataset.star);
-      if (!isNaN(star)) {
-        badge.style.backgroundColor = getStarColor(star);
-      }
-    });
-  }
-</script>
-{% endblock %}
