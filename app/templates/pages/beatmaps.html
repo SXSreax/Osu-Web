@@ -42,7 +42,7 @@
           <div class="beatmap-uploader" title="{{ bm.uploader }}">
             uploaded by <span>{{ bm.uploader }}</span>
           </div>
-          <div class="beatmap-star-bar" data-max-star="{{ bm.max_star }}">
+          <div class="beatmap-star-bar">
             {% for diff in bm.difficulties|sort(attribute='star') %} {#
             Calculate color based on star rating #} {% set star = diff.star %}
             {% if star < 2.0 %} {% set color_class = 'star-color-0' %} {% elif
@@ -61,19 +61,19 @@
         </div>
       </a>
     </div>
-    <div class="beatmap-difficulties-list">
+    <div class="star-rate-list">
       {% for diff in bm.difficulties|sort(attribute='star') %}
-      <div class="difficulty-item">
-        <div class="difficulty-star-badge" data-star="{{ diff.star }}">
+      <div class="star-rate-item">
+        <div class="star-badge" data-star="{{ diff.star }}">
           {{ "%.2f" | format(diff.star) }}
         </div>
-        <div class="difficulty-name">{{ diff.name }}</div>
+        <div class="star-name">{{ diff.name }}</div>
       </div>
       {% endfor %}
     </div>
     </div>
     </div>
-    {% endfor %}
+  {% endfor %}
   </div>
   <audio id="audio-player" style="display: none"></audio>
   <script src="{{ url_for('static', filename='js/beatmaps.js') }}"></script>

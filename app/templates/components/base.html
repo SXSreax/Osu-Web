@@ -1,5 +1,4 @@
 <!doctype html>
-<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -10,28 +9,33 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
   </head>
-  <body class="osu-bg">
-    <header class="site-header">
-      <div class="container">
-        <h1 class="logo">osu!</h1>
-        <nav class="main-nav">
-          <a href="{{ url_for('home.home') }}">Home</a>
-          <a href="{{ url_for('beatmaps.beatmaps') }}">Beatmaps</a>
-          <a href="{{ url_for('upload.upload') }}">Upload</a>
-        </nav>
-      </div>
-    </header>
+  <body>
+    <div class="osu-bg">
+      <header class="site-header">
+        <div class="container">
+          <h1 class="logo">osu!</h1>
+          <nav class="main-nav">
+            <a href="{{ url_for('home.home') }}">Home</a>
+            <a href="{{ url_for('beatmaps.beatmaps') }}">Beatmaps</a>
+            <a href="{{ url_for('upload.upload') }}">Upload</a>
+          </nav>
+        </div>
+      </header>
 
-    <main class="container">
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %}
-      <div class="flash-container">
-        {% for category, message in messages %}
-        <div class="flash {{ category }}">{{ message }}</div>
-        {% endfor %}
-      </div>
-      {% endif %} {% endwith %}
-      <div class="content-box">{% block content %}{% endblock %}</div>
-    </main>
+      <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+        {% endif %} {% endwith %}
+        <div class="content-box">{% block content %}{% endblock %}</div>
+      </main>
+      <footer class="site-footer">
+        <div class="container">&copy; {{ current_year }} Developed by Kyle</div>
+      </footer>
+    </div>
   </body>
 </html>

@@ -3,7 +3,7 @@ import os
 import random
 import zipfile
 import io
-from app.models import Beatmap
+from app.models import Beatmap, BeatmapDiff
 
 map_bp = Blueprint('map', __name__)
 
@@ -20,7 +20,16 @@ def map_detail(beatmap_id):
         imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
         if imgs:
             cover_img = os.path.join('maps', base_name, random.choice(imgs))
-    
+
+    difficulties = BeatmapDiff.query.filter_by(map_id=bm.id).all()
+    difficulty_list = []
+    for d in difficulties:
+        difficulty_dict = {
+            'name': d.map_name,
+            'star': d.star_diff
+        }
+        difficulty_list.append(difficulty_dict)
+
     return render_template('pages/map.html', bm={
         'id': bm.id,
         'name': bm.name,
@@ -28,6 +37,7 @@ def map_detail(beatmap_id):
         'uploader': bm.uploader,
         'cover_img': cover_img,
         'filepath': bm.filepath,
+        'difficulties': difficulty_list,
     })
 
 @map_bp.route('/map/download/<int:beatmap_id>/<format>')

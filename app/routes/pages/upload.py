@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 import os
 import re
 import zipfile
-import time
 import requests
 
 from app.models import db, Beatmap, BeatmapDiff
@@ -99,6 +98,11 @@ def get_file_info(beatmap_path):
 
     return map_name, beatmap_id, beatmapset_id, mode
 
+def sanitize_filename(filename):
+    name, ext = os.path.splitext(filename)
+    name = re.sub(r'[^\w\s\-\(\)]', '_', name)
+    return name + ext
+
 @upload_bp.route('/upload/')
 def upload():
     form = UploadForm()
@@ -114,7 +118,7 @@ def upload_store():
     filenametemp = form.file.data
     uploader = form.uploader.data or 'anonymous'
 
-    filename = secure_filename(filenametemp.filename)
+    filename = sanitize_filename(filenametemp.filename)
     if not filename:
         flash('Invalid filename. File must be in (beatmapid - artist - name).osz/.zip')
         return redirect(url_for('upload.upload'))
@@ -194,12 +198,21 @@ def upload_store():
             if beatmap_id_file and beatmapset_id_file:
                 star_rating = fetch_star_rate(beatmapset_id_file, beatmap_id_file)
                 star_truncated = int(star_rating * 100) / 100
-                beatmap_diff = BeatmapDiff(
+
+                existing_diff = BeatmapDiff.query.filter_by(
                     map_id=beatmapset_id_file,
-                    map_name=map_name_file,
-                    star_diff=star_truncated
-                )
-                db.session.add(beatmap_diff)
+                    map_name=map_name_file
+                ).first()
+
+                if existing_diff:
+                    existing_diff.star_diff = star_truncated
+                else:
+                    beatmap_diff = BeatmapDiff(
+                        map_id=beatmapset_id_file,
+                        map_name=map_name_file,
+                        star_diff=star_truncated
+                    )
+                    db.session.add(beatmap_diff)
         
         db.session.commit()
 

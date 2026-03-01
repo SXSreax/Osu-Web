@@ -84,7 +84,7 @@ function applyStarColors() {
   });
 }
 
-document.querySelectorAll(".difficulty-star-badge").forEach((badge) => {
+document.querySelectorAll(".star-badge").forEach((badge) => {
   const star = parseFloat(badge.dataset.star);
   badge.style.backgroundColor = getStarColor(star);
 });
