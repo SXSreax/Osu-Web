@@ -21,6 +21,25 @@ bm.artist }} - osu!{% endblock %} {% block content %}
         <div class="map-btn">
           <button class="btn" id="download-trigger-btn">Download</button>
         </div>
+        <div class="star-row">
+          {% for diff in bm.difficulties|sort(attribute='star') %} {#
+          Calculate color based on star rating #} {% set star = diff.star %}
+          {% if star < 2.0 %} {% set color_class = 'star-color-0' %} {% elif
+          star < 2.7 %} {% set color_class = 'star-color-1' %} {% elif star <
+          4.0 %} {% set color_class = 'star-color-3' %} {% elif star < 5.3 %}
+          {% set color_class = 'star-color-4' %} {% elif star < 6.5 %} {% set
+          color_class = 'star-color-5' %} {% else %} {% set color_class =
+          'star-color-8' %} {% endif %}
+          <div
+            class="star-circle {{ color_class }}"
+            data-star="{{ star }}"
+            data-name="{{ diff.name }}"
+          ></div>
+          {% endfor %}
+        </div>
+        <div id="star-info">
+          <span class="star-name"></span> <span class="star-rate"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -49,6 +68,8 @@ bm.artist }} - osu!{% endblock %} {% block content %}
       <button id="close-modal-btn" class="close-modal-btn">&times;</button>
     </div>
   </div>
-  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-  {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    {% endblock %}
+  </div>
 </div>

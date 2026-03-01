@@ -1,4 +1,5 @@
-.osu-bg {
+body {
+  margin: 0;
   background: linear-gradient(180deg, #07070a 0%, #0c0c0f 100%);
   color: #e6eef3;
   font-family:
@@ -9,7 +10,9 @@
     Roboto,
     "Helvetica Neue",
     Arial;
-  margin: 0;
+}
+
+.osu-bg {
   height: 128.5px;
   border-bottom: #333 1px solid;
 }
@@ -23,6 +26,23 @@
   font-size: 32px;
   margin-top: 10px;
   color: #f062a1;
+}
+
+.site-footer {
+  background: #0c0c0f;
+  color: #999;
+  text-align: center;
+  padding: 16px 0;
+  font-size: 14px;
+  border-top: 1px solid #333;
+  margin-top: 40px;
+}
+.site-footer a {
+  color: #f062a1;
+  text-decoration: none;
+}
+.site-footer a:hover {
+  text-decoration: underline;
 }
 
 .container {

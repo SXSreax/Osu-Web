@@ -37,8 +37,7 @@ def beatmaps():
                 'artist': bms.artist,
                 'uploader': bms.uploader,
                 'cover_img': cover_img,
-                'difficulties': difficulty_list,
-                'max_star': max([d['star'] for d in difficulty_list])if difficulty_list else 0,
+                'difficulties': difficulty_list
             })
     return render_template('pages/beatmaps.html', beatmaps=beatmap_card)
 
@@ -56,12 +55,12 @@ def serve_instance_file(filepath):
 @beatmaps_bp.route('/get-beatmap-audio/<int:beatmap_id>')
 def get_beatmap_audio(beatmap_id):
     
-    bm = Beatmap.query.get(beatmap_id)
-    if not bm:
+    bms = Beatmap.query.get(beatmap_id)
+    if not bms:
         return jsonify({'error': 'Beatmap not found'}), 404
 
     maps_dir = os.path.join(current_app.instance_path, 'maps')
-    base_name = os.path.splitext(os.path.basename(bm.filepath))[0]
+    base_name = os.path.splitext(os.path.basename(bms.filepath))[0]
     folder = os.path.join(maps_dir, base_name)
 
     if not os.path.isdir(folder):
