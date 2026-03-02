@@ -98,6 +98,12 @@ def get_file_info(beatmap_path):
 
     return map_name, beatmap_id, beatmapset_id, mode
 
+def sanitize_id(filename):
+    name, ext = os.path.splitext(filename)
+    match = re.match(r'^(\d+)', name)
+    name = match.group(1)
+    return name + ext.lower()
+
 def sanitize_filename(filename):
     name, ext = os.path.splitext(filename)
     name = re.sub(r'[^\w\s\-\(\)]', '_', name)
@@ -123,6 +129,9 @@ def upload_store():
         flash('Invalid filename. File must be in (beatmapid - artist - name).osz/.zip')
         return redirect(url_for('upload.upload'))
     
+    file_store_name = sanitize_id(filename)
+    id_name = os.path.splitext(file_store_name)[0]
+    
     fullname, extracted = os.path.splitext(filename)
     extracted = extracted.lower()
 
@@ -131,15 +140,17 @@ def upload_store():
 
     extract_folder = None
     if extracted == '.osz':
-        stored_filename = fullname + '.zip'
+        stored_filename = id_name + '.zip'
         stored_path = os.path.join(maps_dir, stored_filename)
         filenametemp.save(stored_path)
-        extract_folder = os.path.join(maps_dir, fullname)
+        extract_folder = os.path.join(maps_dir, id_name)
+        real_name = fullname + '.zip'
     elif extracted == '.zip':
-        stored_filename = filename
+        stored_filename = file_store_name
         stored_path = os.path.join(maps_dir, stored_filename)
         filenametemp.save(stored_path)
-        extract_folder = os.path.join(maps_dir, os.path.splitext(stored_filename)[0])
+        extract_folder = os.path.join(maps_dir, id_name)
+        real_name = filename
     else:
         flash('Only accept .osz or .zip files.')
         return redirect(url_for('upload.upload'))
@@ -149,7 +160,7 @@ def upload_store():
         with zipfile.ZipFile(stored_path, 'r') as zip_ref:
             zip_ref.extractall(extract_folder)
 
-    name_uncleaned = os.path.splitext(stored_filename)[0]
+    name_uncleaned = os.path.splitext(real_name)[0]
     name_cleaned = name_uncleaned.replace('_', ' ').strip()
     fetch_info = r'^(\d+)\s+(.+?)\s*-\s*(.+)$'
     same_match = re.match(fetch_info, name_cleaned)
