@@ -10,12 +10,17 @@
 {% block page_header %}
 <div class="page-header">
   <div class="container">
-    <h2>Welcome to osu! Web</h2>
+    <h2 style="text-align: center">Welcome to osu!web</h2>
   </div>
 </div>
 {% endblock %}
-<p>Browse uploaded beatmaps or upload your own (.zip or .osz).</p>
-<p>
-  <a href="{{ url_for('upload.upload') }}" class="btn">Upload a beatmap</a>
-</p>
+<div class="center">
+  <h3>
+    Browse beatmaps or upload your own, only mania beatmaps (.zip or .osz).
+  </h3>
+  <p>
+    <a href="{{ url_for('beatmaps.beatmaps') }}" class="btn">Browse beatmaps</a>
+    <a href="{{ url_for('upload.upload') }}" class="btn">Upload a beatmap</a>
+  </p>
+</div>
 {% endblock %}

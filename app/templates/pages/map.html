@@ -21,6 +21,7 @@ bm.artist }} - osu!{% endblock %} {% block content %}
         <div class="map-btn">
           <button class="btn" id="download-trigger-btn">Download</button>
         </div>
+        <div class="maps">Maps:</div>
         <div class="star-row">
           {% for diff in bm.difficulties|sort(attribute='star') %} {#
           Calculate color based on star rating #} {% set star = diff.star %}

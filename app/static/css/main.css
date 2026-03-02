@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   background: linear-gradient(180deg, #07070a 0%, #0c0c0f 100%);
@@ -37,12 +41,9 @@ body {
   border-top: 1px solid #333;
   margin-top: 40px;
 }
-.site-footer a {
-  color: #f062a1;
-  text-decoration: none;
-}
-.site-footer a:hover {
-  text-decoration: underline;
+
+.center {
+  text-align: center;
 }
 
 .container {
