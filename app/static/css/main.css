@@ -44,6 +44,11 @@ body {
 
 .center {
   text-align: center;
+  align-items: center;
+}
+
+.random-map {
+  margin-left: 25%;
 }
 
 .container {

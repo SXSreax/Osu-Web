@@ -22,5 +22,7 @@
     <a href="{{ url_for('beatmaps.beatmaps') }}" class="btn">Browse beatmaps</a>
     <a href="{{ url_for('upload.upload') }}" class="btn">Upload a beatmap</a>
   </p>
+  <h3>Random Mania Beatmap</h3>
 </div>
+<div class="random-map">{% include "pages/card.html" %}</div>
 {% endblock %}
