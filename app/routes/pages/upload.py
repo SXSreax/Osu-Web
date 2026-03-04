@@ -136,7 +136,6 @@ def upload_store():
     extracted = extracted.lower()
 
     maps_dir = os.path.join(current_app.instance_path, 'maps')
-    os.makedirs(maps_dir, exist_ok=True)
 
     extract_folder = None
     if extracted == '.osz':

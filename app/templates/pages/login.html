@@ -1,0 +1,30 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Upload{% endblock
+%} {% block content %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>Login</h2>
+  </div>
+</div>
+{% endblock %}
+<div class="wrap">
+  <form method="POST" action="{{ url_for('login.login') }}" novalidate>
+    {{ form.hidden_tag() }}
+    <label for="identity">Username or Email:</label>
+    {{ form.identity(class="form-row") }} {% if form.identity.errors %}
+    <div class="error-line">
+      {% for err in form.identity.errors %}{{ err }}{% endfor %}
+    </div>
+    {% endif %}
+    <label for="password">Password:</label>
+    {{ form.password(class="form-row") }} {% if form.password.errors %}
+    <div class="error-line">
+      {% for err in form.password.errors %}{{ err }}{% endfor %}
+    </div>
+    {% endif %}
+    <button type="submit" class="btn">Create User</button>
+  </form>
+</div>
+{% endblock %}
