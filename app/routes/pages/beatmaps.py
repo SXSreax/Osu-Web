@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, send_file, jsonify, current_app
 from app.models import Beatmap, BeatmapDiff
+from app.utils.files import serve_instance_file
 import os
 import random
 import zipfile
@@ -43,14 +44,8 @@ def beatmaps():
 
 
 @beatmaps_bp.route('/instance/<path:filepath>')
-def serve_instance_file(filepath):
-    instance_path = current_app.instance_path
-    file_path = os.path.join(instance_path, filepath)
-    if not os.path.abspath(file_path).startswith(os.path.abspath(instance_path)):
-        return 'Forbidden', 403
-    if os.path.isfile(file_path):
-        return send_file(file_path)
-    return 'Not Found', 404
+def instance(filepath):
+    return serve_instance_file(filepath)
 
 @beatmaps_bp.route('/get-beatmap-audio/<int:beatmap_id>')
 def get_beatmap_audio(beatmap_id):

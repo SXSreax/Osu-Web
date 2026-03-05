@@ -17,8 +17,10 @@ body {
 }
 
 .osu-bg {
-  height: 122.5px;
+  height: 123px;
   border-bottom: #333 1px solid;
+  align-items: center;
+  align-content: center;
 }
 
 .site-header {
@@ -29,7 +31,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .site-header .container.header-inner {
@@ -51,13 +53,77 @@ body {
 
 .logo:hover {
   background-image: url("../images/logo_hover.png");
-  transform: scale(1.7);
+  transform: scale(1.5);
 }
 
 .site-header .logo {
   margin-top: 10px;
   font-weight: 800;
   font-size: 32px;
+  color: #f062a1;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.avatar img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.avatar img:hover {
+  transform: scale(1.2);
+  outline: #f062a1 2px solid;
+}
+
+.avatar-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 0px;
+}
+
+.avatar-dropdown img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.avatar-dropdown img:hover {
+  transform: scale(1.2);
+  outline: #f062a1 2px solid;
+}
+
+.avatar-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #1a1a1a;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.avatar-dropdown .dropdown-content a {
+  color: #e6eef3;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+}
+
+.avatar-dropdown .dropdown-content a:hover {
+  background-color: #333;
   color: #f062a1;
 }
 
@@ -96,6 +162,7 @@ body {
   align-items: center;
   margin: 0;
   padding: 0;
+  width: 1100px;
 }
 
 .main-nav a {
@@ -124,6 +191,23 @@ body {
   background: #e04a8f;
 }
 
+.line-btn {
+  color: white;
+  text-decoration: underline;
+  display: inline-block;
+  transition: transform 0.3s ease;
+  margin-left: 5px;
+}
+
+.line-btn:visited {
+  color: white;
+}
+
+.line-btn:hover {
+  transform: scale(1.05);
+  color: #f062a1;
+}
+
 .content-box {
   background: #1a1a1a;
   border-radius: 8px;
@@ -133,7 +217,7 @@ body {
 }
 
 .content-box .page-header {
-  margin: -24px -24px 24px -24px;
+  margin: -27.5px -24px 24px -24px;
   padding: 16px 24px;
   background: #1a1a1a;
   border-bottom: 1px solid #333;
@@ -187,12 +271,11 @@ textarea {
 }
 
 .flash-container {
-  position: fixed;
-  margin-left: 100px;
-  top: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
+  top: 20px;
   z-index: 9999;
+  justify-content: center;
 }
 
 .flash {

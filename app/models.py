@@ -1,9 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 import uuid
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -15,6 +16,8 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
+    def get_id(self):
+        return str(self.id)
 
 class Beatmap(db.Model):
     __tablename__ = 'beatmaps'

@@ -1,13 +1,17 @@
 from flask import Flask
-from app.models import db
+from app.models import db, User
 import os
-
+from flask_login import LoginManager
 from app.routes.pages.home import home_bp as home
 from app.routes.pages.beatmaps import beatmaps_bp as beatmaps
 from app.routes.pages.map import map_bp as map
 from app.routes.pages.upload import upload_bp as upload
 from app.routes.pages.signup import signup_bp as signup
 from app.routes.pages.login import login_bp as login
+from app.routes.components.base import base_bp as base
+
+
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -25,8 +29,13 @@ def create_app():
     # Initialize database with app
     db.init_app(app)
 
+    login_manager.init_app(app)
     with app.app_context():
         db.create_all()
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
     
     # Register blueprints
     app.register_blueprint(home)
@@ -35,5 +44,6 @@ def create_app():
     app.register_blueprint(upload)
     app.register_blueprint(signup)
     app.register_blueprint(login)
+    app.register_blueprint(base)
     
     return app

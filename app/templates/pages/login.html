@@ -24,7 +24,10 @@
       {% for err in form.password.errors %}{{ err }}{% endfor %}
     </div>
     {% endif %}
-    <button type="submit" class="btn">Create User</button>
+    <button type="submit" class="btn">Login</button>
+    <a href="{{ url_for('signup.signup') }}" class="line-btn"
+      >No account? Signup</a
+    >
   </form>
 </div>
 {% endblock %}

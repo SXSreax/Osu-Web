@@ -118,7 +118,7 @@ def upload():
 def upload_store():
     form = UploadForm()
     if not form.validate_on_submit():
-        flash('Please upload a valid file')
+        flash('Please upload a valid file', "error")
         return render_template('pages/upload.html', form=form)
     
     filenametemp = form.file.data
@@ -126,7 +126,7 @@ def upload_store():
 
     filename = sanitize_filename(filenametemp.filename)
     if not filename:
-        flash('Invalid filename. File must be in (beatmapid - artist - name).osz/.zip')
+        flash('Invalid filename. File must be in (beatmapid - artist - name).osz/.zip', "error")
         return redirect(url_for('upload.upload'))
     
     file_store_name = sanitize_id(filename)
@@ -151,7 +151,7 @@ def upload_store():
         extract_folder = os.path.join(maps_dir, id_name)
         real_name = filename
     else:
-        flash('Only accept .osz or .zip files.')
+        flash('Only accept .osz or .zip files.', "error")
         return redirect(url_for('upload.upload'))
     
     if extract_folder:
@@ -171,7 +171,7 @@ def upload_store():
         artist = same_match.group(2).strip()
         name = same_match.group(3).strip()
     else:
-        flash('Please ensure file name follows: beatmapid - artist - name')
+        flash('Please ensure file name follows: beatmapid - artist - name', "error")
         return redirect(url_for('upload.upload'))
     
     relative_path = os.path.join('maps', stored_filename)

@@ -13,30 +13,45 @@
     <div class="osu-bg">
       <header class="site-header">
         <div class="container">
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <div class="flash-container">
+            {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+          {% endif %} {% endwith %}
           <nav class="main-nav">
             <a class="logo" href="{{ url_for('home.home') }}">
             </a>
             <a href="{{ url_for('home.home') }}">Home</a>
             <a href="{{ url_for('beatmaps.beatmaps') }}">Beatmaps</a>
             <a href="{{ url_for('upload.upload') }}">Upload</a>
+            <div class="avatar">
+              <div class="avatar-dropdown">
+                {% if current_user.is_authenticated %}
+                  <img id="avatar-btn" src="{{ logged_in_user.avatar }}" alt="avatar">
+                  <div id="avatar-menu" class="dropdown-content">
+                    <a href="{{ url_for('login.logout') }}">Logout</a>
+                  </div>
+                {% else %}
+                <a href="{{ url_for('login.login') }}">
+                  <img src="{{ url_for('static', filename='images/default_cover.png') }}"></img>
+                </a>
+                {% endif %}
+              </div>
+            </div>
           </nav>
         </div>
       </header>
 
-      <main class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %} {% if
-        messages %}
-        <div class="flash-container">
-          {% for category, message in messages %}
-          <div class="flash {{ category }}">{{ message }}</div>
-          {% endfor %}
-        </div>
-        {% endif %} {% endwith %}
+      <div class="container">
         <div class="content-box">{% block content %}{% endblock %}</div>
-      </main>
+      </div>
       <footer class="site-footer">
         <div class="container">&copy; {{ current_year }} Developed by Kyle</div>
       </footer>
     </div>
   </body>
 </html>
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
