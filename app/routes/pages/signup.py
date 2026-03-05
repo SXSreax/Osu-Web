@@ -1,8 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import current_user
 from app.models import db, User
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length
 from app.forms import UserForm
 from werkzeug.security import generate_password_hash
 import uuid
@@ -14,6 +12,9 @@ def check_id(user_id):
 
 @signup_bp.route('/signup/', methods=['GET', 'POST'])
 def signup():
+    if current_user.is_active:
+        flash("Already logined in, logout first to relogin", "warning")
+        return redirect(url_for('home.home'))
     form = UserForm()
     if form.validate_on_submit():
         username = form.username.data

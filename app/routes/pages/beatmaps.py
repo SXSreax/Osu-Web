@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, send_file, jsonify, current_app
+from flask import Blueprint, render_template, jsonify, current_app
 from app.models import Beatmap, BeatmapDiff
+from urllib.parse import quote
 from app.utils.files import serve_instance_file
 import os
 import random
-import zipfile
-from urllib.parse import quote
 
 beatmaps_bp = Blueprint('beatmaps', __name__)
 
@@ -49,7 +48,7 @@ def instance(filepath):
 
 @beatmaps_bp.route('/get-beatmap-audio/<int:beatmap_id>')
 def get_beatmap_audio(beatmap_id):
-    
+
     bms = Beatmap.query.get(beatmap_id)
     if not bms:
         return jsonify({'error': 'Beatmap not found'}), 404

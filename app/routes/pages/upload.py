@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
-from werkzeug.utils import secure_filename
+from flask import Blueprint, render_template, redirect, url_for, flash, current_app
 import os
 import re
 import zipfile
