@@ -86,7 +86,6 @@ body {
 .avatar-dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 0px;
 }
 
 .avatar-dropdown img {
@@ -105,6 +104,9 @@ body {
 .avatar-dropdown .dropdown-content {
   display: none;
   position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   right: 0;
   background-color: #1a1a1a;
   min-width: 150px;
