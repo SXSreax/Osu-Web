@@ -3,3 +3,4 @@ flask_sqlalchemy
 flask_wtf
 requests
 flask_login
+pillow

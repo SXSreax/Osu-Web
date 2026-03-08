@@ -32,6 +32,8 @@
                 {% if current_user.is_authenticated %}
                   <img id="avatar-btn" src="{{ url_for('base.avatar', filename=current_user.avatar) if current_user.avatar else url_for('static', filename='images/default_cover.png') }}" alt="avatar">
                   <div id="avatar-menu" class="dropdown-content">
+                    <a href="{{ url_for('user.user') }}">User</a>
+                    <a href="{{ url_for('user.user_edit') }}">Edit User</a>
                     <a href="{{ url_for('login.logout') }}">Logout</a>
                   </div>
                 {% else %}

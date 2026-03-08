@@ -8,6 +8,7 @@ from app.routes.pages.map import map_bp as map
 from app.routes.pages.upload import upload_bp as upload
 from app.routes.pages.signup import signup_bp as signup
 from app.routes.pages.login import login_bp as login
+from app.routes.pages.user import user_bp as user
 from app.routes.components.base import base_bp as base
 
 
@@ -19,12 +20,14 @@ def create_app():
     
     # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'flaskr.sqlite')
-    app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'uploads', 'avatar')
+    app.config['AVATAR_FOLDER'] = os.path.join(app.instance_path, 'uploads', 'avatar')
+    app.config['BANNER_FOLDER'] = os.path.join(app.instance_path, 'uploads', 'banner')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['DEBUG'] = True
 
     os.makedirs(app.instance_path, exist_ok=True)
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    os.makedirs(app.config['AVATAR_FOLDER'], exist_ok=True)
+    os.makedirs(app.config['BANNER_FOLDER'], exist_ok=True)
     
     # Initialize database with app
     db.init_app(app)
@@ -44,6 +47,7 @@ def create_app():
     app.register_blueprint(upload)
     app.register_blueprint(signup)
     app.register_blueprint(login)
+    app.register_blueprint(user)
     app.register_blueprint(base)
     
     return app

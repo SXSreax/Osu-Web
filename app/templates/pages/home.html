@@ -1,13 +1,5 @@
 {% extends 'components/base.html' %} {% block title %}osu! - Home{% endblock %}
-{% block content %}
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>home</title>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/main.css') }}"
-/>
-{% block page_header %}
+{% block content %} {% block page_header %}
 <div class="page-header">
   <div class="container">
     <h2 style="text-align: center; color: #f062a1">Welcome to osu!web</h2>

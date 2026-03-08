@@ -1,0 +1,62 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Home{% endblock %}
+{% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>User</h2>
+  </div>
+</div>
+{% endblock %}
+<div class="user-edit">
+  <form method="POST" enctype="multipart/form-data" style="display: contents">
+    {{ form.hidden_tag() }}
+    <div class="left-section">
+      <h2>Profile:</h2>
+    </div>
+    <div class="right-section">
+      <div class="edit-row">
+        {{ form.username.label }} {{ form.username() }}
+      </div>
+      <div class="edit-row">{{ form.email.label }} {{ form.email() }}</div>
+      <div class="edit-row">
+        {{ form.old_password.label }} {{ form.old_password() }}
+      </div>
+      <div class="edit-row">
+        {{ form.new_password.label }} {{ form.new_password() }}
+      </div>
+      <div class="change-btn">{{ form.submit(class="btn") }}</div>
+    </div>
+
+    <div class="left-section">
+      <h2>Avatar:</h2>
+    </div>
+    <div class="right-section">
+      <div class="user-profile">
+        <div class="user-banner">
+          <img
+            src="{{ url_for('base.banner', filename=current_user.banner) if current_user.banner else url_for('static', filename='images/default_banner.png') }}"
+          />
+        </div>
+        <div class="user-avatar">
+          <img
+            src="{{ url_for('base.avatar', filename=current_user.avatar) if current_user.avatar else url_for('static', filename='images/default_cover.png') }}"
+          />
+        </div>
+        <h2>{{ current_user.username }}</h2>
+      </div>
+      <div class="edit-row">
+        {{ form.avatar.label }} {{ form.avatar(class="ab-upload") }} {% for
+        error in form.avatar.errors %}
+        <p class="form-error">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="edit-row">
+        {{ form.banner.label }} {{ form.banner(class="ab-upload") }} {% for
+        error in form.banner.errors %}
+        <p class="form-error">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="change-btn">{{ form.submit(class="btn") }}</div>
+    </div>
+  </form>
+</div>
+{% endblock %}

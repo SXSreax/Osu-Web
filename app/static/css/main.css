@@ -71,8 +71,8 @@ body {
 }
 
 .avatar img {
-  width: 48px;
-  height: 48px;
+  width: auto;
+  height: auto;
   object-fit: cover;
   border-radius: 50%;
   transition: transform 0.3s ease;
@@ -127,6 +127,112 @@ body {
 .avatar-dropdown .dropdown-content a:hover {
   background-color: #333;
   color: #f062a1;
+}
+
+.user-edit {
+  margin: -23px;
+  margin-top: -33px;
+  display: grid;
+  grid-template-columns: 350px minmax(200px, 1fr);
+  overflow: hidden;
+  border-radius: 0px 0px 8px 8px;
+}
+
+.left-section {
+  padding: 5px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  background: #101013;
+}
+
+.right-section {
+  padding: 5px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  background: #1d1d22;
+}
+
+.left-section h2 {
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+.right-section h2 {
+  margin-top: 5px;
+}
+
+.edit-row {
+  margin-left: 20px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  padding: 10px;
+  text-align: right;
+}
+
+.edit-row input {
+  width: 500px;
+  margin-left: 10px;
+}
+
+.edit-row #username {
+  width: 485px;
+}
+
+.edit-row #email {
+  width: 485px;
+}
+
+.edit-row .ab-upload {
+  width: 485px;
+}
+
+.change-btn {
+  margin-left: 159px;
+}
+
+.user-profile {
+  margin-left: 35px;
+  width: 640px;
+  height: 230px;
+  background: #272727;
+}
+
+.user-profile h2 {
+  margin-top: -60px;
+  margin-left: 160px;
+}
+
+.user-avatar {
+  margin-top: -38px;
+  margin-left: 50px;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 32px;
+  border: #000000 2px solid;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.user-banner {
+  display: flex;
+  width: auto;
+  height: 160px;
+  overflow: hidden;
+}
+
+.user-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .site-footer {
@@ -262,6 +368,7 @@ body {
 .form-row {
   margin-bottom: 12px;
 }
+
 input[type="text"],
 input[type="file"],
 textarea {
