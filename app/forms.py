@@ -117,3 +117,5 @@ class UserEditForm(FlaskForm):
         check_banner
     ])
     submit = SubmitField('Change')
+    reset_avatar = SubmitField('Reset avatar')
+    reset_banner = SubmitField('Reset banner')

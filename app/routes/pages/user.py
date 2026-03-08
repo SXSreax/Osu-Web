@@ -23,6 +23,24 @@ def user_edit():
         form.email.data = current_user.email
 
     if form.validate_on_submit():
+        if form.reset_avatar.data:
+            if current_user.avatar:
+                old_avatar = os.path.join(current_app.instance_path, 'uploads', 'avatar', current_user.avatar)
+                os.remove(old_avatar)
+            current_user.avatar = None
+            db.session.commit()
+            flash("Avatar has been reset.", "success")
+            return redirect(url_for("user.user_edit"))
+
+        if form.reset_banner.data:
+            if current_user.banner:
+                old_banner = os.path.join(current_app.instance_path, 'uploads', 'banner', current_user.banner)
+                os.remove(old_banner)
+            current_user.banner = None
+            db.session.commit()
+            flash("Banner has been reset.", "success")
+            return redirect(url_for("user.user_edit"))
+
         if not current_user.check_password(form.old_password.data):
             flash("Current password is incorrect.")
             return render_template("pages/user_edit.html", form=form)

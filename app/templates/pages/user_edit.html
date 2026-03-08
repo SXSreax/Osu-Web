@@ -2,7 +2,7 @@
 {% block content %} {% block page_header %}
 <div class="page-header">
   <div class="container">
-    <h2>User</h2>
+    <h2>Edit User</h2>
   </div>
 </div>
 {% endblock %}
@@ -55,7 +55,11 @@
         <p class="form-error">{{ error }}</p>
         {% endfor %}
       </div>
-      <div class="change-btn">{{ form.submit(class="btn") }}</div>
+      <div class="btn-row">
+        <div class="change-btn">{{ form.submit(class="btn") }}</div>
+        <div class="change-btn">{{ form.reset_avatar(class="btn") }}</div>
+        <div class="change-btn">{{ form.reset_banner(class="btn") }}</div>
+      </div>
     </div>
   </form>
 </div>

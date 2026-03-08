@@ -187,6 +187,16 @@ body {
   width: 485px;
 }
 
+.btn-row {
+  display: flex;
+  margin-left: 159px;
+  gap: 5px;
+}
+
+.btn-row .change-btn {
+  margin-left: 0px;
+}
+
 .change-btn {
   margin-left: 159px;
 }
