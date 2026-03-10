@@ -170,6 +170,16 @@ body {
   text-align: right;
 }
 
+.edit-row .error-line {
+  grid-column: 1 / -1;
+  height: 20px;
+  width: 550px;
+  margin-left: 20px;
+  margin-top: 4px;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
 .edit-row input {
   width: 500px;
   margin-left: 10px;

@@ -19,6 +19,9 @@
       <div class="edit-row">{{ form.email.label }} {{ form.email() }}</div>
       <div class="edit-row">
         {{ form.old_password.label }} {{ form.old_password() }}
+        <button type="button" onclick="togglePassword('old_password')">
+          Show / Hide
+        </button>
       </div>
       <div class="edit-row">
         {{ form.new_password.label }} {{ form.new_password() }}
@@ -45,15 +48,15 @@
       </div>
       <div class="edit-row">
         {{ form.avatar.label }} {{ form.avatar(class="ab-upload") }} {% for
-        error in form.avatar.errors %}
-        <p class="form-error">{{ error }}</p>
-        {% endfor %}
+        error in form.avatar.errors %} {% for error in form.avatar.errors %}
+        <div class="error-line">{{ error }}</div>
+        {% endfor %} {% endfor %}
       </div>
       <div class="edit-row">
         {{ form.banner.label }} {{ form.banner(class="ab-upload") }} {% for
-        error in form.banner.errors %}
-        <p class="form-error">{{ error }}</p>
-        {% endfor %}
+        error in form.banner.errors %} {% for error in form.banner.errors %}
+        <div class="error-line">{{ error }}</div>
+        {% endfor %} {% endfor %}
       </div>
       <div class="btn-row">
         <div class="change-btn">{{ form.submit(class="btn") }}</div>
@@ -62,5 +65,16 @@
       </div>
     </div>
   </form>
+  <script>
+    function togglePassword(inputId) {
+      const input = document.getElementById(inputId);
+
+      if (input.type === "password") {
+        input.type = "text";
+      } else {
+        input.type = "password";
+      }
+    }
+  </script>
 </div>
 {% endblock %}
