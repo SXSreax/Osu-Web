@@ -91,3 +91,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document.querySelectorAll(".checkbox").forEach((cb) => {
+  cb.addEventListener("change", () => {
+    const mapId = cb.dataset.map;
+
+    const container = cb.closest(".heart-container");
+    const celebrate = container.querySelector(".svg-celebrate");
+    celebrate.classList.add("animate");
+    setTimeout(() => celebrate.classList.remove("animate"), 800);
+
+    fetch(`/map/${mapId}/favorite`, { method: "POST" });
+  });
+});

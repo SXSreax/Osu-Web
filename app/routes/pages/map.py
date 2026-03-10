@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, current_app, send_file
+from flask import Blueprint, render_template, current_app, send_file, flash, redirect, url_for, jsonify
+from flask_login import current_user
 import os
 import random
 import zipfile
 import io
-from app.models import Beatmap, BeatmapDiff
+from app.models import db, Beatmap, BeatmapDiff, Favorite
 
 map_bp = Blueprint('map', __name__)
 
@@ -30,6 +31,13 @@ def map_detail(beatmap_id):
         }
         difficulty_list.append(difficulty_dict)
 
+    favorited = False
+    if current_user.is_authenticated:
+        favorited = Favorite.query.filter_by(
+            user_id=current_user.id,
+            map_id=beatmap_id
+        ).first() is not None
+
     return render_template('pages/map.html', bm={
         'id': bm.id,
         'name': bm.name,
@@ -38,7 +46,7 @@ def map_detail(beatmap_id):
         'cover_img': cover_img,
         'filepath': bm.filepath,
         'difficulties': difficulty_list,
-    })
+    }, favorited=favorited)
 
 @map_bp.route('/map/download/<int:beatmap_id>/<format>')
 def download_beatmap(beatmap_id, format):
@@ -61,3 +69,21 @@ def download_beatmap(beatmap_id, format):
     zip_buffer.seek(0)
     return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, 
                     download_name=f"{base_name}.{'osz' if format.lower() == 'osz' else 'zip'}")
+
+@map_bp.route('/map/<int:beatmap_id>/favorite', methods=['POST'])
+def favorite(beatmap_id):
+    if not current_user.is_active:
+        flash("User not login, can't favorite", "error")
+        return redirect(url_for('login.login'))
+    
+    existing = Favorite.query.filter_by(user_id=current_user.id, map_id=beatmap_id).first()
+
+    if existing:
+        db.session.delete(existing)
+        status = "removed"
+    else:
+        db.session.add(Favorite(user_id=current_user.id, map_id=beatmap_id))
+        status = "added"
+
+    db.session.commit()
+    return jsonify({"status": status})

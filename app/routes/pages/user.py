@@ -1,17 +1,50 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
 from flask_login import current_user, login_required
-from app.models import db
+from app.models import db, Beatmap, BeatmapDiff
 from app.forms import UserEditForm
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import os
+import random
 
 user_bp = Blueprint('user', __name__)
 
 @user_bp.route('/user/')
 @login_required
 def user():
-    return render_template("pages/user.html")
+    favorite_maps = [fav.beatmap for fav in current_user.favorites]
+
+    beatmap_card = []
+    maps_dir = os.path.join(current_app.instance_path, 'maps')
+
+    for bms in favorite_maps:
+        map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
+        folder = os.path.join(maps_dir, map_name)
+        cover_img = None
+
+        if os.path.isdir(folder):
+            imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+            if imgs:
+                cover_img = os.path.join('maps', map_name, random.choice(imgs))
+
+        difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
+        difficulty_list = []
+        for d in difficulties:
+            difficulty_list.append({
+                'name': d.map_name,
+                'star': d.star_diff
+            })
+
+        beatmap_card.append({
+            'id': bms.id,
+            'name': bms.name,
+            'artist': bms.artist,
+            'uploader': bms.uploader,
+            'cover_img': cover_img,
+            'difficulties': difficulty_list
+        })
+
+    return render_template("pages/user.html", beatmaps=beatmap_card)
 
 @user_bp.route('/user/edit/', methods=["GET", "POST"])
 @login_required

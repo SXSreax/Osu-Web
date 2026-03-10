@@ -1,0 +1,30 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Home{% endblock %}
+{% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>User</h2>
+  </div>
+</div>
+{% endblock %}
+<div class="user-profile">
+  <div class="user-banner">
+    <img
+      src="{{ url_for('base.banner', filename=current_user.banner) if current_user.banner else url_for('static', filename='images/default_banner.png') }}"
+    />
+  </div>
+  <div class="user-avatar">
+    <img
+      src="{{ url_for('base.avatar', filename=current_user.avatar) if current_user.avatar else url_for('static', filename='images/default_cover.png') }}"
+    />
+  </div>
+  <h2>{{ current_user.username }}</h2>
+  <a href="{{ url_for('user.user_edit') }}">
+    <img
+      src="{{ url_for('static', filename='images/setting_btn.png') }}"
+      alt="Play"
+      class="btn"
+    />
+  </a>
+</div>
+<h2>Favorites:</h2>
+{% include "pages/card.html" %} {% endblock %}

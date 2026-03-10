@@ -202,23 +202,38 @@ body {
 }
 
 .user-profile {
-  margin-left: 35px;
-  width: 640px;
-  height: 230px;
+  margin-left: -24px;
+  margin-top: -24px;
+  width: 1097px;
+  height: 380px;
   background: #272727;
 }
 
 .user-profile h2 {
-  margin-top: -60px;
-  margin-left: 160px;
+  margin-top: -80px;
+  margin-left: 235px;
+}
+
+.user-profile .btn {
+  background: none;
+  width: 50px;
+  height: 50px;
+  margin-top: -45px;
+  margin-left: 970px;
+  transition: transform 0.3s ease;
+}
+
+.user-profile .btn:hover {
+  background: none;
+  transform: scale(1.2);
 }
 
 .user-avatar {
-  margin-top: -38px;
-  margin-left: 50px;
+  margin-top: -65px;
+  margin-left: 75px;
   display: flex;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   border-radius: 32px;
   border: #000000 2px solid;
@@ -234,11 +249,56 @@ body {
 .user-banner {
   display: flex;
   width: auto;
-  height: 160px;
+  height: 274.25px;
   overflow: hidden;
 }
 
 .user-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.right-section .user-profile {
+  margin-top: 10px;
+  margin-left: 35px;
+  width: 640px;
+  height: 230px;
+  background: #272727;
+}
+
+.right-section .user-profile h2 {
+  margin-top: -60px;
+  margin-left: 160px;
+}
+
+.right-section .user-avatar {
+  margin-top: -38px;
+  margin-left: 50px;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 32px;
+  border: #000000 2px solid;
+}
+
+.right-section .user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.right-section .user-banner {
+  display: flex;
+  width: auto;
+  height: 160px;
+  overflow: hidden;
+}
+
+.right-section .user-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -26,6 +26,20 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+class Favorite(db.Model):
+    __tablename__ = 'favorites'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
+
+    user = db.relationship('User', backref='favorites')
+    beatmap = db.relationship('Beatmap', backref='favorited_by')
+
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'map_id', name='unique_user_map'),
+    )
 
 class Beatmap(db.Model):
     __tablename__ = 'beatmaps'
