@@ -1,0 +1,25 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Create discussion{%
+endblock %} {% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>Create discussion</h2>
+  </div>
+</div>
+{% endblock %}
+<form
+  action="{{ url_for('community.create_discussion') }}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {{ form.hidden_tag() }}
+  <div class="form-row">
+    {{ form.title.label }}<br />
+    {{ form.title() }}
+  </div>
+  <div class="form-row">
+    {{ form.content.label }}<br />
+    {{ form.content() }}
+  </div>
+  <div class="form-row">{{ form.submit(class_='btn') }}</div>
+</form>
+{% endblock %}

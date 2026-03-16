@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 import uuid
 
 db = SQLAlchemy()
@@ -64,3 +65,14 @@ class BeatmapDiff(db.Model):
 
     def __repr__(self):
         return f'<BeatmapDiff {self.map_id} - {self.map_name} ({self.star_diff})>'
+    
+class Discussion(db.Model):
+    __tablename__ = 'discussion'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    host = db.relationship('User', backref='discussions')
+    like = db.Column(db.Integer, default=0)

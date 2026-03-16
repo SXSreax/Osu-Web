@@ -72,10 +72,6 @@ def download_beatmap(beatmap_id, format):
 
 @map_bp.route('/map/<int:beatmap_id>/favorite', methods=['POST'])
 def favorite(beatmap_id):
-    if not current_user.is_active:
-        flash("User not login, can't favorite", "error")
-        return redirect(url_for('login.login'))
-    
     existing = Favorite.query.filter_by(user_id=current_user.id, map_id=beatmap_id).first()
 
     if existing:

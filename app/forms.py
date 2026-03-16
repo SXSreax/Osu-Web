@@ -119,3 +119,20 @@ class UserEditForm(FlaskForm):
     submit = SubmitField('Change')
     reset_avatar = SubmitField('Reset avatar')
     reset_banner = SubmitField('Reset banner')
+
+class DiscussionForm(FlaskForm):
+    title = StringField(
+        'Title',
+        validators=[DataRequired(message="Title is required"),
+                    Length(min=1,
+                           max=25,
+                           message="Title must be between 1 and 25 characters.")]
+                            )
+    content = StringField(
+        'Content',
+        validators=[DataRequired(message="Content is required."),
+                    Length(min=1,
+                           max=1000,
+                           message="Content must be between 1 and 1000 characters.")]
+                            )
+    submit = SubmitField('Create')
