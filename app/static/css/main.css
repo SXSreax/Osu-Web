@@ -567,6 +567,15 @@ textarea {
   position: relative;
 }
 
+.discussion-block > :nth-child(2) {
+  width: 925px;
+  flex: 0 0 925px;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .discussion-block:hover {
   border-color: #f062a1;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
@@ -606,4 +615,35 @@ textarea {
 
 .discussion-block:hover h2 {
   color: #f062a1;
+}
+
+hr {
+  width: 100%;
+  border-color: #f062a1;
+}
+
+.discussion-content {
+  display: flex;
+  flex-direction: column;
+  border: #f062a1 2px solid;
+  border-radius: 12px;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+.discussion-content .user-avatar {
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: -1px;
+}
+
+.discussion-content p {
+  font-size: large;
+  margin-top: -40px;
+  margin-left: 60px;
+}
+
+.small-text {
+  font-size: 10px;
 }

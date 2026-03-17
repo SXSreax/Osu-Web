@@ -13,6 +13,7 @@ def community():
         user = User.query.get(ds.user_id)
 
         discussions.append({
+            'id': ds.id,
             'title': ds.title,
             'content': ds.content,
             'user': {

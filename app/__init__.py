@@ -10,6 +10,7 @@ from app.routes.pages.signup import signup_bp as signup
 from app.routes.pages.login import login_bp as login
 from app.routes.pages.user import user_bp as user
 from app.routes.pages.community import community_bp as community
+from app.routes.pages.discussion import discussion_bp as discussion
 from app.routes.components.base import base_bp as base
 from app.routes.components.error import error_bp as error
 
@@ -51,6 +52,7 @@ def create_app():
     app.register_blueprint(login)
     app.register_blueprint(user)
     app.register_blueprint(community)
+    app.register_blueprint(discussion)
     app.register_blueprint(base)
     app.register_blueprint(error)
     

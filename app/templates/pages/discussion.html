@@ -1,0 +1,21 @@
+{% extends 'components/base.html' %} {% block title %}osu! - {{ ds.title }} by
+{{ds.user.name}} {% endblock %} {% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2 style="text-align: center; color: #f062a1">Discussion</h2>
+  </div>
+</div>
+{% endblock %}
+<div class="discussion-content">
+  <h1>{{ ds.title }}</h1>
+  <img
+    class="user-avatar"
+    src="{{ url_for('base.avatar', filename=ds.user.avatar) if ds.user.avatar else url_for('static', filename='images/default_cover.png') }}"
+  />
+  <p>
+    Posted by {{ ds.user.name }}
+    <span class="small-text">Time created: {{ ds.time_created }}</span>
+  </p>
+  <h4>{{ ds.content }}</h4>
+</div>
+{% endblock %}
