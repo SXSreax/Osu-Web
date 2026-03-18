@@ -76,3 +76,22 @@ class Discussion(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     host = db.relationship('User', backref='discussions')
     like = db.Column(db.Integer, default=0)
+
+    comments = db.relationship(
+        'Comment',
+        backref='parent_discussion',
+        cascade="all, delete",
+        lazy=True
+    )
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), nullable=False)
+    
+    user = db.relationship('User', backref='comments')
+    discussion = db.relationship('Discussion', backref='comments')
