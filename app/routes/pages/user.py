@@ -46,7 +46,8 @@ def user():
     
     ds_card = Discussion.query.filter_by(user_id=current_user.id)
     discussions = []
-    user = User.query.get(user_id)
+    for ds in ds_card:
+        user = User.query.get(ds.user_id)
 
     for ds in ds_card:
         discussions.append({
