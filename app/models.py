@@ -79,7 +79,7 @@ class Discussion(db.Model):
 
     comments = db.relationship(
         'Comment',
-        backref='parent_discussion',
+        back_populates='discussion',
         cascade="all, delete",
         lazy=True
     )
@@ -94,4 +94,4 @@ class Comment(db.Model):
     discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), nullable=False)
     
     user = db.relationship('User', backref='comments')
-    discussion = db.relationship('Discussion', backref='comments')
+    discussion = db.relationship('Discussion', back_populates='comments')

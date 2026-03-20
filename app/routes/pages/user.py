@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
 from flask_login import current_user, login_required
-from app.models import db, Beatmap, BeatmapDiff
+from app.models import db, BeatmapDiff, Discussion, User
 from app.forms import UserEditForm
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
@@ -43,8 +43,23 @@ def user():
             'cover_img': cover_img,
             'difficulties': difficulty_list
         })
+    
+    ds_card = Discussion.query.filter_by(user_id=current_user.id)
+    discussions = []
+    user = User.query.get(user_id)
 
-    return render_template("pages/user.html", beatmaps=beatmap_card)
+    for ds in ds_card:
+        discussions.append({
+            'id': ds.id,
+            'title': ds.title,
+            'content': ds.content,
+            'user': {
+                'name': user.username if user else "Unknown",
+                'avatar': user.avatar if user else None
+            }
+        })
+
+    return render_template("pages/user.html", beatmaps=beatmap_card, discussions=discussions)
 
 @user_bp.route('/user/edit/', methods=["GET", "POST"])
 @login_required

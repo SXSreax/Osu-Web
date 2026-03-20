@@ -1,0 +1,20 @@
+<div class="discussion-section">
+  {% for discussion in discussions %}
+  <a href="{{ url_for('discussion.discussion', discussion_id=discussion.id) }}">
+    <div class="discussion-block">
+      <div class="cover-info">
+        <img
+          class="user-avatar"
+          src="{{ url_for('base.avatar', filename=discussion.user.avatar) if discussion.user.avatar else url_for('static', filename='images/default_cover.png') }}"
+        />
+        <p>Posted by {{ discussion.user.name }}</p>
+      </div>
+      <div class="info">
+        <h2>{{ discussion.title }}</h2>
+        <p>{{ discussion.content }}</p>
+      </div>
+    </div>
+  </a>
+  <hr />
+  {% endfor %}
+</div>
