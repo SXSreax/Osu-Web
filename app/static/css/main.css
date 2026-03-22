@@ -557,8 +557,8 @@ textarea {
 }
 
 .discussion-block {
-  background: #141416;
-  border: 1px solid #2a2a2f;
+  background: #323236;
+  border: 2px solid #2a2a2f;
   border-radius: 16px;
   display: flex;
   gap: 16px;
@@ -610,7 +610,7 @@ textarea {
 
 .discussion-block p:last-child {
   font-size: 13px;
-  color: #7f8891;
+  color: #ffffff;
 }
 
 .discussion-block:hover h2 {
