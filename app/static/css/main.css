@@ -230,12 +230,11 @@ body {
   height: 50px;
   margin-top: -45px;
   margin-left: 970px;
-  transition: transform 0.3s ease;
+  box-shadow: none;
 }
 
 .user-profile .btn:hover {
-  background: none;
-  transform: scale(1.2);
+  box-shadow: none;
 }
 
 .user-avatar {
@@ -365,18 +364,30 @@ body {
 
 .btn {
   display: inline-block;
-  background: #f062a1;
-  color: #081018;
   padding: 10px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+
+  background: linear-gradient(135deg, #ff66aa, #ff3385);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 4px 10px rgba(255, 51, 133, 0.3);
 }
 
 .btn:hover {
-  background: #e04a8f;
+  display: inline-block;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 51, 133, 0.4);
+}
+
+.btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(255, 51, 133, 0.3);
 }
 
 .line-btn {
@@ -651,4 +662,122 @@ hr {
 .discussion-card h2 {
   margin-top: 40px;
   margin-bottom: -5px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.tab-button.active {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+.tab-content {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.tab-content .beatmaps {
+  margin-top: 15px;
+}
+
+.load-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.load-controls button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  background: linear-gradient(135deg, #ff66aa, #ff3385);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 4px 10px rgba(255, 51, 133, 0.3);
+}
+
+.load-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 51, 133, 0.4);
+}
+
+.load-controls button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(255, 51, 133, 0.3);
+}
+
+.hidden {
+  display: none;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: -15px;
+}
+
+.comment-input-wrapper textarea {
+  flex: 1;
+  border-radius: 5px;
+  outline: none;
+  min-height: 39px;
+  border: none;
+  resize: vertical;
+  font-size: 16px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  border-bottom: rgba(255, 255, 255, 0.469) 2px solid;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.comment-input-wrapper textarea:focus {
+  border-bottom: white 2px solid;
+}
+
+.comment-input-wrapper button {
+  background: #f062a1;
+  border: none;
+  cursor: pointer;
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.comment-input-wrapper button img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.comment {
+  margin-top: 25px;
 }

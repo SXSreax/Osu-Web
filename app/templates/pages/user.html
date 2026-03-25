@@ -27,8 +27,39 @@
   </a>
 </div>
 <h2>Favorites:</h2>
-{% include "pages/card.html" %}
-<div class="discussion-card">
-  <h2>Discussion Created:</h2>
+<div class="tabs-container">
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('beatmaps')">
+      Beatmaps
+    </button>
+    <button class="tab-button" onclick="showTab('discussion')">
+      Discussion
+    </button>
+  </div>
+
+  <div id="beatmaps" class="tab-content" style="display: block">
+    <div class="list-container">
+      <div class="item-list">{% include "pages/card.html" %}</div>
+
+      <div class="load-controls">
+        <button class="show-more">Show More</button>
+        <button class="show-less" style="display: none">Show Less</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="discussion" class="tab-content" style="display: none">
+    <div class="list-container">
+      <div class="item-list">{% include "pages/discussion_card.html" %}</div>
+
+      <div class="load-controls">
+        <button class="show-more">Show More</button>
+        <button class="show-less" style="display: none">Show Less</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/content_select.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/load.js') }}"></script>
+  {% endblock %}
 </div>
-{% include "pages/discussion_card.html" %} {% endblock %}

@@ -33,13 +33,18 @@ class Favorite(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
+    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=True)
+    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), nullable=True)
 
     user = db.relationship('User', backref='favorites')
     beatmap = db.relationship('Beatmap', backref='favorited_by')
+    discussion = db.relationship('Discussion', backref='favorited_by')
 
     __table_args__ = (
-        db.UniqueConstraint('user_id', 'map_id', name='unique_user_map'),
+        db.CheckConstraint(
+            '(map_id IS NOT NULL AND discussion_id IS NULL) OR (map_id IS NULL AND discussion_id IS NOT NULL)',
+            name='only_one_not_null'
+        ),
     )
 
 class Beatmap(db.Model):

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, Regexp, Optional, ValidationError
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from PIL import Image
@@ -39,7 +39,6 @@ class UploadForm(FlaskForm):
         FileRequired(message='Please select a file'),
         FileAllowed(['zip', 'osz'], message='Only .zip or .osz files are allowed')
     ])
-    uploader = StringField('Uploader (optional)')
     submit = SubmitField('Upload')
 
 class UserForm(FlaskForm):
@@ -136,3 +135,13 @@ class DiscussionForm(FlaskForm):
                            message="Content must be between 1 and 1000 characters.")]
                             )
     submit = SubmitField('Create')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField(
+        'Comment',
+        validators=[
+            DataRequired(message="Comment cannot be empty"),
+            Length(min=1, max=2000, message="Comment must be between 1 and 2000 characters")
+        ]
+    )
+    submit = SubmitField('Post Comment')

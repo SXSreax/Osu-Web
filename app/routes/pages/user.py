@@ -44,7 +44,9 @@ def user():
             'difficulties': difficulty_list
         })
     
-    ds_card = Discussion.query.filter_by(user_id=current_user.id)
+    ds_card_all = Discussion.query.filter_by(user_id=current_user.id).all()
+    ds_card = random.sample(ds_card_all, min(3, len(ds_card_all)))
+
     discussions = []
     for ds in ds_card:
         user = User.query.get(ds.user_id)

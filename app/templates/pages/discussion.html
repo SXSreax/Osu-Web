@@ -18,4 +18,35 @@
   </p>
   <h4>{{ ds.content }}</h4>
 </div>
+<div class="comments-section">
+  <h3>Comments ({{ comments|length }})</h3>
+  {% if current_user.is_authenticated %}
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="comment-input-wrapper">
+      {{ form.content(rows=1, placeholder="Write your reply...") }}
+      <button type="submit">
+        <img
+          src="{{ url_for('static', filename='images/comment_send.png') }}"
+        />
+      </button>
+    </div>
+    {% for error in form.content.errors %}
+    <span class="error" style="color: red">{{ error }}</span>
+    {% endfor %}
+  </form>
+  {% else %}
+  <p>Please <a href="{{ url_for('auth.login') }}">login</a> to comment.</p>
+  {% endif %}
+</div>
+{% for comment in comments %}
+<div class="comment">
+  <strong>{{ comment.user.username }}</strong>
+  <span class="small-text">{{ comment.time_created }}</span>
+  <p>{{ comment.content }}</p>
+</div>
+{% else %}
+<p>No comments yet. Be the first to comment!</p>
+{% endfor %}
+<script src="{{ url_for('static', filename='js/reply.js') }}"></script>
 {% endblock %}

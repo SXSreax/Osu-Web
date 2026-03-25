@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from werkzeug.utils import secure_filename
+from flask_login import login_required, current_user
 import os
 import re
 import zipfile
@@ -118,6 +119,7 @@ def sanitize_filename(filename):
     return name + ext
 
 @upload_bp.route('/upload/')
+@login_required
 def upload():
     form = UploadForm()
     return render_template('pages/upload.html', form = form)
@@ -130,7 +132,7 @@ def upload_store():
         return render_template('pages/upload.html', form=form)
     
     uploaded_file = form.file.data
-    uploader = form.uploader.data or 'anonymous'
+    uploader = current_user.username
 
     if not uploaded_file or not (uploaded_file.filename.endswith('.osz') or uploaded_file.filename.endswith('.zip')):
         flash('Only accept .osz or .zip files.', "error")

@@ -1,0 +1,32 @@
+{% extends 'components/base.html' %} {% block title %}osu! - User Hub{% endblock
+%} {% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2>User Hub</h2>
+  </div>
+</div>
+{% endblock %}
+
+<div class="tabs-container">
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('beatmaps')">
+      Uploaded Beatmaps
+    </button>
+    <button class="tab-button" onclick="showTab('created_discussion')">
+      Created Discussion
+    </button>
+  </div>
+
+  <div id="beatmaps" class="tab-content" style="display: block">
+    {% include "pages/card.html" %}
+  </div>
+
+  <div id="discussion" class="tab-content" style="display: none"></div>
+
+  <div id="created_discussion" class="tab-content" style="display: none">
+    {% include "pages/discussion_card.html" %}
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/content_select.js') }}"></script>
+{% endblock %}
