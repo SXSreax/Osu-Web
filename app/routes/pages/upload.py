@@ -132,7 +132,7 @@ def upload_store():
         return render_template('pages/upload.html', form=form)
     
     uploaded_file = form.file.data
-    uploader = current_user.username
+    uploader = current_user.id
 
     if not uploaded_file or not (uploaded_file.filename.endswith('.osz') or uploaded_file.filename.endswith('.zip')):
         flash('Only accept .osz or .zip files.', "error")

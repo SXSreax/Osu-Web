@@ -9,7 +9,7 @@ user_hub_bp = Blueprint('user_hub', __name__)
 @user_hub_bp.route('/user_hub/')
 @login_required
 def user_hub():
-    maps = Beatmap.query.filter_by(uploader=current_user.username)
+    maps = Beatmap.query.filter_by(uploader=current_user.id)
 
     beatmap_card = []
     maps_dir = os.path.join(current_app.instance_path, 'maps')
@@ -24,6 +24,12 @@ def user_hub():
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
+        user = User.query.get(bms.uploader)
+        if user:
+            uploader = user.username
+        else:
+            uploader = "anonymous"
+
         difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
         difficulty_list = []
         for d in difficulties:
@@ -36,7 +42,7 @@ def user_hub():
             'id': bms.id,
             'name': bms.name,
             'artist': bms.artist,
-            'uploader': bms.uploader,
+            'uploader': uploader,
             'cover_img': cover_img,
             'difficulties': difficulty_list
         })

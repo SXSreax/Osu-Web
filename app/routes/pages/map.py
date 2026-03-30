@@ -4,7 +4,7 @@ import os
 import random
 import zipfile
 import io
-from app.models import db, Beatmap, BeatmapDiff, Favorite
+from app.models import db, Beatmap, BeatmapDiff, Favorite, User
 
 map_bp = Blueprint('map', __name__)
 
@@ -21,6 +21,12 @@ def map_detail(beatmap_id):
         imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
         if imgs:
             cover_img = os.path.join('maps', base_name, random.choice(imgs))
+
+    user = User.query.get(bm.uploader)
+    if user:
+        uploader = user.username
+    else:
+        uploader = "anonymous"
 
     difficulties = BeatmapDiff.query.filter_by(map_id=bm.id).all()
     difficulty_list = []
@@ -42,7 +48,7 @@ def map_detail(beatmap_id):
         'id': bm.id,
         'name': bm.name,
         'artist': bm.artist,
-        'uploader': bm.uploader,
+        'uploader': uploader,
         'cover_img': cover_img,
         'filepath': bm.filepath,
         'difficulties': difficulty_list,

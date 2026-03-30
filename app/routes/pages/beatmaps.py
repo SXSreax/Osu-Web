@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, send_file, jsonify, current_app
-from app.models import Beatmap, BeatmapDiff
+from app.models import Beatmap, BeatmapDiff, User
 from app.utils.files import serve_instance_file
 import os
 import random
@@ -23,6 +23,13 @@ def beatmaps():
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
+        user = User.query.get(bms.uploader)
+        if user:
+            uploader = user.username
+        else:
+            uploader = "anonymous"
+        print(uploader)
+
         difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
         difficulty_list = []
         for d in difficulties:
@@ -36,7 +43,7 @@ def beatmaps():
                 'id': bms.id,
                 'name': bms.name,
                 'artist': bms.artist,
-                'uploader': bms.uploader,
+                'uploader': uploader,
                 'cover_img': cover_img,
                 'difficulties': difficulty_list
             })
