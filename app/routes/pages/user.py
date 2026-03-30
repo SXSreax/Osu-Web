@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
 from flask_login import current_user, login_required
-from app.models import db, BeatmapDiff, Discussion, User
+from app.models import db, BeatmapDiff, User
 from app.forms import UserEditForm
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
@@ -43,15 +43,13 @@ def user():
             'cover_img': cover_img,
             'difficulties': difficulty_list
         })
-    
-    ds_card_all = Discussion.query.filter_by(user_id=current_user.id).all()
-    ds_card = random.sample(ds_card_all, min(3, len(ds_card_all)))
+
+    favorite_discussion = [fav.discussion for fav in current_user.favorited_discussions]
 
     discussions = []
-    for ds in ds_card:
+    for ds in favorite_discussion:
         user = User.query.get(ds.user_id)
 
-    for ds in ds_card:
         discussions.append({
             'id': ds.id,
             'title': ds.title,

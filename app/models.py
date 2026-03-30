@@ -32,18 +32,17 @@ class Favorite(db.Model):
     __tablename__ = 'favorites'
 
     id = db.Column(db.Integer, primary_key=True)
+
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=True)
-    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), nullable=True)
+    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
 
     user = db.relationship('User', backref='favorites')
-    beatmap = db.relationship('Beatmap', backref='favorited_by')
-    discussion = db.relationship('Discussion', backref='favorited_by')
+    beatmap = db.relationship('Beatmap', backref='favorites')
 
     __table_args__ = (
-        db.CheckConstraint(
-            '(map_id IS NOT NULL AND discussion_id IS NULL) OR (map_id IS NULL AND discussion_id IS NOT NULL)',
-            name='only_one_not_null'
+        db.UniqueConstraint(
+            'user_id', 'map_id',
+            name='unique_user_map_favorite'
         ),
     )
 
@@ -100,3 +99,12 @@ class Comment(db.Model):
     
     user = db.relationship('User', backref='comments')
     discussion = db.relationship('Discussion', back_populates='comments')
+
+class Favorite_Discussion(db.Model):
+    __tablename__ = 'favorited_discussions'
+
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), primary_key=True)
+    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), primary_key=True)
+
+    user = db.relationship('User', backref='favorited_discussions')
+    discussion = db.relationship('Discussion', backref='likes')
