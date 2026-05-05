@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint, redirect, url_for, flash, request, jsonify
+from flask import render_template, Blueprint, redirect, url_for, flash, jsonify
+from sqlalchemy import update
 from flask_login import current_user, login_required
 from app.models import db, Discussion, User, Comment, Favorite_Discussion
 from app.forms import CommentForm
@@ -35,6 +36,7 @@ def discussion(discussion_id):
         "title": ds.title,
         "content": ds.content,
         "time_created": ds.time_created,
+        "like": ds.like,
         'user': {
             'name': user.username if user else "Unknown",
             'avatar': user.avatar if user else None
@@ -57,9 +59,19 @@ def favorite(discussion_id):
     if existing:
         db.session.delete(existing)
         status = "removed"
+        db.session.execute(
+            update(Discussion)
+            .where(Discussion.id == discussion_id)
+            .values(like=Discussion.like - 1)
+        )
     else:
         db.session.add(Favorite_Discussion(user_id=current_user.id, discussion_id=discussion_id))
         status = "added"
+        db.session.execute(
+            update(Discussion)
+            .where(Discussion.id == discussion_id)
+            .values(like=Discussion.like + 1)
+        )
 
     db.session.commit()
     return jsonify({"status": status})

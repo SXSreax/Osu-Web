@@ -125,14 +125,21 @@ class DiscussionForm(FlaskForm):
         validators=[DataRequired(message="Title is required"),
                     Length(min=1,
                            max=50,
-                           message="Title must be between 1 and 25 characters.")]
+                           message="Title must be between 1 and 25 characters.")],
+                           render_kw={
+                               "class": "title-textarea"
+                           }
                             )
-    content = StringField(
+    content = TextAreaField(
         'Content',
         validators=[DataRequired(message="Content is required."),
                     Length(min=1,
                            max=10000000,
-                           message="Content must be between 1 and 1000 characters.")]
+                           message="Content must be between 1 and 1000 characters.")],
+                           render_kw={
+                            "rows": 14,
+                            "class": "content-textarea"
+                            }
                             )
     submit = SubmitField('Create')
 

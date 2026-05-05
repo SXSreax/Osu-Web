@@ -10,7 +10,12 @@
         <p>Posted by {{ discussion.user.name }}</p>
       </div>
       <div class="info">
-        <h2>{{ discussion.title }}</h2>
+        <h2>
+          {{ discussion.title }}
+          <span style="font-size: medium; color: #ff66aa; font-weight: normal"
+            >👍{{ discussion.like }}</span
+          >
+        </h2>
         <p>{{ discussion.content }}</p>
       </div>
     </div>

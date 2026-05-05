@@ -777,13 +777,31 @@ textarea {
   margin-top: 25px;
 }
 
+.discussion-title-row {
+  display: flex;
+  align-items: center;
+  width: 97%;
+}
+
+.discussion-title {
+  margin: 11px;
+  flex: 1;
+  margin-left: -5px;
+}
+
+.discussion-title-row .heart-container {
+  margin-left: -16px;
+  --heart-color: rgb(255, 91, 137);
+  transition: 0.3s;
+}
+
 .heart-container {
   bottom: -25px;
-  left: 20px;
+  left: -10px;
   --heart-color: rgb(255, 91, 137);
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   transition: 0.3s;
 }
 
@@ -865,4 +883,17 @@ textarea {
     opacity: 0;
     display: none;
   }
+}
+
+.title-textarea,
+.content-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-family: inherit;
+}
+
+.content-textarea {
+  min-height: 220px;
+  resize: vertical;
 }

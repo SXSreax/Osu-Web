@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, current_app
 from sqlalchemy.sql.expression import func
-from app.models import Beatmap, BeatmapDiff
+from app.models import Beatmap, BeatmapDiff, User
 import os
 import random
 
@@ -29,12 +29,18 @@ def home():
                 'star': d.star_diff
             }
             difficulty_list.append(difficulty_dict)
+        
+        user = User.query.get(map.uploader)
+        if user:
+            uploader = user.username
+        else:
+            uploader = "anonymous"
 
         beatmap_card.append({
                 'id': map.id,
                 'name': map.name,
                 'artist': map.artist,
-                'uploader': map.uploader,
+                'uploader': uploader,
                 'cover_img': cover_img,
                 'difficulties': difficulty_list
             })

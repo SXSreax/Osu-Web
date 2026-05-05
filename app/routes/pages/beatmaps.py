@@ -28,7 +28,6 @@ def beatmaps():
             uploader = user.username
         else:
             uploader = "anonymous"
-        print(uploader)
 
         difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
         difficulty_list = []
