@@ -81,6 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
     circle.addEventListener("click", () => {
       selectedCircle = circle;
       showInfo();
+
+      const playBtn = document.getElementById("play-btn");
+      playBtn.dataset.difficultyName = circle.dataset.name;
     });
 
     circle.addEventListener("mouseleave", () => {
@@ -104,3 +107,13 @@ document.querySelectorAll(".checkbox").forEach((cb) => {
     fetch(`/map/${mapId}/favorite`, { method: "POST" });
   });
 });
+
+document
+  .getElementById("play-difficulty-btn")
+  ?.addEventListener("click", () => {
+    const playBtn = document.getElementById("play-difficulty-btn");
+    const difficultyName = playBtn.dataset.difficultyName;
+
+    const beatmapId = window.location.pathname.match(/\/map\/(\d+)/)[1];
+    window.location.href = `/play/${beatmapId}/${encodeURIComponent(difficultyName)}`;
+  });

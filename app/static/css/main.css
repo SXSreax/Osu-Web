@@ -796,8 +796,8 @@ textarea {
 }
 
 .heart-container {
-  bottom: -25px;
-  left: -10px;
+  bottom: -20px;
+  left: 20px;
   --heart-color: rgb(255, 91, 137);
   position: relative;
   width: 40px;
