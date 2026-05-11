@@ -66,6 +66,7 @@ class BeatmapDiff(db.Model):
     map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
     map_name = db.Column(db.String(255), nullable=False)
     star_diff = db.Column(db.Float, nullable=False)
+    filepath = db.Column(db.String(1024), nullable=False)
 
     def __repr__(self):
         return f'<BeatmapDiff {self.map_id} - {self.map_name} ({self.star_diff})>'

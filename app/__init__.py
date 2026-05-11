@@ -31,6 +31,7 @@ def create_app():
     os.makedirs(app.instance_path, exist_ok=True)
     os.makedirs(app.config['AVATAR_FOLDER'], exist_ok=True)
     os.makedirs(app.config['BANNER_FOLDER'], exist_ok=True)
+    os.makedirs(os.path.join(app.instance_path, 'temp_uploads'), exist_ok=True)
     
     # Initialize database with app
     db.init_app(app)

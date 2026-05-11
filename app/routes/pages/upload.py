@@ -231,13 +231,17 @@ def upload_store():
                         map_name=map_name_file
                     ).first()
 
+                    relative_diff_path = os.path.join('maps', str(beatmapset_id_file), osu_file)
+
                     if existing_diff:
                         existing_diff.star_diff = star_truncated
+                        existing_diff.filepath = relative_diff_path
                     else:
                         beatmap_diff = BeatmapDiff(
                             map_id=beatmapset_id_file,
                             map_name=map_name_file,
-                            star_diff=star_truncated
+                            star_diff=star_truncated,
+                            filepath=relative_diff_path
                         )
                         db.session.add(beatmap_diff)
             
