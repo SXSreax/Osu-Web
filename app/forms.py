@@ -152,3 +152,7 @@ class CommentForm(FlaskForm):
         ]
     )
     submit = SubmitField('Post Comment')
+
+class SearchForm(FlaskForm):
+    search = StringField("Searched", validators=[DataRequired()])
+    submit = SubmitField("Submit")

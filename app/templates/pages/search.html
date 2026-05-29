@@ -1,0 +1,9 @@
+{% extends 'components/base.html' %} {% block title %}osu! - Home{% endblock %}
+{% block content %} {% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h2 style="text-align: center">Searched: {{ searches }}</h2>
+  </div>
+</div>
+{% endblock %} {% include "components/search_bar.html" %} {% include
+"components/card.html" %} {% endblock %}

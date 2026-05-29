@@ -1,5 +1,6 @@
 from flask import Flask
 from app.models import db, User
+from .extensions import socketio
 import os
 from flask_login import LoginManager
 from app.routes.pages.home import home_bp as home
@@ -17,14 +18,21 @@ from app.routes.components.error import error_bp as error
 
 login_manager = LoginManager()
 
+
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.config['SECRET_KEY'] = 'dont-hack-me'
-    
+
     # Database configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'flaskr.sqlite')
-    app.config['AVATAR_FOLDER'] = os.path.join(app.instance_path, 'uploads', 'avatar')
-    app.config['BANNER_FOLDER'] = os.path.join(app.instance_path, 'uploads', 'banner')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
+        app.instance_path,
+        'flaskr.sqlite')
+    app.config['AVATAR_FOLDER'] = os.path.join(app.instance_path,
+                                               'uploads',
+                                               'avatar')
+    app.config['BANNER_FOLDER'] = os.path.join(app.instance_path,
+                                               'uploads',
+                                               'banner')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['DEBUG'] = True
 
@@ -32,7 +40,7 @@ def create_app():
     os.makedirs(app.config['AVATAR_FOLDER'], exist_ok=True)
     os.makedirs(app.config['BANNER_FOLDER'], exist_ok=True)
     os.makedirs(os.path.join(app.instance_path, 'temp_uploads'), exist_ok=True)
-    
+
     # Initialize database with app
     db.init_app(app)
 
@@ -43,7 +51,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
-    
+
     # Register blueprints
     app.register_blueprint(home)
     app.register_blueprint(beatmaps)
@@ -57,5 +65,6 @@ def create_app():
     app.register_blueprint(user_hub)
     app.register_blueprint(base)
     app.register_blueprint(error)
-    
+
+    socketio.init_app(app)
     return app

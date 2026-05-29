@@ -1,15 +1,16 @@
-from flask import Blueprint, render_template, send_file, jsonify, current_app
+from flask import Blueprint, render_template, jsonify, current_app
 from app.models import Beatmap, BeatmapDiff, User
+from app.forms import SearchForm
 from app.utils.files import serve_instance_file
 import os
 import random
-import zipfile
 from urllib.parse import quote
 
 beatmaps_bp = Blueprint('beatmaps', __name__)
 
 @beatmaps_bp.route('/beatmaps/')
 def beatmaps():
+    form = SearchForm()
     maps = Beatmap.query.all()
     beatmap_card = []
     for bms in maps:
@@ -46,7 +47,7 @@ def beatmaps():
                 'cover_img': cover_img,
                 'difficulties': difficulty_list
             })
-    return render_template('pages/beatmaps.html', beatmaps=beatmap_card)
+    return render_template('pages/beatmaps.html', beatmaps=beatmap_card, form=form)
 
 
 @beatmaps_bp.route('/instance/<path:filepath>')
@@ -91,3 +92,63 @@ def get_beatmap_audio(beatmap_id):
         return jsonify({'audio_url': audio_url})
 
     return jsonify({'error': 'Could not select audio file'}), 404
+
+@beatmaps_bp.route('/search/', methods=["POST"])
+def search():
+    form = SearchForm()
+    beatmap_card = []
+    q = ""
+    results = []
+
+    if form.validate_on_submit():
+        q = form.search.data
+        maps_dir = os.path.join(current_app.instance_path, 'maps')
+
+        if q:
+            search = f"%{q}%"
+            results = Beatmap.query.filter(
+                Beatmap.id.ilike(search)
+                | Beatmap.name.ilike(search)
+                | Beatmap.artist.ilike(search)
+                | User.username.ilike(search)
+            ).limit(100).all()
+
+        for bms in results:
+            map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
+            folder = os.path.join(maps_dir, map_name)
+            cover_img = None
+
+            if os.path.isdir(folder):
+                imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+                if imgs:
+                    cover_img = os.path.join('maps', map_name, random.choice(imgs))
+
+            difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
+            difficulty_list = []
+            for d in difficulties:
+                difficulty_list.append({
+                    'name': d.map_name,
+                    'star': d.star_diff
+                })
+
+            user = User.query.get(bms.uploader)
+            if user:
+                uploader = user.username
+            else:
+                uploader = "anonymous"
+
+            beatmap_card.append({
+                'id': bms.id,
+                'name': bms.name,
+                'artist': bms.artist,
+                'uploader': uploader,
+                'cover_img': cover_img,
+                'difficulties': difficulty_list
+            })
+
+    return render_template(
+        "pages/search.html",
+        form=form,
+        beatmaps=beatmap_card,
+        searches=q
+    )

@@ -897,3 +897,21 @@ textarea {
   min-height: 220px;
   resize: vertical;
 }
+
+.like_btn .heart-container {
+  margin-right: 30px;
+}
+
+.search {
+  margin-left: 178px;
+  margin-top: -10px;
+  width: 700px;
+}
+
+.search-btn {
+  padding-bottom: 30px;
+}
+
+.search-btn .btn {
+  margin-left: 450px;
+}

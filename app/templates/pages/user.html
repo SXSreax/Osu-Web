@@ -39,7 +39,7 @@
 
   <div id="beatmaps" class="tab-content" style="display: block">
     <div class="list-container">
-      <div class="item-list">{% include "pages/card.html" %}</div>
+      <div class="item-list">{% include "components/card.html" %}</div>
 
       <div class="load-controls">
         <button class="show-more">Show More</button>
@@ -50,7 +50,9 @@
 
   <div id="discussion" class="tab-content" style="display: none">
     <div class="list-container">
-      <div class="item-list">{% include "pages/discussion_card.html" %}</div>
+      <div class="item-list">
+        {% include "components/discussion_card.html" %}
+      </div>
 
       <div class="load-controls">
         <button class="show-more">Show More</button>

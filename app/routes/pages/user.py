@@ -35,11 +35,17 @@ def user():
                 'star': d.star_diff
             })
 
+        user = User.query.get(bms.uploader)
+        if user:
+            uploader = user.username
+        else:
+            uploader = "anonymous"
+
         beatmap_card.append({
             'id': bms.id,
             'name': bms.name,
             'artist': bms.artist,
-            'uploader': bms.uploader,
+            'uploader': uploader,
             'cover_img': cover_img,
             'difficulties': difficulty_list
         })
