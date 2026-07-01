@@ -18,12 +18,6 @@ endblock %} {% block content %} {% block page_header %}
       </div>
       <div class="edit-row">{{ form.email.label }} {{ form.email() }}</div>
       <div class="edit-row">
-        {{ form.old_password.label }} {{ form.old_password() }}
-        <button type="button" onclick="togglePassword('old_password')">
-          Show / Hide
-        </button>
-      </div>
-      <div class="edit-row">
         {{ form.new_password.label }} {{ form.new_password() }}
       </div>
       <div class="change-btn">{{ form.submit(class="btn") }}</div>

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, Regexp, Optional, ValidationError
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from PIL import Image
@@ -91,13 +91,6 @@ class UserEditForm(FlaskForm):
                     Regexp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]+$',
                     message="Email must be in the format example@domain.domain extension.")]
                             )
-    old_password = PasswordField(
-        'Old password',
-        validators=[DataRequired(message="Old_Password is required to change."),
-                    Length(min=6,
-                           max=20,
-                           message="Password must be between 6 and 20 characters.")]
-                           )
     new_password = PasswordField(
         'New password',
         validators=[Optional(),
@@ -156,3 +149,13 @@ class CommentForm(FlaskForm):
 class SearchForm(FlaskForm):
     search = StringField("Searched", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+class VerifyForm(FlaskForm):
+    code = StringField(
+        'Code',
+        validators=[
+            DataRequired(message="Codes require"),
+            Length(6,6)
+        ]
+    )
+    submit = SubmitField('Verify')

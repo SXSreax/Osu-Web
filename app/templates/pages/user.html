@@ -18,13 +18,29 @@
     />
   </div>
   <h2>{{ current_user.username }}</h2>
-  <a href="{{ url_for('user.user_edit') }}">
+  <div id="setting-btn">
     <img
       src="{{ url_for('static', filename='images/setting_btn.png') }}"
-      alt="Play"
       class="btn"
     />
-  </a>
+  </div>
+  <div class="setting-modal" id="setting-modal">
+    <div class="setting-inner">
+      <h2>Please Check Your Email</h2>
+      <p>Osu! Web have sended you a 6 digit code to verify your action 😊</p>
+      <form method="POST" action="{{ url_for('user.verify') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+          {{ form.code(class="form-row", placeholder="Enter verification code")
+          }} {% for error in form.code.errors %}
+          <span class="field-error">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div>{{ form.submit(class="form-row-vb") }}</div>
+      </form>
+      <button id="close-setting-modal">Close</button>
+    </div>
+  </div>
 </div>
 <h2>Favorites:</h2>
 <div class="tabs-container">
@@ -63,5 +79,6 @@
 
   <script src="{{ url_for('static', filename='js/content_select.js') }}"></script>
   <script src="{{ url_for('static', filename='js/load.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/verify.js') }}"></script>
   {% endblock %}
 </div>

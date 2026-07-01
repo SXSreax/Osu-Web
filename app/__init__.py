@@ -1,6 +1,8 @@
 from flask import Flask
 from app.models import db, User
-from .extensions import socketio
+from app.extensions import socketio, mail
+from dotenv import load_dotenv
+from config import Config
 import os
 from flask_login import LoginManager
 from app.routes.pages.home import home_bp as home
@@ -18,31 +20,35 @@ from app.routes.components.error import error_bp as error
 
 login_manager = LoginManager()
 
-
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    app.config['SECRET_KEY'] = 'dont-hack-me'
 
-    # Database configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
-        app.instance_path,
-        'flaskr.sqlite')
-    app.config['AVATAR_FOLDER'] = os.path.join(app.instance_path,
-                                               'uploads',
-                                               'avatar')
-    app.config['BANNER_FOLDER'] = os.path.join(app.instance_path,
-                                               'uploads',
-                                               'banner')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['DEBUG'] = True
+    #set up environment keys
+    load_dotenv(".secrets")
+    app.config['TOTP_KEY'] = os.getenv("KEY")
+
+    #config
+    app.config['SECRET_KEY'] = Config.SECRET_KEY
+    app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
+    app.config['AVATAR_FOLDER'] = Config.AVATAR_FOLDER
+    app.config['BANNER_FOLDER'] = Config.BANNER_FOLDER
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS
+    app.config['DEBUG'] = Config.DEBUG
+    app.config["MAIL_SERVER"] = Config.MAIL_SERVER
+    app.config["MAIL_PORT"] = Config.MAIL_PORT
+    app.config["MAIL_USE_TLS"] = Config.MAIL_USE_TLS
+    app.config["MAIL_USE_SSL"] = Config.MAIL_USE_SSL
+    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 
     os.makedirs(app.instance_path, exist_ok=True)
     os.makedirs(app.config['AVATAR_FOLDER'], exist_ok=True)
     os.makedirs(app.config['BANNER_FOLDER'], exist_ok=True)
     os.makedirs(os.path.join(app.instance_path, 'temp_uploads'), exist_ok=True)
 
-    # Initialize database with app
+    # Initialization
     db.init_app(app)
+    mail.init_app(app)
 
     login_manager.init_app(app)
     with app.app_context():

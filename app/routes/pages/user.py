@@ -1,10 +1,14 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
+from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request, jsonify, session
 from flask_login import current_user, login_required
+from flask_mail import Message
+from app.extensions import mail
 from app.models import db, BeatmapDiff, User
-from app.forms import UserEditForm
+from app.forms import UserEditForm, VerifyForm
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import os
+import pyotp
+import time
 import random
 
 user_bp = Blueprint('user', __name__)
@@ -66,11 +70,61 @@ def user():
             }
         })
 
-    return render_template("pages/user.html", beatmaps=beatmap_card, discussions=discussions)
+    form = VerifyForm()
+    return render_template("pages/user.html", beatmaps=beatmap_card, discussions=discussions, form=form)
+
+@user_bp.route('/user/verify/', methods=["POST"])
+@login_required
+def verify():
+    current_app.logger.info(f"User {current_user.id} triggered settings-action")
+
+    key = current_app.config["TOTP_KEY"]
+    totp = pyotp.TOTP(key, interval=60)
+
+    if request.is_json:
+        data = request.get_json(silent=True) or {}
+        if data.get("action") == "open_settings":
+            msg = Message(
+                "Verification Code from Osu!Web",
+                sender="osuweb123@gmail.com",
+                recipients=[current_user.email],
+            )
+            msg.body = (
+                    f"Thank you for keeping up with us.\n"
+                    f"You will have 1 minute to enter the code before it expires.\n"
+                    f"Verification code: {totp.now()}"
+                )
+            try:
+                mail.send(msg)
+                return jsonify(success=True, message="Email sent successfully")
+            except Exception as e:
+                current_app.logger.error(f"Email send failed for user {current_user.id}: {e}")
+                return jsonify(success=False, message=str(e)), 500
+
+    form = VerifyForm()
+    if form.validate_on_submit():
+        code = str(form.code.data).zfill(6)
+
+        if totp.verify(code, valid_window=1):
+            session["settings_verified"] = True
+            flash("Verification successful.", "success")
+            return redirect(url_for("user.user_edit"))
+        else:
+            flash("Invalid verification code. Please try again.", "error")
+    else:
+        for error in form.code.errors:
+            flash(error, "error")
+
+    return redirect(url_for("user.user"))
+
 
 @user_bp.route('/user/edit/', methods=["GET", "POST"])
 @login_required
 def user_edit():
+    if not session.get("settings_verified"):
+        flash("Please verify your identity first. Use the setting button", "error")
+        return redirect(url_for("user.user"))
+
     form = UserEditForm()
 
     if request.method == "GET":
@@ -95,10 +149,6 @@ def user_edit():
             db.session.commit()
             flash("Banner has been reset.", "success")
             return redirect(url_for("user.user_edit"))
-
-        if not current_user.check_password(form.old_password.data):
-            flash("Current password is incorrect.")
-            return render_template("pages/user_edit.html", form=form)
 
         if form.username.data:
             current_user.username = form.username.data
