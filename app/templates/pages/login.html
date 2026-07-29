@@ -19,7 +19,11 @@
     </div>
     {% endif %}
     <label for="password">Password:</label>
-    {{ form.password(class="form-row") }} {% if form.password.errors %}
+    <div class="password-input-wrapper">
+      {{ form.password(class="form-row password-input", id="password") }} {%
+      include "components/visibility_toggle.html" %}
+    </div>
+    {% if form.password.errors %}
     <div class="error-line">
       {% for err in form.password.errors %}{{ err }}{% endfor %}
     </div>
@@ -30,4 +34,5 @@
     >
   </form>
 </div>
+<script src="{{ url_for('static', filename='js/visibility.js') }}"></script>
 {% endblock %}

@@ -80,6 +80,7 @@ def verify():
 
     key = current_app.config["TOTP_KEY"]
     totp = pyotp.TOTP(key, interval=60)
+    print(totp.now())
 
     if request.is_json:
         data = request.get_json(silent=True) or {}

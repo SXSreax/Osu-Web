@@ -12,8 +12,8 @@ class Config:
     AVATAR_FOLDER = os.path.join(BASE_DIR, 'instance', 'uploads', 'avatar')
     BANNER_FOLDER = os.path.join(BASE_DIR, 'instance', 'uploads', 'banner')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    MAIL_SERVER = "smtp.gmail.com"  # SMTP Server
-    MAIL_PORT =587  # Port for TLS
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT =587
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
 

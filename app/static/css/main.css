@@ -193,6 +193,10 @@ body {
   width: 485px;
 }
 
+.edit-row #new_password {
+  width: 485px;
+}
+
 .edit-row .ab-upload {
   width: 485px;
 }
@@ -458,6 +462,47 @@ body {
 
 .form-row {
   margin-bottom: 12px;
+}
+
+.password-input-wrapper {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.password-input {
+  margin-bottom: 0;
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #dce7ef;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.password-toggle img {
+  filter: invert(100%);
+  height: 25px;
+  width: auto;
+}
+
+.password-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.edit-row .password-toggle {
+  position: inherit;
+  margin-top: -17px;
+  margin-left: 600px;
+  width: auto;
 }
 
 input[type="text"],

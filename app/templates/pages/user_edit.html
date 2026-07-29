@@ -18,7 +18,8 @@ endblock %} {% block content %} {% block page_header %}
       </div>
       <div class="edit-row">{{ form.email.label }} {{ form.email() }}</div>
       <div class="edit-row">
-        {{ form.new_password.label }} {{ form.new_password() }}
+        {{ form.new_password.label }} {{ form.new_password() }} {% include
+        "components/visibility_toggle.html" %}
       </div>
       <div class="change-btn">{{ form.submit(class="btn") }}</div>
     </div>
@@ -59,16 +60,6 @@ endblock %} {% block content %} {% block page_header %}
       </div>
     </div>
   </form>
-  <script>
-    function togglePassword(inputId) {
-      const input = document.getElementById(inputId);
-
-      if (input.type === "password") {
-        input.type = "text";
-      } else {
-        input.type = "password";
-      }
-    }
-  </script>
 </div>
+<script src="{{ url_for('static', filename='js/visibility.js') }}"></script>
 {% endblock %}
