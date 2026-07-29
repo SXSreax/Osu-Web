@@ -58,6 +58,7 @@ def user_hub():
             'id': ds.id,
             'title': ds.title,
             'content': ds.content,
+            'like': ds.like,
             'user': {
                 'name': user.username if user else "Unknown",
                 'avatar': user.avatar if user else None
