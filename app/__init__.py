@@ -28,6 +28,8 @@ def create_app():
     app.config['TOTP_KEY'] = os.getenv("KEY")
 
     #config
+    app.config["OSU_CLIENT_ID"] = os.getenv("OSU_CLIENT_ID")
+    app.config["OSU_CLIENT_SECRET"] = os.getenv("OSU_CLIENT_SECRET")
     app.config['SECRET_KEY'] = Config.SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
     app.config['AVATAR_FOLDER'] = Config.AVATAR_FOLDER

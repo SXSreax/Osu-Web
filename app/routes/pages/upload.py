@@ -13,15 +13,13 @@ from app.forms import UploadForm
 
 upload_bp = Blueprint('upload', __name__)
 
-CLIENT_ID = "49164"
-CLIENT_SECRET = "Vh3zYLuWxYoRS7o2RmOvhEunh40Z8kWLfPw21tQm"
 
 def fetch_star_rate(beatmapset_id: int, beatmap_id: int):
     token_res = requests.post(
         "https://osu.ppy.sh/oauth/token",
         json={
-            "client_id": CLIENT_ID,
-            "client_secret": CLIENT_SECRET,
+            "client_id": current_app.config["OSU_CLIENT_ID"],
+            "client_secret": current_app.config["OSU_CLIENT_SECRET"],
             "grant_type": "client_credentials",
             "scope": "public"
         }

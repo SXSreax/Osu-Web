@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request, jsonify, session, abort
+from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request, jsonify, session
 from flask_login import current_user, login_required
 from flask_mail import Message
 from app.extensions import mail
@@ -8,7 +8,6 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import os
 import pyotp
-import time
 import random
 
 user_bp = Blueprint('user', __name__)
