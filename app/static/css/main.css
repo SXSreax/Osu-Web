@@ -461,6 +461,7 @@ body {
 }
 
 input[type="text"],
+input[type="password"],
 input[type="file"],
 textarea {
   background: #141416;

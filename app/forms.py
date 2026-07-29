@@ -3,6 +3,9 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, Inte
 from wtforms.validators import DataRequired, Length, Regexp, Optional, ValidationError
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from PIL import Image
+import re
+
+EMAIL_REGEX = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]+$')
 
 def check_avatar(form, field):
     if not field.data:
@@ -55,7 +58,7 @@ class UserForm(FlaskForm):
                     Regexp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]+$',
                     message="Email must be in the format example@domain.domain extension.")]
                             )
-    password = StringField(
+    password = PasswordField(
         'Password',
         validators=[DataRequired(message="Password is required."),
                     Length(min=6,
@@ -66,14 +69,31 @@ class UserForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     identity = StringField(
-        'Username or Email',
-        validators=[DataRequired(message="Username or Email is required.")]
+        "Username or Email",
+        validators=[
+            DataRequired(message="Username or Email is required."),
+            Length(
+                min=2,
+                max=50,
+                message="Username or Email must be between 2 and 50 characters."
+            )
+        ]
     )
 
-    password = StringField(
+    def validate_username_or_email(self, field):
+        value = field.data.strip()
+
+        if '@' in value:
+            if not EMAIL_REGEX.match(value):
+                raise ValidationError("Please enter a valid email address.")
+
+    password = PasswordField(
         'Password',
-        validators=[DataRequired(message="Password is required.")]
-    )
+        validators=[DataRequired(message="Password is required."),
+                    Length(min=6,
+                           max=20,
+                           message="Password must be between 6 and 20 characters.")]
+                           )
 
     submit = SubmitField('Login')
 
