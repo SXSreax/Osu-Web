@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import os
 import pyotp
+import time
 import random
 
 user_bp = Blueprint('user', __name__)
@@ -85,6 +86,10 @@ def verify():
     if request.is_json:
         data = request.get_json(silent=True) or {}
         if data.get("action") == "open_settings":
+            expiry = session.get("settings_verified_until", 0)
+            if expiry and expiry > time.time():
+                return jsonify(success=True, verified=True, redirect=url_for("user.user_edit"))
+
             msg = Message(
                 "Verification Code from Osu!Web",
                 sender="osuweb123@gmail.com",
@@ -107,7 +112,10 @@ def verify():
         code = str(form.code.data).zfill(6)
 
         if totp.verify(code, valid_window=1):
-            session["settings_verified"] = True
+            timeout = 30 * 60
+            attempts = 11
+            session["settings_verified_until"] = int(time.time()) + timeout
+            session["settings_attempts"] = attempts
             flash("Verification successful.", "success")
             return redirect(url_for("user.user_edit"))
         else:
@@ -122,10 +130,18 @@ def verify():
 @user_bp.route('/user/edit/', methods=["GET", "POST"])
 @login_required
 def user_edit():
-    if not session.get("settings_verified"):
+    expiry = session.get("settings_verified_until", 0)
+    attempts = session.get("settings_attempts", 0)
+    if expiry < time.time():
+        session.pop("settings_verified_until", None)
         flash("Please verify your identity first. Use the setting button", "error")
         return redirect(url_for("user.user"))
 
+    if attempts <= 0:
+        flash("Too many attempts, please verify again", "error")
+        return redirect(url_for("user.user"))
+
+    session["settings_attempts"] -= 1
     form = UserEditForm()
 
     if request.method == "GET":
@@ -140,6 +156,7 @@ def user_edit():
             current_user.avatar = None
             db.session.commit()
             flash("Avatar has been reset.", "success")
+            session["settings_attempts"] += 1
             return redirect(url_for("user.user_edit"))
 
         if form.reset_banner.data:
@@ -149,6 +166,7 @@ def user_edit():
             current_user.banner = None
             db.session.commit()
             flash("Banner has been reset.", "success")
+            session["settings_attempts"] += 1
             return redirect(url_for("user.user_edit"))
 
         if form.username.data:
@@ -191,6 +209,7 @@ def user_edit():
         db.session.commit()
 
         flash("Profile updated successfully.", "success")
+        session["settings_attempts"] += 1
         return redirect(url_for("user.user_edit"))
 
     return render_template("pages/user_edit.html", form=form)

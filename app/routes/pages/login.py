@@ -40,5 +40,6 @@ def login():
 @login_required
 def logout():
     logout_user()
+    session["settings_verified_until"] = 0
     flash("Logged out successfully.", "success")
     return redirect(url_for('home.home'))

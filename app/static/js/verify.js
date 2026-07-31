@@ -4,8 +4,6 @@ const modal = document.getElementById("setting-modal");
 
 if (OpenSetting && modal) {
   OpenSetting.addEventListener("click", () => {
-    modal.classList.add("open");
-
     fetch("/user/verify/", {
       method: "POST",
       headers: {
@@ -16,7 +14,21 @@ if (OpenSetting && modal) {
     })
       .then((response) => {
         if (!response.ok) {
-          console.error("verify failed", response.status);
+          throw new Error(`verify failed: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.verified && data.redirect) {
+          window.location.href = data.redirect;
+          return;
+        }
+
+        if (data.success) {
+          modal.classList.add("open");
+        } else {
+          console.error("verify action failed", data.message);
+          alert("Could not send verification email. Please try again later.");
         }
       })
       .catch((error) => {

@@ -16,4 +16,3 @@ class Config:
     MAIL_PORT =587
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-
