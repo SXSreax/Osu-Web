@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
 from flask_login import current_user, login_required
-from app.models import Beatmap, BeatmapDiff, Discussion, User
+from app.models import Beatmap, BeatmapDiff, Discussion, User, db
 import os
 import random
 
@@ -66,3 +66,11 @@ def user_hub():
         })
 
     return render_template('pages/user_hub.html', beatmaps=beatmap_card, discussions=discussions)
+
+@user_hub_bp.route("/user_hub/hide", methods=["POST"])
+@login_required
+def hide():
+    current_user.uploader_h = not current_user.uploader_h
+    db.session.commit()
+    print("pass")
+    return redirect(url_for("user_hub.user_hub"))

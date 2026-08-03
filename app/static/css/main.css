@@ -4,7 +4,7 @@ a {
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, #07070a 0%, #0c0c0f 100%);
+  background: linear-gradient(180deg, #0a0807 0%, #0c0c0f 100%);
   color: #e6eef3;
   font-family:
     Inter,
@@ -709,6 +709,10 @@ textarea {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+}
+
+.tabs .btn {
+  margin-left: 580px;
 }
 
 .tab-button {

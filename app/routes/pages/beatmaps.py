@@ -26,7 +26,7 @@ def beatmaps():
 
         user = User.query.get(bms.uploader)
         if user:
-            uploader = user.username
+            uploader = "********" if user.uploader_h else user.username
         else:
             uploader = "anonymous"
 

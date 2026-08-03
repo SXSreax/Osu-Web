@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     avatar = db.Column(db.String(255), nullable=True)
     banner = db.Column(db.String(255), nullable=True)
+    uploader_h = db.Column(db.Boolean, nullable=False, default=False)
     
     def __repr__(self):
         return f'<User {self.username}>'
