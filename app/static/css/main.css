@@ -622,6 +622,8 @@ textarea {
   align-items: start;
   transition: all 0.2s ease;
   position: relative;
+  padding: 25px;
+  width: 1000px;
 }
 
 .discussion-block > :nth-child(2) {
@@ -666,6 +668,7 @@ textarea {
 }
 
 .discussion-block p:last-child {
+  width: 95%;
   font-size: 13px;
   color: #ffffff;
 }
@@ -712,7 +715,7 @@ textarea {
 }
 
 .tabs .btn {
-  margin-left: 580px;
+  margin-left: 579px;
 }
 
 .tab-button {

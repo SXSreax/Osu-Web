@@ -24,7 +24,7 @@ def map_detail(beatmap_id):
 
     user = User.query.get(bm.uploader)
     if user:
-        uploader = user.username
+        uploader = "********" if user.uploader_h else user.username
     else:
         uploader = "anonymous"
 
