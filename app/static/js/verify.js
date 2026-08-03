@@ -24,6 +24,11 @@ if (OpenSetting && modal) {
           return;
         }
 
+        if (data.requires_verification) {
+          modal.classList.add("open");
+          return;
+        }
+
         if (data.success) {
           modal.classList.add("open");
         } else {

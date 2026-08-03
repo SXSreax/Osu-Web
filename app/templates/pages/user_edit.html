@@ -53,6 +53,9 @@ endblock %} {% block content %} {% block page_header %}
         <div class="error-line">{{ error }}</div>
         {% endfor %} {% endfor %}
       </div>
+      <div class="guide">
+        <p>Avatar ratio: < 0.8 or > 1.25 | Banner ratio: < 2 or > 6</p>
+      </div>
       <div class="btn-row">
         <div class="change-btn">{{ form.submit(class="btn") }}</div>
         <div class="change-btn">{{ form.reset_avatar(class="btn") }}</div>

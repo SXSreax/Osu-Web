@@ -1124,7 +1124,7 @@ textarea {
 }
 
 .search-btn .btn {
-  margin-left: 450px;
+  margin-left: 479px;
 }
 
 .setting-modal {
@@ -1214,4 +1214,10 @@ textarea {
 
 .setting-inner .form-row {
   width: 450px;
+}
+
+.guide {
+  margin-left: 43px;
+  margin-top: -20px;
+  color: #f44336;
 }

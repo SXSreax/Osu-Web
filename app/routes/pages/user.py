@@ -87,8 +87,19 @@ def verify():
         data = request.get_json(silent=True) or {}
         if data.get("action") == "open_settings":
             expiry = session.get("settings_verified_until", 0)
-            if expiry and expiry > time.time():
+            attempts = session.get("settings_attempts", 0)
+
+            if expiry and expiry > time.time() and attempts > 0:
                 return jsonify(success=True, verified=True, redirect=url_for("user.user_edit"))
+
+            reason = None
+            if attempts <= 0:
+                reason = "attempts_exhausted"
+            elif expiry and expiry <= time.time():
+                reason = "expired"
+
+            session.pop("settings_verified_until", None)
+            session.pop("settings_attempts", None)
 
             msg = Message(
                 "Verification Code from Osu!Web",
@@ -96,13 +107,18 @@ def verify():
                 recipients=[current_user.email],
             )
             msg.body = (
-                    f"Thank you for keeping up with us.\n"
-                    f"You will have 1 minute to enter the code before it expires.\n"
-                    f"Verification code: {totp.now()}"
-                )
+                f"Thank you for keeping up with us.\n"
+                f"You will have 1 minute to enter the code before it expires.\n"
+                f"Verification code: {totp.now()}"
+            )
             try:
                 mail.send(msg)
-                return jsonify(success=True, message="Email sent successfully")
+                return jsonify(
+                    success=True,
+                    message="Please verify again.",
+                    requires_verification=True,
+                    reason=reason,
+                )
             except Exception as e:
                 current_app.logger.error(f"Email send failed for user {current_user.id}: {e}")
                 return jsonify(success=False, message=str(e)), 500
@@ -138,7 +154,7 @@ def user_edit():
         return redirect(url_for("user.user"))
 
     if attempts <= 0:
-        flash("Too many attempts, please verify again", "error")
+        flash("Too many attempts, please verify again later.", "error")
         return redirect(url_for("user.user"))
 
     session["settings_attempts"] -= 1
