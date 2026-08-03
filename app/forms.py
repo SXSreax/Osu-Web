@@ -50,7 +50,10 @@ class UserForm(FlaskForm):
         validators=[DataRequired(message="Username is required."),
                     Length(min=2,
                            max=25,
-                           message="Username must be between 2 and 25 characters.")]
+                           message="Username must be between 2 and 25 characters."),
+                           Regexp(
+                            r'^\S(?:.*\S)?$',
+                            message="Cannot start or end with spaces.")]
                             )
     email = StringField(
         'Email',
