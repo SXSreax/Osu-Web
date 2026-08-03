@@ -70,8 +70,7 @@ def user_hub():
 @user_hub_bp.route("/user_hub/hide", methods=["POST"])
 @login_required
 def hide():
-    current_user.uploader_h = not current_user.uploader_h
+    current_user.uploader_h = request.form.get("hide_uploader") == "1"
     db.session.commit()
-    
-    flash('Please upload a valid file', "error")
+    flash("Uploader visibility updated", "success")
     return redirect(url_for("user_hub.user_hub"))
