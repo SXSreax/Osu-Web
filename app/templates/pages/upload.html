@@ -5,7 +5,7 @@
 {% block page_header %}
 <div class="page-header">
   <div class="container">
-    <h2>Upload Beatmap</h2>
+    <h2 style="text-align: center">Upload Beatmap</h2>
   </div>
 </div>
 {% endblock %}
@@ -13,12 +13,10 @@
   action="{{ url_for('upload.upload_store') }}"
   method="post"
   enctype="multipart/form-data"
+  class="upload-form"
 >
-  {{ form.hidden_tag() }}
-  <div class="form-row">
-    {{ form.file.label }}<br />
-    {{ form.file() }}
-  </div>
-  <div class="form-row">{{ form.submit(class_='btn') }}</div>
+  {{ form.hidden_tag() }} {% include "components/upload_box.html" %}
+  <div class="form-row upload-actions">{{ form.submit(class_='btn') }}</div>
 </form>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
 {% endblock %}

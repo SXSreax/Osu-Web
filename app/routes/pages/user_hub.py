@@ -72,5 +72,6 @@ def user_hub():
 def hide():
     current_user.uploader_h = not current_user.uploader_h
     db.session.commit()
-    print("pass")
+    
+    flash('Please upload a valid file', "error")
     return redirect(url_for("user_hub.user_hub"))
