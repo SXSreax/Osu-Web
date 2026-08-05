@@ -14,7 +14,11 @@ from app.forms import UploadForm
 upload_bp = Blueprint('upload', __name__)
 
 
-def fetch_star_rate(beatmapset_id: int, beatmap_id: int):
+def fetch_star_rate(beatmapset_id: int, beatmap_id: int, mode: int):
+    """Fetch difficulty rating (star) for a specific beatmap and mode.
+
+    mode: 0=osu, 1=taiko, 2=fruits/catch, 3=mania
+    """
     token_res = requests.post(
         "https://osu.ppy.sh/oauth/token",
         json={
@@ -24,14 +28,23 @@ def fetch_star_rate(beatmapset_id: int, beatmap_id: int):
             "scope": "public"
         }
     )
-    token = token_res.json()["access_token"]
+    token_res.raise_for_status()
+    token = token_res.json().get("access_token")
 
     headers = {"Authorization": f"Bearer {token}"}
-    url = f"https://osu.ppy.sh/api/v2/beatmaps/{beatmap_id}?mode=mania"
+    mode_map = {
+        0: 'osu',
+        1: 'taiko',
+        2: 'fruits',
+        3: 'mania'
+    }
+    mode_name = mode_map.get(mode, 'osu')
+    url = f"https://osu.ppy.sh/api/v2/beatmaps/{beatmap_id}?mode={mode_name}"
     response = requests.get(url, headers=headers)
+    response.raise_for_status()
     data = response.json()
 
-    return data["difficulty_rating"]
+    return data.get("difficulty_rating")
 
 def get_file_info(beatmap_path):
     map_name = os.path.basename(beatmap_path)
@@ -40,6 +53,11 @@ def get_file_info(beatmap_path):
     mode = None
     artist = None
     title = None
+    hp = None
+    od = None
+    cs = None
+    ar = None
+    kc = None
 
     try:
         try:
@@ -67,6 +85,36 @@ def get_file_info(beatmap_path):
                     m = re.match(r'Mode\s*:\s*(\d+)', line)
                     if m:
                         mode = int(m.group(1))
+
+            if current_section == 'difficulty':
+                # Difficulty section contains HPDrainRate (or HPDrain), CircleSize, OverallDifficulty, ApproachRate
+                m = re.match(r'(?:HPDrainRate|HPDrain)\s*:\s*([0-9.+-eE]+)', line)
+                if m:
+                    try:
+                        hp = float(m.group(1))
+                    except ValueError:
+                        hp = None
+
+                m = re.match(r'OverallDifficulty\s*:\s*([0-9.+-eE]+)', line)
+                if m:
+                    try:
+                        od = float(m.group(1))
+                    except ValueError:
+                        od = None
+
+                m = re.match(r'CircleSize\s*:\s*([0-9.+-eE]+)', line)
+                if m:
+                    try:
+                        cs = float(m.group(1))
+                    except ValueError:
+                        cs = None
+
+                m = re.match(r'ApproachRate\s*:\s*([0-9.+-eE]+)', line)
+                if m:
+                    try:
+                        ar = float(m.group(1))
+                    except ValueError:
+                        ar = None
 
             if current_section == 'metadata':
                 if line.startswith('Title:') and title is None:
@@ -103,7 +151,14 @@ def get_file_info(beatmap_path):
     except Exception as e:
         print(f"Error extracting IDs from {beatmap_path}: {e}")
 
-    return map_name, beatmap_id, beatmapset_id, mode, artist, title
+    # For mania, key count is represented by CircleSize in the .osu difficulty section
+    if mode == 3 and cs is not None:
+        try:
+            kc = int(cs)
+        except Exception:
+            kc = None
+
+    return map_name, beatmap_id, beatmapset_id, mode, artist, title, hp, od, cs, ar, kc
 
 def sanitize_id(filename):
     name, ext = os.path.splitext(filename)
@@ -165,7 +220,7 @@ def upload_store():
             flash('The archive does not contain any .osu file.', "error")
             return redirect(url_for('upload.upload'))
 
-        _, _, beatmapset_id, _, artist, title = get_file_info(osu_file_path)
+        _, _, beatmapset_id, mode_from_file, artist, title, hp0, od0, cs0, ar0, kc0 = get_file_info(osu_file_path)
 
         if not beatmapset_id or not artist or not title:
             flash('Could not extract necessary metadata (BeatmapSetID, Artist, Title) from the .osu file.', "error")
@@ -197,62 +252,109 @@ def upload_store():
             existing.artist = artist
             existing.uploader = uploader
             existing.filepath = relative_path
+            # if mode could be determined from the file, store it on the beatmap
+            if mode_from_file is not None:
+                existing.mode = mode_from_file
         else:
             beatmap = Beatmap(
                 id=beatmapset_id,
                 name=title,
                 artist=artist,
                 uploader=uploader,
-                filepath=relative_path
+                filepath=relative_path,
+                mode=mode_from_file if mode_from_file is not None else 0
             )
             db.session.add(beatmap)
         db.session.commit()
 
         try:
             osu_files = [f for f in os.listdir(final_extract_folder) if f.endswith('.osu')]
-            mania_found = False
+            modes_found = set()
             for osu_file in osu_files:
                 osu_path = os.path.join(final_extract_folder, osu_file)
-                map_name_file, beatmap_id_file, beatmapset_id_file, mode_file, _, _ = get_file_info(osu_path)
+                (map_name_file, beatmap_id_file, beatmapset_id_file, mode_file,
+                 artist_file, title_file, hp_file, od_file, cs_file, ar_file, kc_file) = get_file_info(osu_path)
 
-                if mode_file != 3:
+                # skip if mode not parsed or no ids
+                if mode_file is None:
                     continue
 
-                mania_found = True
-                
-                if beatmap_id_file and beatmapset_id_file:
-                    star_rating = fetch_star_rate(beatmapset_id_file, beatmap_id_file)
-                    star_truncated = int(star_rating * 100) / 100
+                modes_found.add(mode_file)
 
-                    existing_diff = BeatmapDiff.query.filter_by(
+                if not (beatmap_id_file and beatmapset_id_file):
+                    continue
+
+                try:
+                    star_rating = fetch_star_rate(beatmapset_id_file, beatmap_id_file, mode_file)
+                except Exception as e:
+                    print(f"Failed to fetch star for {osu_file}: {e}")
+                    continue
+
+                if star_rating is None:
+                    continue
+
+                star_truncated = int(star_rating * 100) / 100
+
+                existing_diff = BeatmapDiff.query.filter_by(
+                    map_id=beatmapset_id_file,
+                    map_name=map_name_file
+                ).first()
+
+                relative_diff_path = os.path.join('maps', str(beatmapset_id_file), osu_file)
+
+                # assign fields according to mode
+                if existing_diff:
+                    existing_diff.star_diff = star_truncated
+                    existing_diff.filepath = relative_diff_path
+                    if mode_file == 0:  # osu
+                        existing_diff.cs = cs_file
+                        existing_diff.hp = hp_file
+                        existing_diff.od = od_file
+                        existing_diff.ar = ar_file
+                    elif mode_file == 1:  # taiko
+                        existing_diff.hp = hp_file
+                        existing_diff.od = od_file
+                    elif mode_file == 2:  # catch
+                        existing_diff.cs = cs_file
+                        existing_diff.hp = hp_file
+                        existing_diff.od = od_file
+                        existing_diff.ar = ar_file
+                    elif mode_file == 3:  # mania
+                        existing_diff.kc = kc_file
+                        existing_diff.hp = hp_file
+                        existing_diff.od = od_file
+                else:
+                    diff_kwargs = dict(
                         map_id=beatmapset_id_file,
-                        map_name=map_name_file
-                    ).first()
+                        map_name=map_name_file,
+                        star_diff=star_truncated,
+                        filepath=relative_diff_path
+                    )
+                    # add mode-specific fields
+                    if mode_file == 0:  # osu
+                        diff_kwargs.update(dict(cs=cs_file, hp=hp_file, od=od_file, ar=ar_file))
+                    elif mode_file == 1:  # taiko
+                        diff_kwargs.update(dict(hp=hp_file, od=od_file))
+                    elif mode_file == 2:  # catch
+                        diff_kwargs.update(dict(cs=cs_file, hp=hp_file, od=od_file, ar=ar_file))
+                    elif mode_file == 3:  # mania
+                        diff_kwargs.update(dict(kc=kc_file, hp=hp_file, od=od_file))
 
-                    relative_diff_path = os.path.join('maps', str(beatmapset_id_file), osu_file)
+                    beatmap_diff = BeatmapDiff(**diff_kwargs)
+                    db.session.add(beatmap_diff)
 
-                    if existing_diff:
-                        existing_diff.star_diff = star_truncated
-                        existing_diff.filepath = relative_diff_path
-                    else:
-                        beatmap_diff = BeatmapDiff(
-                            map_id=beatmapset_id_file,
-                            map_name=map_name_file,
-                            star_diff=star_truncated,
-                            filepath=relative_diff_path
-                        )
-                        db.session.add(beatmap_diff)
-            
             db.session.commit()
 
         except Exception as e:
             print(f"Error fetching/storing star ratings: {e}")
-            flash("Beatmap uploaded but failed to fetch mania star ratings.", "warning")
+            flash("Beatmap uploaded but failed to fetch star ratings.", "warning")
             return redirect(url_for('upload.upload'))
 
-        if mania_found:
-            flash('Beatmap updated successfully.', 'success')
+        if modes_found:
+            mode_names = {0: 'osu', 1: 'taiko', 2: 'catch', 3: 'mania'}
+            readable = ", ".join(sorted({mode_names.get(m, str(m)) for m in modes_found}))
+            flash(f'Beatmap updated successfully (modes processed: {readable}).', 'success')
         else:
-            flash("This beatmapset contains no osu!mania maps.", "warning")
+            flash("No beatmap modes were processed.", "warning")
     
     return redirect(url_for('home.home'))

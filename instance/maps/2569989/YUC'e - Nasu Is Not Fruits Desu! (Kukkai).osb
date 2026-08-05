@@ -1,0 +1,2491 @@
+[Variables]
+$green=218,236,119
+$dgreen=167,185,68
+$lpurple=132,120,244
+$purple=186,130,251
+$dpurple=43,36,107
+$pink=232,98,147
+$dpink=155,65,98
+$yellow=255,200,80
+$blue=113,178,223
+$cyan=134,235,235
+$lcyan=193,245,245
+$blurple=70,0,230
+
+[Events]
+//Background and Video events
+//Storyboard Layer 0 (Background)
+Sprite,Background,Centre,"background.jpg",320,240
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,2119,,$lpurple
+ V,0,2119,2641,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,2641,,$yellow
+ V,0,2641,3163,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,3163,,$pink
+ V,0,3163,3424,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,3424,,$purple
+ V,0,3424,3685,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,3685,,$lpurple
+ V,0,3685,3946,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,3946,,$purple
+ V,0,3946,4206,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ F,0,4206,,1
+ C,0,4206,,$lpurple
+ V,0,4206,20902,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,21424,,$pink
+ V,0,21424,29250,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,43859,,$pink
+ V,0,43859,45946,854,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,87685,88206,$blue
+ V,0,87685,88206,856,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,45946,,856,480
+ C,0,45946,64728,170,161,255
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,64728,,856,480
+ C,0,64728,79337,255,145,185
+ C,0,79337,87685,170,161,255
+Sprite,Background,Centre,"sb\p.png",320,240
+ C,0,118988,,$pink
+ V,0,118988,121075,854,480
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,121075,,856,480
+ C,0,121075,139857,170,161,255
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,139859,,856,480
+ C,0,139859,175337,255,145,185
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,88206,,856,480
+ C,0,88206,96033,$pink
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,175337,,856,480
+ C,0,175337,183685,$lpurple
+Sprite,Background,Centre,"sb\p.png",320,240
+ V,0,183685,,856,480
+ C,0,183685,185870,117,94,221
+//Storyboard Layer 1 (Fail)
+//Storyboard Layer 2 (Pass)
+//Storyboard Layer 3 (Foreground)
+Sprite,Foreground,Centre,"sb\e.png",320,240
+ S,7,1859,2554,0.1,0.08
+ R,7,1859,2554,-1.5,0.2
+ MY,27,1859,2554,500,240
+ F,0,2641,,1
+Sprite,Foreground,Centre,"sb\e_1.png",320,240
+ S,0,2641,3163,0.08
+ R,4,2641,3163,0.2,-3
+ MX,4,2641,3163,300,150
+ MY,4,2641,3163,240,450
+ F,0,3163,,1
+Sprite,Foreground,Centre,"sb\e_2.png",320,240
+ S,0,2641,3163,0.08
+ R,7,2641,3163,0,3
+ MX,7,2641,3163,340,490
+ MY,7,2641,3163,240,450
+ F,0,3163,,1
+Sprite,Foreground,Centre,"sb\wc2026.png",320,240
+ S,7,3163,3424,0.35,0.25
+Sprite,Foreground,Centre,"sb\strawberry.png",320,240
+ S,7,3424,3685,0.35,0.25
+Sprite,Foreground,Centre,"sb\yuzupear.png",320,240
+ S,7,3685,3946,0.35,0.25
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ S,7,3946,4205,0.95,0.75
+Sprite,Foreground,Centre,"sb\credits\cwc.png",320,420
+ S,0,3163,,0.35
+ F,7,3163,3424,1
+Sprite,Foreground,Centre,"sb\credits\original.png",320,420
+ S,0,3424,,0.35
+ F,7,3424,3685,1
+Sprite,Foreground,Centre,"sb\credits\title.png",320,420
+ S,0,3946,,0.35
+ F,7,3946,4205,1
+Sprite,Foreground,Centre,"sb\credits\yuce.png",320,420
+ S,0,3685,,0.35
+ F,7,3685,3946,1
+Sprite,Foreground,Centre,"sb\grid2.png",320,450
+ F,0,4206,,0.6
+ S,0,4206,,1
+ R,0,4206,,0.06
+ MX,0,4206,20902,340,310
+ MY,0,4206,20902,250,230
+Animation,Foreground,Centre,"sb\c\c.png",320,240,4,261,LoopForever
+ R,0,4206,,0
+ F,0,4206,20902,0.3
+Sprite,Foreground,Centre,"sb\chibi\1.png",320,240
+ S,0,4206,,1
+ R,0,4206,,-0.04
+ P,0,4206,,H
+ M,7,4206,4706,450,70,450,80
+ M,0,4706,12554,450,80,450,100
+ M,4,12554,13054,450,100,450,320
+ M,0,13054,20902,450,320,450,340
+Sprite,Foreground,Centre,"sb\lyrics\s1\minnasan.png",320,240
+ F,0,13076,,1
+ S,0,13076,,0.5
+ R,7,13076,13576,-0.7,0.15
+ M,0,13076,14380,455,215
+ R,0,13576,14380,0.15,0.2
+ R,7,14380,14641,0.2,1.7
+ F,0,14497,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\everyone.png",320,240
+ F,0,13076,,1
+ S,0,13076,,0.67
+ R,7,13076,13576,-0.45,0.7
+ M,0,13076,14380,455,215
+ R,0,13576,14380,0.7,0.75
+ R,7,14380,14641,0.75,1.36
+ F,0,14497,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\1.png",120,240
+ R,0,4206,,0.02
+ MY,7,4206,4406,235,240
+ S,0,4206,12554,0.25
+ MY,7,6549,6749,240,245
+ MY,7,7598,7798,245,250
+ MY,7,10467,10667,250,255
+Sprite,Foreground,Centre,"sb\lyrics\s1\2.png",120,240
+ R,0,6549,,-0.04
+ MY,7,6549,6749,235,240
+ S,0,6549,12554,0.25
+ MY,7,7598,7798,240,245
+ MY,7,10467,10667,245,250
+Sprite,Foreground,Centre,"sb\lyrics\s1\3.png",120,240
+ R,0,7598,,0.07
+ MY,7,7598,7798,235,240
+ S,0,7598,12554,0.25
+ MY,7,10467,10667,240,245
+Sprite,Foreground,Centre,"sb\lyrics\s1\4.png",120,240
+ R,0,10467,,0
+ MY,7,10467,10667,235,240
+ S,0,10467,12554,0.25
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ MY,13,4033,4728,-35,0
+ V,0,4206,,856,35
+ C,0,4206,20902,$dpurple
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ MY,13,4033,4728,6,41
+ S,0,4206,,0.35
+ C,0,4206,,$dpurple
+ P,0,4206,,V
+ MX,0,4206,20902,320,150
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ MY,13,4033,4728,6,41
+ S,0,4206,,0.35
+ R,0,4206,,3.14
+ C,0,4206,,$dpurple
+ MX,0,4206,20902,500,330
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ MY,13,4033,4728,515,480
+ V,0,4206,,856,35
+ C,0,4206,20902,$dpurple
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ MY,13,4033,4728,474,439
+ S,0,4206,,0.35
+ C,0,4206,,$dpurple
+ MX,0,4206,20902,320,490
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ MY,13,4033,4728,474,439
+ S,0,4206,,0.35
+ C,0,4206,,$dpurple
+ MX,0,4206,20902,140,310
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ MY,13,4033,4728,-20,15
+ S,0,4206,20902,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ MY,13,4033,4728,500,465
+ S,0,4206,20902,0.3
+Sprite,Foreground,Centre,"sb\lyrics\s1\waarudowaidona.png",320,240
+ L,14409,4
+  R,0,0,261,-0.07
+  R,0,261,552,-0.05
+ F,0,14409,,1
+ S,27,14409,14909,0,0.65
+ M,0,14409,16458,90,220
+ M,2,16458,16958,90,220,90,120
+ F,0,16630,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\chuuihou.png",320,240
+ L,14409,4
+  R,0,0,261,0.05
+  R,0,261,552,0.03
+ F,0,14409,,1
+ S,27,14409,14909,0,0.75
+ M,0,14409,16458,160,290
+ M,2,16458,16958,160,290,160,190
+ F,0,16630,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\announcement.png",320,240
+ F,0,14409,,1
+ R,0,14409,,0.035
+ S,27,14409,14909,0,0.5
+ M,0,14409,16458,150,333
+ M,2,16458,16958,150,333,150,233
+ F,0,16630,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\from tokyo.png",320,240
+ L,16630,5
+  R,0,0,261,0.035
+  R,0,261,522,0.02
+ F,0,16630,,1
+ S,27,16630,,0.67
+ M,7,16630,17130,80,265,80,235
+ M,2,18033,18554,80,235,80,125
+ F,0,18206,18406,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\yo2.png",195,350
+ L,17772,4
+  R,0,0,261,0.02
+  R,0,261,522,0.035
+ F,0,16630,,1
+ S,7,17772,17972,0,0.2
+ M,2,18033,18554,195,350,195,240
+ F,0,18206,18406,1,0
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ V,0,18033,,856,480
+ F,0,18033,18233,0,0.7
+ C,0,18033,20902,99,0,181
+Sprite,Foreground,Centre,"sb\lyrics\s1\vitamin folate.png",320,240
+ F,0,18033,18133,0,1
+ F,0,18033,18554,1
+ S,27,18033,19076,0,0.4
+ F,0,20902,,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\vitamin folate2.png",320,330
+ F,0,18033,18133,0,1
+ F,0,18033,18554,1
+ S,27,18033,19076,0,0.44
+ F,0,20902,,0
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ V,0,20902,,856,480
+ C,0,20902,21424,$blue
+Sprite,Foreground,Centre,"sb\yuce cat.png",320,240
+ R,0,20902,21163,-0.2
+ S,26,20902,21424,0.3,0.25
+ R,0,21163,21424,0.2
+Animation,Foreground,Centre,"sb\c\c.png",320,240,4,261,LoopForever
+ R,0,21424,,0
+ F,0,21424,29250,0.3
+Sprite,Foreground,Centre,"sb\live2d\dots.png",320,240
+ S,0,21424,29250,0.35
+ M,0,26103,,-17,100
+Sprite,Foreground,Centre,"sb\live2d\dots.png",320,240
+ S,0,21424,29250,0.35
+ M,0,26103,,660,390
+Sprite,Foreground,Centre,"sb\full.png",860,245
+ MX,7,21424,21946,700,650
+ S,0,21424,27163,0.31
+ MX,0,21946,25076,650,640
+ MX,7,25076,25598,640,320
+ S,4,27163,27424,0.31,0.33
+ S,4,27685,27946,0.33,0.36
+ S,4,28206,28467,0.36,0.4
+ S,0,28467,29250,0.4,0.405
+Sprite,Foreground,Centre,"sb\ring.png",860,245
+ R,7,21424,21946,0,0.69
+ MX,7,21424,21946,700,650
+ S,0,21424,27163,0.32
+ R,0,21946,25076,0.69,0.75
+ MX,0,21946,25076,650,640
+ R,7,25076,25598,0.75,3.14
+ MX,7,25076,25598,640,320
+ R,0,25598,29250,3.14,3.19
+ S,4,27163,27424,0.32,0.35
+ S,4,27685,27946,0.35,0.39
+ S,4,28206,28467,0.39,0.45
+ S,0,28467,29250,0.45,0.46
+ M,0,28606,,320,245.5851
+Sprite,Foreground,Centre,"sb\lyrics\s1\kedo nakami.png",100,240
+ MY,7,25163,25363,180,230
+ F,28,25163,25463,0,1
+ V,0,25163,27163,0.4,0.35
+ MY,0,25363,27163,235,240
+ MY,0,27163,27363,240,290
+ F,28,27163,27463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\but its the inside.png",130,240
+ R,0,25163,,1.57
+ MY,7,25163,25363,280,230
+ F,28,25163,25463,0,1
+ V,0,25163,27163,0.4,0.35
+ MY,0,25363,27163,230,225
+ MY,0,27163,27363,225,175
+ F,28,27163,27463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\but its the inside.png",550,240
+ R,0,25163,,-1.57
+ MY,7,25163,25363,200,250
+ F,28,25163,25463,0,1
+ V,0,25163,27163,0.4,0.35
+ MY,0,25363,27163,250,255
+ MY,0,27163,27363,255,305
+ F,28,27163,27463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\kedo nakami.png",580,240
+ MY,7,25163,25363,300,250
+ F,28,25163,25460,0,1
+ V,0,25163,27163,0.4,0.35
+ MY,0,25363,27163,245,240
+ MY,0,27163,27363,240,190
+ F,28,27163,27463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\ano.png",10,130
+ F,0,21424,,1
+ MY,7,21424,21924,150,135
+ S,26,21424,22424,0,0.55
+ MY,0,21924,25076,135,130
+ MY,7,25076,25250,130,80
+ F,28,25163,25463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\kawaii.png",90,190
+ F,0,21424,,1
+ R,0,21424,,-0.05
+ MY,7,21424,21924,210,195
+ MY,0,21924,25076,195,190
+ S,26,21946,22946,0,0.66
+ MY,7,25076,25250,190,140
+ F,28,25163,25463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\sono.png",230,275
+ F,0,22751,,1
+ R,0,22751,,0.07
+ MY,7,22751,23251,285,270
+ S,26,22751,23751,0,0.55
+ MY,0,23251,25076,270,265
+ MY,7,25076,25250,265,215
+ F,28,25163,25463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\kirei.png",190,340
+ F,0,22751,,1
+ MY,7,22751,23251,350,335
+ MY,0,23251,25076,335,330
+ R,0,23420,,0.07
+ S,26,23420,24420,0,0.66
+ MY,7,25076,25250,330,280
+ F,28,25163,25463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\kedo.png",40,240
+ F,0,24293,,1
+ R,0,24293,,0.08
+ MY,7,24293,25076,380,377
+ S,26,24293,25293,0,0.28
+ MY,7,25076,25250,377,335
+ F,28,25163,25463,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s1\others.png",320,400
+ MY,27,21424,21946,420,400
+ S,0,21424,22751,0.25
+Sprite,Foreground,Centre,"sb\lyrics\s1\oh so juicy sweet.png",320,400
+ MY,27,22728,23250,420,400
+ S,0,22728,24293,0.25
+Sprite,Foreground,Centre,"sb\lyrics\s1\that matters.png",320,400
+ MY,27,24293,24815,420,400
+ S,0,24293,25250,0.25
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,21424,,856,35
+ C,0,21424,29250,$dpink
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,21424,,0.35
+ C,0,21424,,$dpink
+ P,0,21424,,V
+ MX,0,21424,29250,320,240
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,21424,,0.35
+ R,0,21424,,3.14
+ C,0,21424,,$dpink
+ MX,0,21424,29250,500,420
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,21424,,856,35
+ C,0,21424,29250,$dpink
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,21424,,0.35
+ C,0,21424,,$dpink
+ MX,0,21424,29250,320,400
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,21424,,0.35
+ C,0,21424,,$dpink
+ MX,0,21424,29250,140,220
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,21424,29250,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,21424,29250,0.3
+Sprite,Foreground,BottomRight,"sb\live2d\bubble.png",175,160
+ L,21424,8
+  R,0,0,522,0.05
+  R,0,522,1044,-0.05
+ MX,7,21424,21946,650,600
+ MX,0,21946,25076,600,590
+ MX,7,25076,25598,590,250
+ S,4,27163,27424,0.33,0.35
+ S,4,27685,27946,0.35,0.39
+ S,4,28206,28467,0.39,0.45
+ S,0,28467,29250,0.45,0.46
+ F,0,29250,,1
+ F,0,29251,,0
+Sprite,Foreground,BottomRight,"sb\live2d\X.png",165,145
+ L,21424,8
+  R,0,0,522,0.05
+  R,0,522,1044,-0.05
+ MX,7,21424,21946,650,600
+ MX,0,21946,25076,600,590
+ MX,7,25076,25598,590,250
+ S,4,27163,27424,0.33,0.35
+ S,4,27685,27946,0.35,0.39
+ S,4,28206,28467,0.39,0.45
+ S,0,28467,29250,0.45,0.46
+ F,0,29250,,1
+ F,0,29251,,0
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ M,0,28989,29337,-600,240,320,240
+ C,0,29250,43859,242,251,255
+ V,0,29250,43859,856,480
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ M,0,28989,29337,-600,240,320,240
+ C,0,29250,43859,$cyan
+ V,0,29250,43859,500,480
+Animation,Foreground,Centre,"sb\gi.png",320,240,2,261,LoopForever
+ S,0,28989,,0.22
+ R,0,28989,,0.012
+ M,0,28989,29337,-600,400,320,400
+ F,0,29772,30293,0,1
+ F,0,33163,33685,1,0
+Sprite,Foreground,Centre,"sb\flavor text.png",-77,240
+ S,0,29337,,0.33
+ R,0,29337,,-1.57
+ C,0,29337,43859,116,236,235
+Sprite,Foreground,Centre,"sb\flavor text.png",717,240
+ S,0,29337,,0.33
+ R,0,29337,,1.57
+ C,0,29337,43859,116,236,235
+Sprite,Foreground,Centre,"sb\lyrics\s2\grape.png",320,240
+ S,27,29250,29772,0.45,0.55
+ R,0,29250,43859,0.15
+ S,27,31337,31859,0.14,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\banana.png",320,240
+ S,27,31337,31859,0.45,0.55
+ R,0,31337,43859,-0.15
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\apple.png",320,240
+ S,27,33424,33946,0.45,0.55
+ R,0,33424,48033,0.15
+ S,27,35511,36033,0.14,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\nasu.png",320,240
+ S,27,35511,36033,0.45,0.55
+ R,0,35511,48033,-0.15
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\live2d\X.png",462.1897,178.56
+ L,30293,2
+  R,0,0,261,-0.1
+  R,0,261,522,0.1
+ S,27,30293,30815,0,0.22
+ F,0,31337,,1
+Sprite,Foreground,Centre,"sb\live2d\X.png",441.7097,154.5692
+ L,32380,2
+  R,0,0,261,-0.1
+  R,0,261,522,0.1
+ S,27,32380,32902,0,0.22
+ F,0,33424,,1
+Sprite,Foreground,Centre,"sb\star.png",462.1897,178.56
+ L,34467,2
+  R,0,0,261,-0.1
+  R,0,261,522,0.1
+ S,27,34467,34989,0,0.11
+ F,0,35511,,1
+Sprite,Foreground,Centre,"sb\star.png",441.7097,154.5692
+ L,36554,2
+  R,0,0,261,-0.1
+  R,0,261,522,0.1
+ S,27,36554,37076,0,0.11
+ F,0,37598,,1
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,29250,,0.14
+ C,0,29250,,69,208,207
+ MY,7,29250,30250,480,112
+ R,0,29250,43859,0,1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",2,67
+ S,0,29250,,0.14
+ C,0,29250,,69,208,207
+ MY,7,29250,30250,480,115
+ R,0,29250,43859,0,1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,29250,,0.13
+ C,0,29250,,229,251,252
+ MY,7,29250,30250,480,112
+ R,0,29250,43859,0,1.57
+ S,7,33409,33809,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",0,67
+ R,0,29250,,0,-0.1
+ V,4,29250,,0,0,0.16,0.2
+ MY,7,29250,30250,480,112
+ C,0,29250,43859,69,208,207
+ V,7,33409,33809,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",92,67
+ S,0,30293,,0.14
+ C,0,30293,,69,208,207
+ MY,7,30293,31293,480,243
+ R,0,30293,43859,0,-1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",90,67
+ S,0,30293,,0.14
+ C,0,30293,,69,208,207
+ MY,7,30293,31293,480,240
+ R,0,30293,43859,0,-1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",90,67
+ S,0,30293,,0.13
+ C,0,30293,,229,251,252
+ MY,7,30293,31293,480,240
+ R,0,30293,43859,0,-1.57
+ S,7,33409,33809,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",90,67
+ R,0,30293,,0,0.1
+ V,4,30293,,0,0,0.16,0.2
+ MY,7,30293,31293,480,240
+ C,0,30293,43859,69,208,207
+ V,7,33409,33809,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,31337,,0.14
+ C,0,31337,,69,208,207
+ MY,7,31337,32337,480,370
+ R,0,31337,43859,0,1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",2,67
+ S,0,31337,,0.14
+ C,0,31337,,69,208,207
+ MY,7,31337,32337,480,373
+ R,0,31337,43859,0,1.57
+ S,7,33409,33809,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,31337,,0.13
+ C,0,31337,,229,251,252
+ MY,7,31337,32337,480,370
+ R,0,31337,43859,0,1.57
+ S,7,33409,33809,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",0,67
+ R,0,31337,,0,-0.25
+ V,7,31337,,0,0,0.16,0.2
+ MY,7,31337,32337,480,370
+ C,0,31337,43859,69,208,207
+ V,7,33409,33809,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,33424,,0.14
+ C,0,33424,,69,208,207
+ MY,7,33424,34424,480,112
+ R,0,33424,48033,0,1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",642,67
+ S,0,33424,,0.14
+ C,0,33424,,69,208,207
+ MY,7,33424,34424,480,115
+ R,0,33424,48033,0,1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,33424,,0.13
+ C,0,33424,,229,251,252
+ MY,7,33424,34424,480,112
+ R,0,33424,48033,0,1.57
+ S,7,37583,37983,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",640,67
+ R,0,33424,,0,-0.1
+ V,4,33424,,0,0,0.16,0.2
+ MY,7,33424,34424,480,112
+ C,0,33424,48033,69,208,207
+ V,7,37583,37983,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",542,67
+ S,0,34467,,0.14
+ C,0,34467,,69,208,207
+ MY,7,34467,35467,480,243
+ R,0,34467,48033,0,-1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",540,67
+ S,0,34467,,0.14
+ C,0,34467,,69,208,207
+ MY,7,34467,35467,480,240
+ R,0,34467,48033,0,-1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",540,67
+ S,0,34467,,0.13
+ C,0,34467,,229,251,252
+ MY,7,34467,35467,480,240
+ R,0,34467,48033,0,-1.57
+ S,7,37583,37983,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",540,67
+ R,0,34467,,0,0.1
+ V,4,34467,,0,0,0.16,0.2
+ MY,7,34467,35467,480,240
+ C,0,34467,48033,69,208,207
+ V,7,37583,37983,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,35511,,0.14
+ C,0,35511,,69,208,207
+ MY,7,35511,36511,480,370
+ R,0,35511,48033,0,1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",642,67
+ S,0,35511,,0.14
+ C,0,35511,,69,208,207
+ MY,7,35511,36511,480,373
+ R,0,35511,48033,0,1.57
+ S,7,37583,37983,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,35511,,0.13
+ C,0,35511,,229,251,252
+ MY,7,35511,36511,480,370
+ R,0,35511,48033,0,1.57
+ S,7,37583,37983,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",640,67
+ R,0,35511,,0,-0.25
+ V,7,35511,,0,0,0.16,0.2
+ MY,7,35511,36511,480,370
+ C,0,35511,48033,69,208,207
+ V,7,37583,37983,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",320,240
+ L,37598,12
+  S,7,0,521,0.55,0.45
+ F,0,37598,,0.6
+ R,0,37598,43859,0,0.2
+ C,0,37598,43859,$lcyan
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",320,240
+ L,37598,10
+  S,7,0,521,0.55,0.45
+ F,0,37598,,1
+Sprite,Foreground,Centre,"sb\lyrics\s2\awesome.png",560,240
+ S,0,32224,,0.5
+ MY,27,32224,33424,0,240
+ MY,27,33424,34424,240,680
+Sprite,Foreground,Centre,"sb\lyrics\s2\eat_lots.png",70,240
+ S,0,36349,,0.5
+ MY,27,36349,37598,480,240
+ MY,27,37598,38598,240,-330
+Sprite,Foreground,Centre,"sb\lyrics\s2\eating up.png",320,240
+ S,7,42641,43641,0.66,0.44
+ S,0,43641,43859,0.44
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ S,0,29163,32224,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s2\awesome2.png",320,455
+ S,0,32224,33424,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ S,0,33424,36349,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s2\eat_lots2.png",320,455
+ S,0,36349,37598,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi5.png",320,455
+ S,0,37598,42554,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s2\eating_up2.png",320,455
+ S,0,42554,43859,0.55
+Sprite,Foreground,Centre,"sb\lyrics\s1\just sit.png",320,240
+ S,0,26989,,0.44
+ M,7,26989,27685,0,190,25,185
+ R,0,26989,29163,-0.15
+Sprite,Foreground,Centre,"sb\lyrics\s1\da.png",320,240
+ R,0,26989,,-0.15
+ S,26,26989,27489,0,0.56
+ M,0,26989,29163,-21.13829,113.024
+Sprite,Foreground,Centre,"sb\lyrics\s1\ra.png",320,240
+ R,0,27420,27771,-0.267
+ S,26,27420,27920,0,0.56
+ M,0,27420,29163,167.2777,84.35201
+Sprite,Foreground,Centre,"sb\lyrics\s1\ka.png",320,240
+ S,26,27163,27663,0,0.56
+ R,0,27163,27663,0.177
+ M,0,27163,29163,74.23999,99.56572
+Sprite,Foreground,Centre,"sb\lyrics\s1\ta.png",320,240
+ S,26,27685,28185,0,0.56
+ R,0,27685,29109,-0.5
+ M,0,27685,29163,389.6319,398.5737
+Sprite,Foreground,Centre,"sb\lyrics\s1\be.png",320,240
+ S,26,27885,28385,0,0.56
+ R,0,27885,29109,0.17
+ M,0,27885,29163,486.7656,378.0937
+Sprite,Foreground,Centre,"sb\lyrics\s1\yo.png",320,240
+ S,26,28206,29042,0,0.56
+ R,0,28206,29042,0.05
+ M,0,28206,29163,582.1439,361.1246
+Sprite,Foreground,Centre,"sb\lyrics\s1\u.png",320,240
+ S,26,28206,29042,0,0.56
+ R,0,28206,29042,0.2
+ M,0,28206,29163,678.6925,349.4218
+Sprite,Foreground,Centre,"sb\lyrics\s1\and eat.png",320,240
+ S,0,27685,,0.44
+ M,7,27685,28207,610,280,630,275
+ R,0,27685,29163,-0.15
+Sprite,Foreground,Centre,"sb\yuce cat.png",320,240
+ M,0,28989,29337,-538.4043,240,1178.99,240
+ R,0,28989,29337,0,3.14
+Sprite,Foreground,Centre,"sb\live2d\eggplant.png",320,240
+ L,43860,2
+  R,0,0,522,-0.175
+  R,0,522,1044,0.175
+ M,0,43860,,126.4366,248.0434
+ F,0,43860,,0.8
+ P,0,43860,,H
+ S,0,43860,45837,0.05
+Sprite,Foreground,BottomCentre,"sb\ball.png",120,234
+ MX,0,43598,43859,0,120
+ MY,6,43598,43859,180,230
+ MY,7,43859,43989,230,180
+ MX,0,43859,44119,120,207
+ S,0,43860,45824,0.02
+ MY,6,43989,44119,180,235
+ MY,7,44119,44250,235,180
+ MX,0,44119,44379,207,287
+ MY,6,44250,44381,180,235
+ MX,0,44380,44902,287,395
+ MY,7,44381,44641,235,130
+ MY,6,44641,44902,130,235
+ MY,7,44902,45163,235,130
+ MX,0,44902,45337,395,525
+ MY,6,45163,45337,130,235
+ MX,0,45337,45685,525,1000
+ MY,7,45337,45685,235,130
+Sprite,Foreground,TopCentre,"sb\lyrics\Nasu.png",120,234
+ MY,26,43860,44260,224,234
+ S,0,43860,45946,0.44
+ C,0,43959,,$dgreen
+Sprite,Foreground,TopCentre,"sb\lyrics\Is.png",206.5,234
+ C,0,43860,,255,255,255
+ S,0,43860,45946,0.44
+ C,0,44119,,$yellow
+ MY,26,44119,44519,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Not.png",281,234
+ C,0,43860,,255,255,255
+ S,0,43860,45946,0.44
+ C,0,44380,,$yellow
+ MY,26,44380,44880,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Fruits.png",396,234
+ C,0,43860,,255,255,255
+ S,0,43860,45946,0.44
+ C,0,44902,,$yellow
+ MY,26,44902,45402,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Desu.png",521,234
+ C,0,43860,,255,255,255
+ S,0,43860,45946,0.44
+ C,0,45337,,$yellow
+ MY,26,45337,45837,224,234
+Sprite,Foreground,Centre,"sb\stripes.png",320,240
+ L,45946,4
+  MX,0,0,8347,220,322
+ S,0,45946,52206,0.5
+ F,0,52206,,0.2
+Sprite,Foreground,Centre,"sb\stripes.png",320,240
+ L,45946,4
+  MX,0,0,8347,1120,1222
+ S,0,45946,52206,0.5
+ F,0,52206,,0.2
+Sprite,Foreground,Centre,"sb\key image.png",320,320
+ S,0,45946,,0.37
+ R,0,45946,,-0.1
+ P,0,45946,,H
+ MX,7,45946,46946,360,310
+ F,0,45946,52090,1
+ MX,0,46946,51206,310,300
+ MX,6,51206,52206,300,250
+ F,0,52090,52206,0
+Sprite,Foreground,Centre,"sb\key image.png",320,345
+ S,0,52090,,0.47
+ R,0,52090,,-0.1
+ P,0,52090,,H
+ MX,7,52090,52590,360,260
+ F,0,52090,54206,1
+ MX,0,52590,53793,260,250
+ MX,6,53793,54293,250,150
+ F,0,54293,,0
+Sprite,Foreground,Centre,"sb\key image.png",280,250
+ S,0,58467,,0.45
+ R,0,58467,,-0.3
+ P,0,58467,,H
+ MY,4,58467,58989,520,490
+ MY,0,58989,60554,490,480
+ S,4,60554,61554,0.45,0.55
+ R,4,60554,61554,-0.3,-0.2
+ MX,4,60554,61554,210,130
+ S,0,61554,62728,0.55,0.555
+ R,0,61554,62728,-0.2,-0.195
+ MX,0,61554,62728,130,125
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\key image.png",320,300
+ F,0,54293,,1
+ S,0,54293,,0.45
+ R,0,54293,,-0.1
+ P,0,54293,,H
+ MX,7,54293,54815,600,550
+ MX,0,54815,56380,550,540
+ F,0,56380,,0
+ MX,7,56380,56902,540,390
+Sprite,Foreground,Centre,"sb\key image.png",320,350
+ F,0,56380,,1
+ S,0,56380,,0.45
+ R,0,56380,,-0.1
+ P,0,56380,,H
+ MX,7,56380,56902,210,140
+ MX,0,56902,58467,140,130
+ F,0,58467,,0
+ MX,7,58467,58989,130,80
+Sprite,Foreground,Centre,"sb\typo\2star.png",46,157
+ L,60554,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,60554,61554,0,0.16
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\typo\nasu.png",46,157
+ S,26,60554,61554,0,0.16
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\typo\is.png",175,150
+ S,26,60799,61799,0,0.16
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\typo\not.png",133,30
+ S,26,61076,62076,0,0.19
+ M,0,62620,,133.2411,228.4583
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\typo\fruits.png",50,305
+ S,26,61598,62598,0,0.16
+ F,0,63685,,1
+Sprite,Foreground,Centre,"sb\typo\desu.png",235,302
+ S,26,62033,63123,0,0.16
+ F,0,64210,,1
+Sprite,Foreground,Centre,"sb\typo\2star.png",-75,125
+ L,60554,4
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,60554,61554,0,0.16
+Sprite,Foreground,Centre,"sb\typo\3star.png",300,250
+ L,62123,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,62123,63123,0,0.16
+ F,0,64210,,1
+Sprite,Foreground,Centre,"sb\typo\exclaim.png",345,290
+ S,26,62123,63123,0,0.12
+ F,0,64210,,1
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,45946,,856,35
+ C,0,45946,64728,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,45946,,0.35
+ R,0,45946,,3.14
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,320,150
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,45946,,0.35
+ R,0,45946,,3.14
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,500,330
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,45946,,856,35
+ C,0,45946,64728,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,45946,,0.35
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,320,490
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,45946,,0.35
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,140,310
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,45946,64728,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,45946,64728,0.3
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,45946,,856,35
+ C,0,45946,64728,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,45946,,0.35
+ C,0,45946,,117,94,221
+ P,0,45946,,V
+ MX,0,45946,64728,320,150
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,45946,,0.35
+ R,0,45946,,3.14
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,500,330
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,45946,,856,35
+ C,0,45946,64728,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,45946,,0.35
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,320,490
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,45946,,0.35
+ C,0,45946,,117,94,221
+ MX,0,45946,64728,140,310
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,45946,64728,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,45946,64728,0.3
+Sprite,Foreground,Centre,"sb\stickies\other\heart.png",320,240
+ L,45946,18
+  R,0,0,522,-0.2
+  R,0,522,1044,0.2
+ M,0,45946,,-45,45
+ S,0,45946,,0.16
+Sprite,Foreground,Centre,"sb\stickies\star\opstar.png",320,240
+ L,45946,18
+  R,0,0,522,0.2
+  R,0,522,1044,0.1
+ S,0,45946,,0.1
+ M,0,45946,47805,11,25
+Sprite,Foreground,Centre,"sb\stickies\star\ystar.png",320,240
+ L,45946,18
+  R,0,0,522,0.45
+  R,0,522,1044,0.25
+ M,0,45946,,-90,75
+ S,0,45946,,0.08
+Sprite,Foreground,Centre,"sb\stickies\other\shooting star.png",320,240
+ L,45946,18
+  R,0,0,522,-0.3
+  R,0,522,1044,-0.15
+ M,0,45946,,675,430
+ S,0,45946,,0.2
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ L,45946,18
+  R,0,0,522,-0.3
+  R,0,522,1044,-0.5
+ M,0,45946,,590,444
+ S,0,45946,,0.3
+ P,0,45946,,H
+Sprite,Foreground,Centre,"sb\stickies\star\pstar.png",320,240
+ L,45946,18
+  R,0,0,522,0.3
+  R,0,522,1044,0.2
+ S,0,45946,,0.1
+ M,0,45946,53054,720,375
+Sprite,Foreground,Centre,"sb\stickies\star\bstar.png",320,240
+ L,45946,18
+  R,0,0,522,0.3
+  R,0,522,1044,0.4
+ S,0,45946,,0.05
+ M,0,45946,52029,630,462
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ C,0,45685,,$purple
+ V,0,45685,,854,160
+ MX,0,45685,46119,1067,-504
+Sprite,Foreground,TopCentre,"sb\p.png",320,160
+ C,0,45685,,$yellow
+ V,0,45685,,854,160
+ MX,0,45685,46119,-504,1067
+Sprite,Foreground,TopCentre,"sb\p.png",320,320
+ C,0,45685,,$purple
+ V,0,45685,,854,160
+ MX,0,45685,46119,1067,-504
+Sprite,Foreground,Centre,"sb\chibi\1.png",320,60
+ S,0,45685,,0.4
+ P,0,45685,,H
+ MX,0,45685,46119,1067,-504
+ R,0,45985,,-0.31
+Sprite,Foreground,Centre,"sb\yuce cat.png",320,220
+ S,0,45685,,0.25
+ MX,0,45685,46119,-404,1167
+Sprite,Foreground,Centre,"sb\chibi\0.png",320,420
+ S,0,45685,,0.4
+ P,0,45685,,H
+ MX,0,45685,46119,967,-604
+ R,0,45985,,0.25
+Sprite,Foreground,BottomLeft,"sb\lyrics\s3\daichi.png",-90,420
+ S,27,52206,53206,0,0.35
+ M,0,53134,54793,-90,420
+ F,28,53793,54293,1,0
+Sprite,Foreground,BottomLeft,"sb\lyrics\s3\straight.png",-90,340
+ S,27,52206,53206,0,0.3
+ M,0,52206,54793,-90,340
+ F,28,53793,54293,1,0
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,64728,87685,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,64728,87685,0.3
+Sprite,Foreground,Centre,"sb\grid2.png",320,240
+ F,0,79337,,0.6
+ S,0,79337,,1
+ R,0,79337,,0.06
+ MX,0,79337,96033,340,310
+ MY,0,79337,96033,250,230
+ F,0,87685,,0
+Sprite,Foreground,Centre,"sb\chibi\0.png",180,240
+ S,0,79337,,0.9
+ R,0,79337,,-0.1
+ P,0,79337,,H
+ MY,7,80119,80815,260,280
+ MY,0,80815,85598,280,290
+ S,7,85598,86120,0.9,1
+ R,7,85598,86120,-0.1,0.1
+ MX,7,85598,86120,180,280
+ S,0,86120,87685,1,1.03
+ R,0,86120,87685,0.1,0.12
+ F,0,87685,,1
+Sprite,Foreground,Centre,"sb\lyrics\s4\colorful eggplants.png",320,240
+ MY,27,85598,86120,420,400
+ S,0,85598,87685,0.25
+Sprite,Foreground,Centre,"sb\key image 2.png",320,320
+ S,0,64728,,0.37
+ R,0,64728,,0.1
+ MX,7,64728,65728,310,360
+ F,0,64728,70872,1
+ MX,0,65728,69988,360,370
+ MX,6,69988,70988,370,420
+ F,0,70989,,0
+Sprite,Foreground,Centre,"sb\key image 2.png",320,300
+ F,0,70989,,1
+ S,0,70989,,0.45
+ R,0,70989,,0.1
+ MX,7,70989,71511,550,600
+ MX,0,71511,73076,600,610
+ F,0,73076,,0
+ MX,7,73076,73598,610,650
+Sprite,Foreground,Centre,"sb\key image 2.png",320,350
+ F,0,73076,,1
+ S,0,73076,,0.45
+ R,0,73076,,0.1
+ MX,7,73076,73598,140,210
+ MX,0,73598,75163,210,220
+ F,0,75163,,0
+ MX,7,75163,75685,220,270
+Sprite,Foreground,Centre,"sb\key image 2.png",280,250
+ S,0,75163,,0.45
+ R,0,75163,,0.3
+ MY,4,75163,75685,520,490
+ MY,0,75685,77250,490,480
+ S,4,77250,78250,0.45,0.55
+ R,4,77250,78250,0.3,0.5
+ MX,4,77250,78250,210,320
+ S,0,78250,79424,0.55,0.555
+ R,0,78250,79424,0.5,0.52
+ MX,0,78250,79424,320,325
+ F,0,79337,,1
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,64728,,856,35
+ C,0,64728,79337,$pink
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,64728,,0.35
+ P,0,64728,,V
+ C,0,64728,79337,$pink
+ MX,0,64728,87685,320,150
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,64728,,0.35
+ R,0,64728,,3.14
+ C,0,64728,79337,$pink
+ MX,0,64728,87685,500,330
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,64728,,856,35
+ C,0,64728,79337,$pink
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,64728,,0.35
+ C,0,64728,79337,$pink
+ MX,0,64728,87685,320,490
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,64728,,0.35
+ C,0,64728,79337,$pink
+ MX,0,64728,87685,140,310
+ C,0,79337,87685,117,94,221
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,64728,87685,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,64728,87685,0.3
+Sprite,Foreground,Centre,"sb\sticker.png",300,200
+ R,0,62728,,0.5
+ S,27,62728,63163,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",600,79
+ S,27,62815,63250,0,0.35
+ R,0,62815,63908,-0.16
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",80,120
+ S,27,62902,63337,0,0.35
+ R,0,62902,63908,-0.36
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",450,220
+ R,0,63076,,0.2
+ S,27,63076,63511,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",-20,350
+ S,27,63163,63598,0,0.35
+ R,0,63163,63908,-0.45
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",390,420
+ R,0,62641,,-0.2
+ S,27,62641,63076,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",597,350
+ S,27,62989,63424,0,0.35
+ R,0,62989,63908,-0.05
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",170,280
+ R,0,63250,,-0.2
+ S,27,63250,63685,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",330,50
+ R,0,63337,,-0.4
+ S,27,63337,63772,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",-80,110
+ R,0,63424,,-0.2
+ S,27,63424,63859,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",150,500
+ R,0,63598,,-0.2
+ S,27,63598,64033,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",750,200
+ R,0,63598,63908,-0.55
+ S,27,63598,64033,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",705,450
+ R,0,63598,,-0.2
+ S,27,63598,64033,0,0.35
+ S,7,64728,64928,0.35,0
+Sprite,Foreground,BottomRight,"sb\lyrics\s3\inochi.png",720,420
+ S,27,69076,70076,0,0.35
+ F,28,70989,71489,1,0
+Sprite,Foreground,BottomRight,"sb\lyrics\s3\food chain.png",720,340
+ S,27,69076,70076,0,0.3
+ F,28,70989,71489,1,0
+Sprite,Foreground,Centre,"sb\typo\nasu.png",396,157
+ S,26,77250,78250,0,0.16
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\typo\is.png",525,150
+ S,26,77495,78495,0,0.16
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\typo\not.png",483,230
+ S,26,77772,78772,0,0.19
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\typo\fruits.png",400,305
+ S,26,78294,79294,0,0.16
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\typo\desu.png",585,302
+ S,26,78729,79819,0,0.16
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\typo\2star.png",275,125
+ L,77250,4
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,77250,78250,0,0.16
+ F,0,80205,,1
+ F,0,80206,,0
+Sprite,Foreground,Centre,"sb\typo\3star.png",650,250
+ L,78819,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,78819,79819,0,0.16
+ F,0,80205,,1
+ F,0,80206,,0
+Sprite,Foreground,Centre,"sb\typo\exclaim.png",695,290
+ S,26,78819,79819,0,0.12
+ F,0,80206,,1
+Sprite,Foreground,Centre,"sb\stickies\other\bnuy.png",320,240
+ L,64728,14
+  R,0,0,522,-0.4
+  R,0,522,1044,0.2
+ M,0,64728,,-34.01142,46.31771
+ S,0,64728,,0.1749487
+Sprite,Foreground,Centre,"sb\apel.png",320,240
+ L,64728,14
+  R,0,0,522,-0.1
+  R,0,522,1044,-0.4
+ M,0,64728,,718.4821,390.9669
+ S,0,64728,,0.1
+Sprite,Foreground,Centre,"sb\stickies\star\bstar.png",320,240
+ L,64728,14
+  R,0,0,522,0.4
+  R,0,522,1044,0.1
+ M,0,64728,,-88.4297,28.17829
+ S,0,64728,,0.08
+Sprite,Foreground,Centre,"sb\yuzupear.png",320,240
+ L,64728,14
+  R,0,0,522,-0.1
+  R,0,522,1044,0.2
+ S,0,64728,,0.16
+ M,0,64728,71250,661.1382,417.2983
+Sprite,Foreground,Centre,"sb\stickies\star\oystar.png",320,240
+ L,64728,14
+  R,0,0,522,-0.1
+  R,0,522,1044,0.2
+ M,0,64728,,719.0674,439.5337
+ S,0,64728,,0.1
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ L,64728,14
+  R,0,0,522,-0.8
+  R,0,522,1044,-1.1
+ M,0,64728,,39.13145,22.912
+ S,0,64728,,0.33
+ P,0,64728,,H
+Sprite,Foreground,Centre,"sb\lyrics\s4\1.png",500,350
+ R,0,80119,,-0.06
+ M,26,80119,81119,500,370,500,350
+ S,0,80119,85598,0.3
+ S,10,85598,85898,0.3,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\2.png",500,350
+ R,0,82467,,0.05
+ M,26,82467,83467,500,370,500,350
+ S,0,82467,85598,0.3
+ S,10,85598,85898,0.3,0
+Sprite,Foreground,BottomLeft,"sb\chibi\yellow.png",400,270
+ P,0,84033,,H
+ S,27,84033,84467,0,1
+ R,7,84033,84467,-0.4,-0.26
+ S,27,84467,85250,1,0
+Sprite,Foreground,BottomLeft,"sb\lyrics\s4\no.png",440,215
+ S,27,84033,84467,0,0.19
+ R,7,84033,84467,-0.4,-0.26
+ S,27,84467,85250,0.19,0
+ M,27,84471,85250,440,215,400,270
+Sprite,Foreground,Centre,"sb\lyrics\s4\3.png",500,350
+ M,26,84380,85380,500,370,500,350
+ S,0,84380,85598,0.3
+ R,0,84554,,-0.03
+ S,10,85598,85898,0.3,0
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ C,0,79250,,117,94,221
+ V,0,79250,,856,480
+ MY,10,80207,80554,240,-320
+Sprite,Foreground,Centre,"sb\lyrics\s4\y.png",220,240
+ S,0,79250,,0.67
+ R,26,79250,80207,1.5,0
+ MY,26,79250,80207,400,240
+ MY,10,80207,80554,240,-320
+Sprite,Foreground,Centre,"sb\lyrics\s4\o.png",425,240
+ S,0,79250,,0.67
+ R,26,79250,80207,1.5,0
+ MY,26,79250,80207,400,240
+ MY,10,80207,80554,240,-320
+Sprite,Foreground,Centre,"sb\lyrics\s4\ka.png",500,350
+ S,26,85598,85946,0,0.44
+ M,0,85598,87685,10,100
+Sprite,Foreground,Centre,"sb\lyrics\s4\ra.png",500,350
+ S,26,85772,86119,0,0.44
+ M,0,85772,87685,10,220
+Sprite,Foreground,Centre,"sb\lyrics\s4\fu.png",500,350
+ S,26,85946,86293,0,0.44
+ M,0,85946,87685,10,340
+Sprite,Foreground,Centre,"sb\lyrics\s4\ru.png",500,350
+ S,26,86119,86467,0,0.44
+ M,0,86119,87685,150,170
+Sprite,Foreground,Centre,"sb\lyrics\s4\ga.png",500,350
+ S,26,86293,86641,0,0.44
+ M,0,86293,87685,150,300
+Sprite,Foreground,Centre,"sb\lyrics\s4\se.png",500,350
+ S,26,86467,86815,0,0.44
+ M,0,86467,87685,450,170
+Sprite,Foreground,Centre,"sb\lyrics\s4\kai.png",500,350
+ S,26,86641,86989,0,0.44
+ M,0,86641,87685,450,300
+Sprite,Foreground,Centre,"sb\lyrics\s4\ou.png",500,350
+ S,26,86989,87337,0,0.44
+ M,0,86989,87685,600,100
+Sprite,Foreground,Centre,"sb\lyrics\s4\ou.png",500,350
+ S,26,86989,87337,0,0.44
+ M,0,86989,87685,600,100
+Sprite,Foreground,Centre,"sb\lyrics\s4\su.png",500,350
+ S,26,87163,87511,0,0.44
+ M,0,87163,87685,600,220
+Sprite,Foreground,Centre,"sb\lyrics\s4\ku.png",500,350
+ M,0,87511,87685,600,340
+ S,26,87511,87685,0,0.44
+Sprite,Foreground,Centre,"sb\chibi\dots2.png",220,220
+ M,0,87685,,220,220
+ R,0,87685,,-0.1
+ S,10,87685,87947,0.6,0.5
+ M,0,87947,,240,210
+ S,0,87947,,0.5
+ R,0,87947,,0.2
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\chibi\dots.png",380,310
+ M,0,87685,,380,310
+ R,0,87685,,-0.1
+ S,10,87685,87947,0.6,0.5
+ M,0,87947,,350,310
+ S,0,87947,,0.5
+ R,0,87947,,0.2
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\chibi\1.png",320,240
+ R,0,87685,,-0.1
+ S,10,87685,87947,0.5,0.4
+ F,0,87947,,1
+Sprite,Foreground,Centre,"sb\chibi\0.png",320,240
+ S,10,87947,,0.4
+ R,0,87947,,0.2
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\chibi\yellow.png",220,130
+ S,10,87947,,0.4
+ R,0,87947,,0.2
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\chibi\red.png",400,300
+ S,10,87947,,0.4
+ R,0,87947,,0.2
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",215,130
+ S,10,87947,,0.4
+ R,0,87947,,0.1
+ F,0,88206,,1
+Sprite,Foreground,Centre,"sb\full.png",860,245
+ P,0,88206,,H
+ MX,7,88206,88728,-60,-10
+ S,0,88206,93945,0.31
+ MX,0,88728,91858,-10,0
+ MX,7,91858,92380,0,320
+ S,4,93945,94206,0.31,0.33
+ S,4,94467,94728,0.33,0.36
+ S,4,94988,95249,0.36,0.4
+ S,0,95249,96032,0.4,0.405
+Sprite,Foreground,Centre,"sb\ring.png",860,245
+ P,0,88206,,H
+ R,7,88206,88728,0,0.69
+ MX,7,88206,88728,-60,-10
+ S,0,88206,93945,0.32
+ R,0,88728,91858,0.69,0.75
+ MX,0,88728,91858,-10,0
+ R,7,91858,92380,0.75,3.14
+ MX,7,91858,92380,0,320
+ R,0,92380,96032,3.14,3.19
+ S,4,93945,94206,0.32,0.35
+ S,4,94467,94728,0.35,0.39
+ S,4,94988,95249,0.39,0.45
+ S,0,95249,96032,0.45,0.46
+Sprite,Foreground,BottomRight,"sb\live2d\bubble.png",175,160
+ L,88206,8
+  R,0,0,522,0.05
+  R,0,522,1044,-0.05
+ P,0,88206,,H
+ MX,7,88206,88728,140,190
+ MX,0,88728,91858,190,200
+ MX,7,91858,92380,200,520
+ S,4,93945,94206,0.33,0.35
+ S,4,94467,94728,0.35,0.39
+ S,4,94988,95249,0.39,0.45
+ S,0,95249,96032,0.45,0.46
+ F,0,96032,,1
+ F,0,96033,,0
+Sprite,Foreground,BottomRight,"sb\live2d\X.png",165,145
+ L,88206,8
+  R,0,0,522,0.05
+  R,0,522,1044,-0.05
+ P,0,88206,,H
+ MX,7,88206,88728,140,190
+ MX,0,88728,91858,190,200
+ MX,7,91858,92380,200,520
+ S,4,93945,94206,0.33,0.35
+ S,4,94467,94728,0.35,0.39
+ S,4,94988,95249,0.39,0.45
+ S,0,95249,96032,0.45,0.46
+ F,0,96032,,1
+ F,0,96033,,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\miraiwa.png",410,130
+ F,0,88206,,1
+ MY,7,88206,88706,150,135
+ S,26,88206,89206,0,0.35
+ MY,0,88706,92467,135,130
+ MX,7,92380,92641,410,350
+ F,0,92554,,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\tanoshii.png",490,190
+ F,0,88206,,1
+ R,0,88206,,-0.05
+ MY,7,88206,88706,220,205
+ MY,0,88706,92467,205,200
+ S,26,88728,89728,0,0.66
+ MX,7,92380,92641,490,430
+ F,0,92554,,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\hora.png",575,275
+ F,0,89533,,1
+ R,0,89533,,0.07
+ MY,7,89533,90033,300,285
+ S,26,89533,90533,0,0.66
+ MY,0,90033,92467,285,282
+ MX,7,92380,92641,575,515
+ F,0,92554,,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\nokoshicha.png",460,240
+ F,0,91075,,1
+ R,0,91075,,-0.03
+ S,26,91075,92075,0,0.6
+ MY,7,91075,92467,330,327
+ MX,7,92380,92641,460,400
+ F,0,92554,,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\onegaii.png",500,310
+ F,0,92554,,1
+ S,26,92554,,0.7
+ MX,7,92554,93163,550,500
+ MX,0,93163,93946,500,498
+ F,28,93598,93946,1,0
+Sprite,Foreground,Centre,"sb\lyrics\s4\our destiny.png",320,400
+ MY,27,88206,88728,420,400
+ S,0,88206,89533,0.25
+ F,0,91075,,1
+Sprite,Foreground,Centre,"sb\lyrics\s4\hear my plea.png",320,400
+ MY,27,91075,91597,420,400
+ S,0,91075,92032,0.25
+ F,0,93946,,1
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,88206,,856,35
+ C,0,88206,96032,$dpink
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,88206,,0.35
+ C,0,88206,,$dpink
+ P,0,88206,,V
+ MX,0,88206,96032,320,240
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,88206,,0.35
+ R,0,88206,,3.14
+ C,0,88206,,$dpink
+ MX,0,88206,96032,500,420
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,88206,,856,35
+ C,0,88206,96032,$dpink
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,88206,,0.35
+ C,0,88206,,$dpink
+ MX,0,88206,96032,320,400
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,88206,,0.35
+ C,0,88206,,$dpink
+ MX,0,88206,96032,140,220
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,88206,96032,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,88206,96032,0.3
+Sprite,Foreground,Centre,"sb\lyrics\s4\lets settle.png",320,240
+ S,0,93772,,0.44
+ M,7,93772,94468,0,190,25,185
+ R,0,93772,95946,-0.15
+Sprite,Foreground,Centre,"sb\lyrics\s4\zen.png",320,240
+ R,0,93772,,-0.15
+ S,26,93772,94272,0,0.56
+ M,0,93772,95946,-21.13829,113.024
+Sprite,Foreground,Centre,"sb\lyrics\s4\bu.png",320,240
+ R,0,93946,,0.3
+ S,26,93946,94456,0,0.56
+ M,0,94203,95946,74.23999,99.56572
+Sprite,Foreground,Centre,"sb\lyrics\s1\ta.png",320,240
+ S,26,94468,94968,0,0.56
+ R,0,94468,95892,-0.5
+ M,0,94468,95946,389.6319,398.5737
+Sprite,Foreground,Centre,"sb\lyrics\s1\be.png",320,240
+ S,26,94668,95168,0,0.56
+ R,0,94668,95892,0.17
+ M,0,94668,95946,486.7656,378.0937
+Sprite,Foreground,Centre,"sb\lyrics\s1\yo.png",320,240
+ S,26,94989,95825,0,0.56
+ R,0,94989,95825,0.05
+ M,0,94989,95946,582.1439,361.1246
+Sprite,Foreground,Centre,"sb\lyrics\s1\u.png",320,240
+ S,26,94989,95825,0,0.56
+ R,0,94989,95825,0.2
+ M,0,94989,95946,678.6925,349.4218
+Sprite,Foreground,Centre,"sb\lyrics\s1\and eat.png",320,240
+ S,0,94468,,0.44
+ M,7,94468,94990,610,280,630,275
+ R,0,94468,95946,-0.15
+Sprite,Foreground,Centre,"sb\lyrics\s1\just sit.png",320,240
+ M,0,28871,,19.23658,175.6343
+ S,0,28871,,0.2919771
+ R,0,28871,,-0.1638403
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ M,0,95772,96120,-600,240,320,240
+ C,0,96033,110642,255,255,255
+ V,0,96033,118989,856,480
+Sprite,Foreground,Centre,"sb\p.png",320,240
+ M,0,95772,96120,-600,240,320,240
+ C,0,96033,100206,$cyan
+ V,0,96033,118989,500,480
+ C,0,100206,104293,255,145,185
+ C,0,104293,,$lpurple
+Sprite,Foreground,Centre,"sb\check board.png",320,240
+ F,0,95772,,0.22
+ S,0,95772,,0.66
+ M,0,95772,96120,-600,240,240,240
+ M,0,96120,118989,240,240,400,240
+Sprite,Foreground,Centre,"sb\lyrics\s5\plate2.png",320,240
+ L,95772,9
+  S,4,0,521,0.33,0.3
+ M,0,95772,96120,-600,240,320,240
+ F,0,95772,100206,1
+Sprite,Foreground,Centre,"sb\yuzupear.png",320,240
+ L,95772,9
+  S,4,0,521,0.35,0.32
+ R,0,95772,,0.3
+ M,0,95772,96120,-600,240,320,240
+ F,0,95772,100206,1
+ R,27,100080,100467,0.3,0.5
+Sprite,Foreground,Centre,"sb\lyrics\s5\plate1.png",320,240
+ L,100206,8
+  S,4,0,521,0.33,0.3
+ M,0,100206,,320,240
+ F,0,100206,104292,1
+ F,0,104293,,0
+Sprite,Foreground,Centre,"sb\strawberry.png",320,240
+ L,100206,8
+  S,4,0,521,0.5,0.47
+ F,0,100033,100205,0
+ M,0,100206,,320,240
+ P,0,100206,,H
+ R,27,100206,100902,0.35,0.45
+ F,0,100206,104292,1
+ R,27,104206,104380,0.45,0.65
+ F,0,104293,,0
+Sprite,Foreground,Centre,"sb\lyrics\s5\low_gi1.png",320,240
+ L,95772,9
+  S,4,0,521,0.33,0.3
+ M,0,95772,96120,-600,240,320,240
+ R,27,95772,96293,-1.4,0
+ R,27,100080,100467,0,0.2
+ F,0,100205,,1
+ F,0,100206,,0
+Sprite,Foreground,Centre,"sb\lyrics\s5\motto.png",320,240
+ L,95772,9
+  S,4,0,521,0.33,0.3
+ M,0,95772,96120,-600,240,320,240
+ F,0,95772,99162,0
+ R,27,99163,99511,-0.4,-0.1
+ F,0,99163,100205,1
+ R,27,100080,100467,-0.1,0.1
+ F,0,100206,,0
+Sprite,Foreground,Centre,"sb\lyrics\s5\low_gi2.png",320,240
+ L,100206,9
+  S,4,0,521,0.33,0.3
+ M,0,100206,100554,320,240
+ R,27,100206,100554,-1,0.4
+ F,0,100206,104292,1
+ R,27,104206,104380,0.4,0.6
+ F,0,104293,,0
+Sprite,Foreground,Centre,"sb\lyrics\s5\more.png",320,240
+ L,100206,9
+  S,4,0,521,0.33,0.3
+ F,0,100206,103336,0
+ M,0,103337,,320,240
+ R,27,103337,103772,0,1.6
+ F,0,103337,104292,1
+ R,27,104206,104380,1.6,1.8
+ F,0,104293,,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\grape.png",320,240
+ L,104293,8
+  S,4,0,521,0.66,0.6
+ F,0,104293,,1
+ R,27,104293,104902,0,0.2
+ R,27,108554,109076,0.2,0.4
+ F,0,108641,,0
+Sprite,Foreground,Centre,"sb\live2d\X.png",460,200
+ L,104293,8
+  S,4,0,521,0.22,0.2
+ R,27,104293,104902,0,0.2
+ F,0,107249,,0
+ F,7,107250,108640,0,1
+ R,27,108554,109076,0.2,0.4
+ F,0,108641,,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\pineapple.png",320,240
+ L,108641,8
+  S,4,0,521,0.66,0.6
+ F,0,108641,,1
+ R,27,108641,109163,0,0.2
+ F,0,112815,,0
+ R,27,112815,113337,0.2,0.4
+Sprite,Foreground,Centre,"sb\star.png",460,200
+ L,108641,8
+  S,4,0,521,0.12,0.1
+ F,0,108641,,0
+ R,27,108641,109163,0,0.2
+ F,7,111424,112815,0,1
+ F,0,112815,,0
+ R,27,112815,113337,0.2,0.4
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,104380,,0.14
+ C,0,104380,,107,90,211
+ MY,7,104380,105380,480,112
+ R,0,104380,118989,0,1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",2,67
+ S,0,104380,,0.14
+ C,0,104380,,107,90,211
+ MY,7,104380,105380,480,115
+ R,0,104380,118989,0,1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,104380,,0.13
+ C,0,104380,,239,237,254
+ MY,7,104380,105380,480,112
+ R,0,104380,118989,0,1.57
+ S,7,108539,108939,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",0,67
+ R,0,104380,,0,-0.1
+ V,4,104380,,0,0,0.16,0.2
+ MY,7,104380,105380,480,112
+ C,0,104380,118989,107,90,211
+ V,7,108539,108939,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",92,67
+ S,0,105423,,0.14
+ C,0,105423,,107,90,211
+ MY,7,105423,106423,480,243
+ R,0,105423,118989,0,-1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",90,67
+ S,0,105423,,0.14
+ C,0,105423,,107,90,211
+ MY,7,105423,106423,480,240
+ R,0,105423,118989,0,-1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",90,67
+ S,0,105423,,0.13
+ C,0,105423,,239,237,254
+ MY,7,105423,106423,480,240
+ R,0,105423,118989,0,-1.57
+ S,7,108539,108939,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",90,67
+ R,0,105423,,0,0.1
+ V,4,105423,,0,0,0.16,0.2
+ MY,7,105423,106423,480,240
+ C,0,105423,118989,107,90,211
+ V,7,108539,108939,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,106467,,0.14
+ C,0,106467,,107,90,211
+ MY,7,106467,107467,480,370
+ R,0,106467,118989,0,1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",2,67
+ S,0,106467,,0.14
+ C,0,106467,,107,90,211
+ MY,7,106467,107467,480,373
+ R,0,106467,118989,0,1.57
+ S,7,108539,108939,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",0,67
+ S,0,106467,,0.13
+ C,0,106467,,239,237,254
+ MY,7,106467,107467,480,370
+ R,0,106467,118989,0,1.57
+ S,7,108539,108939,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",0,67
+ R,0,106467,,0,-0.25
+ V,7,106467,,0,0,0.16,0.2
+ MY,7,106467,107467,480,370
+ C,0,106467,118989,107,90,211
+ V,7,108539,108939,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,108554,,0.14
+ C,0,108554,,107,90,211
+ MY,7,108554,109554,480,112
+ R,0,108554,123163,0,1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",642,67
+ S,0,108554,,0.14
+ C,0,108554,,107,90,211
+ MY,7,108554,109554,480,115
+ R,0,108554,123163,0,1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,108554,,0.13
+ C,0,108554,,239,237,254
+ MY,7,108554,109554,480,112
+ R,0,108554,123163,0,1.57
+ S,7,112713,113113,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",640,67
+ R,0,108554,,0,-0.1
+ V,4,108554,,0,0,0.16,0.2
+ MY,7,108554,109554,480,112
+ C,0,108554,123163,107,90,211
+ V,7,112713,113113,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",542,67
+ S,0,109597,,0.14
+ C,0,109597,,107,90,211
+ MY,7,109597,110597,480,243
+ R,0,109597,123163,0,-1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",540,67
+ S,0,109597,,0.14
+ C,0,109597,,107,90,211
+ MY,7,109597,110597,480,240
+ R,0,109597,123163,0,-1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",540,67
+ S,0,109597,,0.13
+ C,0,109597,,239,237,254
+ MY,7,109597,110597,480,240
+ R,0,109597,123163,0,-1.57
+ S,7,112713,113113,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",540,67
+ R,0,109597,,0,0.1
+ V,4,109597,,0,0,0.16,0.2
+ MY,7,109597,110597,480,240
+ C,0,109597,123163,107,90,211
+ V,7,112713,113113,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,110641,,0.14
+ C,0,110641,,107,90,211
+ MY,7,110641,111641,480,370
+ R,0,110641,123163,0,1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",642,67
+ S,0,110641,,0.14
+ C,0,110641,,107,90,211
+ MY,7,110641,111641,480,373
+ R,0,110641,123163,0,1.57
+ S,7,112713,113113,0.14,0
+Sprite,Foreground,Centre,"sb\ball.png",640,67
+ S,0,110641,,0.13
+ C,0,110641,,239,237,254
+ MY,7,110641,111641,480,370
+ R,0,110641,123163,0,1.57
+ S,7,112713,113113,0.13,0
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",640,67
+ R,0,110641,,0,-0.25
+ V,7,110641,,0,0,0.16,0.2
+ MY,7,110641,111641,480,370
+ C,0,110641,123163,107,90,211
+ V,7,112713,113113,0.16,0.2,0,0
+Sprite,Foreground,Centre,"sb\ball.png",320,240
+ L,112728,12
+  S,7,0,521,0.55,0.45
+ F,0,112728,,1
+ R,0,112728,118989,0,0.2
+ C,0,112728,118989,191,177,255
+Sprite,Foreground,Centre,"sb\lyrics\s2\GI.png",320,240
+ L,112728,10
+  S,7,0,521,0.55,0.45
+ F,0,112728,,1
+Sprite,Foreground,Centre,"sb\lyrics\s5\awesome.png",560,240
+ S,0,107354,,0.5
+ MY,27,107354,108554,0,240
+ MY,27,108554,109554,240,680
+Sprite,Foreground,Centre,"sb\lyrics\s5\eat_lots.png",70,240
+ S,0,111479,,0.5
+ MY,27,111479,112728,480,240
+ MY,27,112728,113728,240,-330
+Sprite,Foreground,Centre,"sb\lyrics\s5\eating up.png",320,240
+ S,7,117771,118771,0.66,0.44
+ S,0,118771,118989,0.44
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ C,0,96033,,27,136,135
+ S,0,96033,99163,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s5\yummy.png",320,455
+ C,0,99163,,27,136,135
+ S,0,99163,100206,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ C,0,100206,,154,65,97
+ S,0,100206,103337,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s5\gimme.png",320,455
+ C,0,103337,,154,65,97
+ S,0,103337,104293,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ S,0,104293,107354,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\awesome2.png",320,455
+ S,0,107354,108554,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi.png",320,455
+ S,0,108554,111479,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\eat_lots2.png",320,455
+ S,0,111479,112728,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\low_gi5.png",320,455
+ S,0,112728,117685,0.65
+Sprite,Foreground,Centre,"sb\lyrics\s2\eating_up2.png",320,455
+ S,0,117685,118989,0.65
+Sprite,Foreground,Centre,"sb\flavor text.png",-77,240
+ S,0,96120,,0.33
+ R,0,96120,,-1.57
+ C,0,96120,100206,116,236,235
+ C,0,100206,104380,255,145,185
+ C,0,104380,,$lpurple
+ F,0,118989,,1
+Sprite,Foreground,Centre,"sb\flavor text.png",717,240
+ S,0,96120,,0.33
+ R,0,96120,,1.57
+ C,0,96120,100206,116,236,235
+ C,0,100206,104380,255,145,185
+ C,0,104380,,$lpurple
+ F,0,118989,,1
+Sprite,Foreground,Centre,"sb\yuce cat.png",320,240
+ M,0,95772,96120,-538.4043,240,1178.99,240
+ R,0,95772,96120,0,3.14
+Sprite,Foreground,Centre,"sb\lyrics\s1\and eat.png",320,240
+ M,0,28871,,648.2651,415.5428
+ S,0,28871,,0.42656
+ R,0,28871,,-0.09362244
+Animation,Foreground,Centre,"sb\final\meanwhile.png",320,240,2,522,LoopForever
+ F,0,155511,157076,0,1
+ S,0,155511,159163,0.44
+ F,0,158119,159163,1,0
+ MY,0,158119,159163,240,0
+ C,0,159163,,255,255,255
+Sprite,Foreground,BottomCentre,"sb\final\yucenote.png",250,480
+ L,158119,30
+  V,0,0,261,0.222,0.2
+  V,0,261,522,0.222,0.222
+ F,0,158119,159163,0,1
+ MY,0,158119,159163,550,370
+ F,0,171163,173250,1,0
+Sprite,Foreground,BottomCentre,"sb\final\yuzerthink.png",350,480
+ L,158119,30
+  V,0,0,261,0.333,0.3
+  V,0,261,522,0.333,0.333
+ F,0,158119,159163,0,1
+ MY,0,158119,159163,550,370
+ F,0,171163,173250,1,0
+Sprite,Foreground,Centre,"sb\final\yuzerthink.png",350,240
+ F,0,162815,163815,0,0.2
+ S,0,162815,173250,1.5
+ MX,0,162815,173250,600,320
+ F,0,172250,173250,0.2,0
+Sprite,Foreground,BottomCentre,"sb\final\machine.png",200,480
+ F,0,158119,159163,0,1
+ MY,0,158119,159163,600,420
+ S,0,158119,173250,0.444
+ F,0,171163,173250,1,0
+Animation,Foreground,Centre,"sb\final\title.png",320,240,2,522,LoopForever
+ S,0,169076,,0.35
+ F,0,169076,170076,0,1
+ MX,0,169076,173250,520,480
+ F,0,171163,173250,1,0
+Sprite,Foreground,BottomCentre,"sb\apel.png",390,390
+ S,0,160728,,0.1
+ F,0,160728,161228,0,1
+ MX,0,160728,162293,386,120
+Sprite,Foreground,BottomCentre,"sb\melon.png",390,390
+ S,0,162815,,0.12
+ F,0,162815,163315,0,1
+ MX,0,162815,164380,386,120
+Sprite,Foreground,BottomCentre,"sb\chibi\eggplant.png",390,390
+ S,0,164902,,0.3
+ R,0,164902,,0.15
+ F,0,164902,165402,0,1
+ MX,0,164902,166467,386,120
+Sprite,Foreground,Centre,"sb\live2d\eggplant.png",320,240
+ L,118989,2
+  R,0,0,522,-0.175
+  R,0,522,1044,0.175
+ M,0,118989,,126.4366,248.0434
+ F,0,118989,,0.8
+ P,0,118989,,H
+ S,0,118989,120966,0.05
+Sprite,Foreground,BottomCentre,"sb\ball.png",120,234
+ MX,0,118727,118988,0,120
+ MY,6,118727,118988,180,230
+ MY,7,118988,119118,230,180
+ MX,0,118988,119248,120,207
+ S,0,118989,120953,0.02
+ MY,6,119118,119248,180,235
+ MY,7,119248,119379,235,180
+ MX,0,119248,119508,207,287
+ MY,6,119379,119510,180,235
+ MX,0,119509,120031,287,395
+ MY,7,119510,119770,235,130
+ MY,6,119770,120031,130,235
+ MY,7,120031,120292,235,130
+ MX,0,120031,120466,395,525
+ MY,6,120292,120466,130,235
+ MX,0,120466,120814,525,1000
+ MY,7,120466,120814,235,130
+Sprite,Foreground,TopCentre,"sb\lyrics\Nasu.png",120,234
+ MY,26,118989,119389,224,234
+ S,0,118989,121075,0.44
+ C,0,119088,,$dgreen
+Sprite,Foreground,TopCentre,"sb\lyrics\Is.png",206.5,234
+ C,0,118989,,255,255,255
+ S,0,118989,121075,0.44
+ C,0,119248,,$yellow
+ MY,26,119248,119648,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Not.png",281,234
+ C,0,118989,,255,255,255
+ S,0,118989,121075,0.44
+ C,0,119509,,$yellow
+ MY,26,119509,120009,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Fruits.png",396,234
+ C,0,118989,,255,255,255
+ S,0,118989,121075,0.44
+ C,0,120031,,$yellow
+ MY,26,120031,120531,224,234
+Sprite,Foreground,TopCentre,"sb\lyrics\Desu.png",521,234
+ C,0,118989,,255,255,255
+ S,0,118989,121075,0.44
+ C,0,120466,,$yellow
+ MY,26,120466,120966,224,234
+Sprite,Foreground,Centre,"sb\stripes.png",320,240
+ L,121075,5
+  MX,0,0,8347,220,322
+ S,0,121075,127335,0.5
+ F,0,127335,,0.2
+ F,0,154467,156032,0.2,0
+Sprite,Foreground,Centre,"sb\stripes.png",320,240
+ L,121075,4
+  MX,0,0,8347,1120,1222
+ S,0,121075,127335,0.5
+ F,0,127335,,0.2
+Sprite,Foreground,Centre,"sb\key image.png",320,320
+ S,0,121076,,0.37
+ R,0,121076,,-0.1
+ P,0,121076,,H
+ MX,7,121076,122076,360,310
+ F,0,121076,127220,1
+ MX,0,122076,126336,310,300
+ MX,6,126336,127336,300,250
+ F,0,127220,127336,0
+Sprite,Foreground,Centre,"sb\key image.png",320,345
+ S,0,127220,,0.47
+ R,0,127220,,-0.1
+ P,0,127220,,H
+ MX,7,127220,127720,360,260
+ F,0,127220,129336,1
+ MX,0,127720,128923,260,250
+ MX,6,128923,129423,250,150
+ F,0,129423,,0
+Sprite,Foreground,Centre,"sb\key image.png",280,250
+ S,0,133597,,0.45
+ R,0,133597,,-0.3
+ P,0,133597,,H
+ MY,4,133597,134119,520,490
+ MY,0,134119,135684,490,480
+ S,4,135684,136684,0.45,0.55
+ R,4,135684,136684,-0.3,-0.2
+ MX,4,135684,136684,210,130
+ S,0,136684,137858,0.55,0.555
+ R,0,136684,137858,-0.2,-0.195
+ MX,0,136684,137858,130,125
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\key image.png",320,300
+ F,0,129424,,1
+ S,0,129424,,0.45
+ R,0,129424,,-0.1
+ P,0,129424,,H
+ MX,7,129424,129946,600,550
+ MX,0,129946,131511,550,540
+ F,0,131511,,0
+ MX,7,131511,132033,540,390
+Sprite,Foreground,Centre,"sb\key image.png",320,350
+ F,0,131511,,1
+ S,0,131511,,0.45
+ R,0,131511,,-0.1
+ P,0,131511,,H
+ MX,7,131511,132033,210,140
+ MX,0,132033,133598,140,130
+ F,0,133598,,0
+ MX,7,133598,134120,130,80
+Sprite,Foreground,BottomLeft,"sb\lyrics\s3\daichi.png",-90,420
+ S,27,127337,128337,0,0.35
+ M,0,128265,129924,-90,420
+ F,28,128924,129424,1,0
+Sprite,Foreground,BottomLeft,"sb\lyrics\s3\straight.png",-90,340
+ S,27,127337,128337,0,0.3
+ M,0,127337,129924,-90,340
+ F,28,128924,129424,1,0
+Sprite,Foreground,Centre,"sb\typo\2star.png",46,157
+ L,135684,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,135684,136684,0,0.16
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\typo\nasu.png",46,157
+ S,26,135684,136684,0,0.16
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\typo\is.png",175,150
+ S,26,135929,136929,0,0.16
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\typo\not.png",133,30
+ S,26,136206,137206,0,0.19
+ M,0,137750,,133.2411,228.4583
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\typo\fruits.png",50,305
+ S,26,136728,137728,0,0.16
+ F,0,138815,,1
+Sprite,Foreground,Centre,"sb\typo\desu.png",235,302
+ S,26,137163,138253,0,0.16
+ F,0,138814,,1
+ F,0,138815,,0
+Sprite,Foreground,Centre,"sb\typo\2star.png",-75,125
+ L,135684,4
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,135684,136684,0,0.16
+ F,0,138814,,1
+ F,0,138815,,0
+Sprite,Foreground,Centre,"sb\typo\3star.png",300,250
+ L,137253,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,137253,138253,0,0.16
+ F,0,138814,,1
+ F,0,138815,,0
+Sprite,Foreground,Centre,"sb\typo\exclaim.png",345,290
+ S,26,137253,138253,0,0.12
+ F,0,138814,,1
+ F,0,138815,,0
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,121076,,856,35
+ C,0,121076,139858,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,121076,,0.35
+ R,0,121076,,3.14
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,320,150
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,121076,,0.35
+ R,0,121076,,3.14
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,500,330
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,121076,,856,35
+ C,0,121076,139858,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,121076,,0.35
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,320,490
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,121076,,0.35
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,140,310
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,121076,139858,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,121076,139858,0.3
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,121076,,856,35
+ C,0,121076,139858,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,121076,,0.35
+ C,0,121076,,117,94,221
+ P,0,121076,,V
+ MX,0,121076,139858,320,150
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,121076,,0.35
+ R,0,121076,,3.14
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,500,330
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,121076,,856,35
+ C,0,121076,139858,117,94,221
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,121076,,0.35
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,320,490
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,121076,,0.35
+ C,0,121076,,117,94,221
+ MX,0,121076,139858,140,310
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,121076,139858,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,121076,139858,0.3
+Sprite,Foreground,Centre,"sb\stickies\other\heart.png",320,240
+ L,121076,18
+  R,0,0,522,-0.2
+  R,0,522,1044,0.2
+ M,0,121076,,-45,45
+ S,0,121076,,0.16
+Sprite,Foreground,Centre,"sb\stickies\star\opstar.png",320,240
+ L,121076,18
+  R,0,0,522,0.2
+  R,0,522,1044,0.1
+ S,0,121076,,0.1
+ M,0,121076,122935,11,25
+Sprite,Foreground,Centre,"sb\stickies\star\ystar.png",320,240
+ L,121076,18
+  R,0,0,522,0.45
+  R,0,522,1044,0.25
+ M,0,121076,,-90,75
+ S,0,121076,,0.08
+Sprite,Foreground,Centre,"sb\stickies\other\shooting star.png",320,240
+ L,121076,18
+  R,0,0,522,-0.3
+  R,0,522,1044,-0.15
+ M,0,121076,,675,430
+ S,0,121076,,0.2
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ L,121076,18
+  R,0,0,522,-0.3
+  R,0,522,1044,-0.5
+ M,0,121076,,590,444
+ S,0,121076,,0.3
+ P,0,121076,,H
+Sprite,Foreground,Centre,"sb\stickies\star\bstar.png",320,240
+ L,121076,18
+  R,0,0,522,0.3
+  R,0,522,1044,0.4
+ S,0,121076,,0.05
+ M,0,121076,127159,630,462
+Sprite,Foreground,Centre,"sb\stickies\star\pstar.png",320,240
+ L,121076,18
+  R,0,0,522,0.3
+  R,0,522,1044,0.2
+ S,0,121076,,0.1
+ M,0,121076,128184,720,375
+Sprite,Foreground,Centre,"sb\key image 2.png",320,320
+ S,0,139859,,0.37
+ R,0,139859,,0.1
+ MX,7,139859,140859,310,360
+ F,0,139859,146003,1
+ MX,0,140859,145119,360,370
+ MX,6,145119,146119,370,420
+ F,0,146120,,0
+Sprite,Foreground,Centre,"sb\key image 2.png",320,300
+ F,0,146120,,1
+ S,0,146120,,0.45
+ R,0,146120,,0.1
+ MX,7,146120,146642,550,600
+ MX,0,146642,148207,600,610
+ F,0,148207,,0
+ MX,7,148207,148729,610,650
+Sprite,Foreground,Centre,"sb\key image 2.png",320,350
+ F,0,148207,,1
+ S,0,148207,,0.45
+ R,0,148207,,0.1
+ MX,7,148207,148729,140,210
+ MX,0,148729,150294,210,220
+ F,0,150294,,0
+ MX,7,150294,150816,220,270
+Sprite,Foreground,Centre,"sb\key image 2.png",280,250
+ S,0,150294,,0.45
+ R,0,150294,,0.3
+ MY,4,150294,150816,520,490
+ MY,0,150816,152381,490,480
+ S,4,152381,153381,0.45,0.55
+ R,4,152381,153381,0.3,0.5
+ MX,4,152381,153381,210,320
+ S,0,153381,154555,0.55,0.555
+ R,0,153381,154555,0.5
+ F,0,154467,155772,1,0
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ C,0,120814,,$purple
+ V,0,120814,,854,160
+ MX,0,120814,121248,1067,-504
+Sprite,Foreground,TopCentre,"sb\p.png",320,160
+ C,0,120814,,$yellow
+ V,0,120814,,854,160
+ MX,0,120814,121248,-504,1067
+Sprite,Foreground,TopCentre,"sb\p.png",320,320
+ C,0,120814,,$purple
+ V,0,120814,,854,160
+ MX,0,120814,121248,1067,-504
+Sprite,Foreground,Centre,"sb\chibi\1.png",320,60
+ S,0,120814,,0.4
+ P,0,120814,,H
+ MX,0,120814,121248,1067,-504
+ R,0,121114,,-0.31
+Sprite,Foreground,Centre,"sb\yuce cat.png",320,220
+ S,0,120814,,0.25
+ MX,0,120814,121248,-404,1167
+Sprite,Foreground,Centre,"sb\chibi\0.png",320,420
+ S,0,120814,,0.4
+ P,0,120814,,H
+ MX,0,120814,121248,967,-604
+ R,0,121114,,0.25
+Sprite,Foreground,Centre,"sb\chibi\1.png",320,240
+ S,0,138815,,0.4
+ P,0,138815,,H
+ R,7,138815,139249,-0.3
+ MX,0,138815,139249,1067,-504
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,139859,,856,35
+ C,0,139859,163858,$pink
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,0,-35
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,139859,,0.35
+ P,0,139859,,V
+ C,0,139859,163858,$pink
+ MX,0,139859,163858,320,150
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,41,6
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,139859,,0.35
+ R,0,139859,,3.14
+ C,0,139859,163858,$pink
+ MX,0,139859,163858,500,330
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,41,6
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,139859,,856,35
+ C,0,139859,163858,$pink
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,480,515
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,139859,,0.35
+ C,0,139859,163858,$pink
+ MX,0,139859,163858,320,490
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,439,474
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,139859,,0.35
+ C,0,139859,163858,$pink
+ MX,0,139859,163858,140,310
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,439,474
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,139859,163858,0.3
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,15,-20
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,139859,163858,0.3
+ F,0,154467,156032,1,0
+ MY,7,154467,156032,465,500
+Sprite,Foreground,Centre,"sb\sticker.png",300,200
+ R,0,137858,,0.5
+ S,27,137858,138293,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",600,79
+ S,27,137945,138380,0,0.35
+ R,0,137945,139038,-0.16
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",80,120
+ S,27,138032,138467,0,0.35
+ R,0,138032,139038,-0.36
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",450,220
+ R,0,138206,,0.2
+ S,27,138206,138641,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",-20,350
+ S,27,138293,138728,0,0.35
+ R,0,138293,139038,-0.45
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",390,420
+ R,0,137771,,-0.2
+ S,27,137771,138206,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",597,350
+ S,27,138119,138554,0,0.35
+ R,0,138119,139038,-0.05
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",170,280
+ R,0,138380,,-0.2
+ S,27,138380,138815,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",330,50
+ R,0,138467,,-0.4
+ S,27,138467,138902,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",-80,110
+ R,0,138554,,-0.2
+ S,27,138554,138989,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",150,500
+ R,0,138728,,-0.2
+ S,27,138728,139163,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",750,200
+ R,0,138728,139038,-0.55
+ S,27,138728,139163,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,Centre,"sb\sticker.png",705,450
+ R,0,138728,,-0.2
+ S,27,138728,139163,0,0.35
+ S,7,139858,140058,0.35,0
+Sprite,Foreground,BottomRight,"sb\lyrics\s3\inochi.png",720,420
+ S,27,144206,145206,0,0.35
+ F,28,146119,146619,1,0
+Sprite,Foreground,BottomRight,"sb\lyrics\s3\food chain.png",720,340
+ S,27,144206,145206,0,0.3
+ F,28,146119,146619,1,0
+Sprite,Foreground,Centre,"sb\typo\nasu.png",50,240
+ R,0,152380,,0.157
+ S,26,152380,153380,0,0.12
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\is.png",160,240
+ S,26,152625,153625,0,0.12
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\not.png",252,240
+ R,0,152902,,-0.14
+ S,26,152902,153902,0,0.135
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\fruits.png",410,240
+ S,26,153424,154424,0,0.14
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\desu.png",572,240
+ R,0,153859,,0.18
+ S,26,153859,154949,0,0.14
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\2star.png",-40,205
+ L,152380,4
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,152380,153380,0,0.14
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\3star.png",650,270
+ L,153949,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,153859,154949,0,0.14
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\typo\exclaim.png",673,234
+ R,0,153949,,0.12
+ S,26,153949,154949,0,0.1
+ F,0,155511,155772,1,0
+Sprite,Foreground,Centre,"sb\stickies\other\bnuy.png",320,240
+ L,139859,18
+  R,0,0,522,-0.4
+  R,0,522,1044,0.2
+ M,0,139859,,-34.01142,46.31771
+ S,0,139859,,0.1749487
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\apel.png",320,240
+ L,139859,18
+  R,0,0,522,-0.1
+  R,0,522,1044,-0.4
+ M,0,139859,,718.4821,390.9669
+ S,0,139859,,0.1
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\stickies\star\bstar.png",320,240
+ L,139859,18
+  R,0,0,522,0.4
+  R,0,522,1044,0.1
+ M,0,139859,,-88.4297,28.17829
+ S,0,139859,,0.08
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\yuzupear.png",320,240
+ L,139859,18
+  R,0,0,522,-0.1
+  R,0,522,1044,0.2
+ S,0,139859,,0.16
+ M,0,139859,146294,661.1382,417.2983
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\stickies\star\oystar.png",320,240
+ L,139859,18
+  R,0,0,522,-0.1
+  R,0,522,1044,0.2
+ M,0,139859,,719.0674,439.5337
+ S,0,139859,,0.1
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ L,139859,18
+  R,0,0,522,-0.8
+  R,0,522,1044,-1.1
+ M,0,139859,,39.13145,22.912
+ S,0,139859,,0.33
+ P,0,139859,,H
+ F,0,154467,155772,1,0
+Sprite,Foreground,Centre,"sb\full2.png",320,0
+ MY,27,175337,175859,320,260
+ S,0,175337,179511,0.35,0.37
+ F,0,179511,,1
+Sprite,Foreground,Centre,"sb\full3.png",320,260
+ MY,27,179511,180033,270,260
+ S,0,179511,181598,0.37,0.38
+Sprite,Foreground,Centre,"sb\full2.png",320,260
+ S,13,181598,183685,0.38,0.4
+Sprite,Foreground,Centre,"sb\lyrics\final\a.png",29.67772,240
+ S,27,175859,176380,0,0.44
+ MY,7,176728,177076,240,160
+ F,0,176901,,1
+ F,0,176902,,0
+Sprite,Foreground,Centre,"sb\lyrics\final\minnasan.png",579.4742,240
+ S,27,176119,176641,0,0.44
+ MY,7,176728,177076,240,160
+ F,0,176901,,1
+ F,0,176902,,0
+Sprite,Foreground,Centre,"sb\lyrics\final\1.png",320,240
+ F,0,176902,,1
+ S,27,176902,,0.55
+ MY,7,176902,177424,440,360
+ MY,7,177946,178467,360,280
+ F,0,178119,,0
+Sprite,Foreground,Centre,"sb\lyrics\final\2.png",320,240
+ F,0,178206,,1
+ S,27,178206,,0.55
+ MY,7,178206,178728,440,360
+ F,28,178989,179511,1,0
+Sprite,Foreground,Centre,"sb\lyrics\final\minnade.png",130,160
+ F,0,179511,,1
+ S,27,179511,180293,0,0.5
+ F,28,181337,181859,1,0
+ R,0,181598,,-0.15
+Sprite,Foreground,Centre,"sb\lyrics\final\seno.png",540,330
+ F,0,180554,,1
+ R,0,180554,,0.1
+ S,27,180554,181076,0,0.5
+ F,28,181337,181859,1,0
+Sprite,Foreground,Centre,"sb\lyrics\final\all of you.png",320,400
+ S,0,175859,,0.25
+ MY,27,175859,176381,420,400
+ F,0,176902,,1
+Sprite,Foreground,Centre,"sb\lyrics\final\this flipped your world.png",320,400
+ S,0,176902,,0.25
+ MY,27,176902,177424,420,400
+ F,0,179511,,1
+Sprite,Foreground,Centre,"sb\lyrics\final\everyone.png",320,400
+ S,0,179495,,0.25
+ MY,27,179495,180017,420,400
+ F,0,181598,,1
+Sprite,Foreground,Centre,"sb\typo\2star.png",46,157
+ L,181598,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ S,26,181598,180554,0,0.16
+ F,0,181598,,1
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\nasu.png",46,157
+ F,0,181598,,1
+ S,26,181598,182598,0,0.16
+ M,0,183424,,40.14857,157
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\is.png",175,150
+ F,0,181843,,1
+ S,26,181843,182843,0,0.16
+ M,0,183424,,175,169.3097
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\not.png",133,30
+ F,0,182120,,1
+ S,26,182120,183120,0,0.19
+ M,0,183424,183664,84.08911,232.5543
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\fruits.png",50,305
+ F,0,182642,,1
+ S,26,182642,183642,0,0.16
+ M,0,183424,,520.4549,316.1177
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\desu.png",235,302
+ F,0,183077,,1
+ S,26,183077,184167,0,0.16
+ M,0,183424,,603.64,375.1429
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\2star.png",-75,125
+ L,181598,4
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ F,0,181598,,1
+ S,26,181598,182598,0,0.16
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\3star.png",300,250
+ L,183167,2
+  R,0,0,522,0.1
+  R,0,522,1044,-0.1
+ F,0,183167,,1
+ S,26,183167,184167,0,0.16
+ M,0,183424,,635.872,292.7155
+ F,0,183685,,0
+Sprite,Foreground,Centre,"sb\typo\exclaim.png",345,290
+ F,0,183167,,1
+ S,26,183167,184167,0,0.12
+ M,0,183424,,700.1818,315.7463
+ F,0,183685,,0
+Sprite,Foreground,TopCentre,"sb\p.png",320,0
+ V,0,175337,,856,35
+ C,0,175337,183685,$dpurple
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,175337,,0.35
+ C,0,175337,,$dpurple
+ P,0,175337,,V
+ MX,0,175337,183685,320,240
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,41
+ S,0,175337,,0.35
+ R,0,175337,,3.14
+ C,0,175337,,$dpurple
+ MX,0,175337,183685,500,420
+Sprite,Foreground,BottomCentre,"sb\p.png",320,480
+ V,0,175337,,856,35
+ C,0,175337,183685,$dpurple
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,175337,,0.35
+ C,0,175337,,$dpurple
+ MX,0,175337,183685,320,400
+Sprite,Foreground,Centre,"sb\triangle loop.png",320,439
+ S,0,175337,,0.35
+ C,0,175337,,$dpurple
+ MX,0,175337,183685,140,220
+Sprite,Foreground,Centre,"sb\flavor text.png",320,15
+ S,0,175337,183685,0.3
+Sprite,Foreground,Centre,"sb\flavor text.png",320,465
+ S,0,175337,183685,0.3
+Sprite,Foreground,Centre,"sb\credits\credits layout idea.png",320,240
+ S,26,183685,184467,0.44,0.4
+ F,0,185870,,1
+Sprite,Foreground,Centre,"sb\chibi\0.png",320,240
+ F,0,173250,173424,0,1
+ S,0,173250,174815,2.5,0.1
+ R,0,173250,174815,0.52,-40
+ F,0,173424,174641,1
+ F,0,174641,174815,1,0
+Sprite,Foreground,Centre,"sb\chibi\eggplant.png",320,240
+ F,0,174815,174989,0,1
+ S,1,174815,175337,0.25,1
+ R,1,174815,175337,3,0
+//Storyboard Layer 4 (Overlay)
+//Storyboard Sound Samples

@@ -55,6 +55,7 @@ class Beatmap(db.Model):
     artist = db.Column(db.String(255), nullable=True)
     uploader = db.Column(db.String(120), nullable=True)
     filepath = db.Column(db.String(1024), nullable=False)
+    mode = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         return f'<Beatmap {self.id} {self.artist} - {self.name}>'
@@ -68,6 +69,11 @@ class BeatmapDiff(db.Model):
     map_name = db.Column(db.String(255), nullable=False)
     star_diff = db.Column(db.Float, nullable=False)
     filepath = db.Column(db.String(1024), nullable=False)
+    hp = db.Column(db.Float, nullable=True)        # HP Drain
+    od = db.Column(db.Float, nullable=True)        # Accuracy / Overall Difficulty
+    cs = db.Column(db.Float, nullable=True)        # Circle Size
+    ar = db.Column(db.Float, nullable=True)        # Approach Rate
+    kc = db.Column(db.Integer, nullable=True)    # Key Count
 
     def __repr__(self):
         return f'<BeatmapDiff {self.map_id} - {self.map_name} ({self.star_diff})>'
