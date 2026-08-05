@@ -70,10 +70,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nameSpan = display.querySelector(".star-name");
     const rateSpan = display.querySelector(".star-rate");
+    const hpSpan = display.querySelector(".hp");
+    const odSpan = display.querySelector(".od");
+    const csSpan = display.querySelector(".cs");
+    const arSpan = display.querySelector(".ar");
+    const kcSpan = display.querySelector(".kc");
 
     const showInfo = () => {
       nameSpan.textContent = circle.dataset.name;
       rateSpan.textContent = "Star Rate" + " " + circle.dataset.star;
+      hpSpan.innerHTML = circle.dataset.hp
+        ? `<span class="label">HP Drain</span> <span class="value">${circle.dataset.hp}</span>`
+        : "";
+
+      odSpan.innerHTML = circle.dataset.od
+        ? `<span class="label">Accuracy</span> <span class="value">${circle.dataset.od}</span>`
+        : "";
+
+      csSpan.innerHTML = circle.dataset.cs
+        ? `<span class="label">Circle Size</span> <span class="value">${circle.dataset.cs}</span>`
+        : "";
+
+      arSpan.innerHTML = circle.dataset.ar
+        ? `<span class="label">Approach Rate</span> <span class="value">${circle.dataset.ar}</span>`
+        : "";
+
+      kcSpan.innerHTML = circle.dataset.kc
+        ? `<span class="label">Key Count</span> <span class="value">${circle.dataset.kc}</span>`
+        : "";
     };
 
     circle.addEventListener("mouseenter", showInfo);
@@ -87,6 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (selectedCircle !== circle) {
         nameSpan.textContent = "";
         rateSpan.textContent = "";
+        hpSpan.textContent = "";
+        odSpan.textContent = "";
+        csSpan.textContent = "";
+        arSpan.textContent = "";
+        kcSpan.textContent = "";
       }
     });
   });

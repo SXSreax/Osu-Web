@@ -1,84 +1,68 @@
 {% extends 'components/base.html' %} {% block title %}osu! - User{% endblock %}
-{% block content %} {% block page_header %}
-<div class="page-header">
-  <div class="container">
-    <h2>User</h2>
-  </div>
-</div>
-{% endblock %}
-<div class="user-profile">
-  <div class="user-banner">
-    <img
-      src="{{ url_for('base.banner', filename=current_user.banner) if current_user.banner else url_for('static', filename='images/default_banner.png') }}"
-    />
-  </div>
-  <div class="user-avatar">
-    <img
-      src="{{ url_for('base.avatar', filename=current_user.avatar) if current_user.avatar else url_for('static', filename='images/default_cover.png') }}"
-    />
-  </div>
-  <h2>{{ current_user.username }}</h2>
-  <div id="setting-btn">
-    <img
-      src="{{ url_for('static', filename='images/setting_btn.png') }}"
-      class="btn"
-    />
-  </div>
-  <div class="setting-modal" id="setting-modal">
-    <div class="setting-inner">
-      <h2>Please Check Your Email</h2>
-      <p>Osu! Web have sended you a 6 digit code to verify your action 😊</p>
-      <form method="POST" action="{{ url_for('user.verify') }}">
-        {{ form.hidden_tag() }}
-        <div class="form-row">
-          {{ form.code(class="form-row", placeholder="Enter verification code")
-          }} {% for error in form.code.errors %}
-          <span class="field-error">{{ error }}</span>
-          {% endfor %}
+{% block content %}
+    {% block page_header %}
+        <div class="page-header">
+            <div class="container">
+                <h2>User</h2>
+            </div>
         </div>
-        <div>{{ form.submit(class="form-row-vb") }}</div>
-      </form>
-      <button id="close-setting-modal">Close</button>
-    </div>
-  </div>
+    {% endblock %}
+    <div class="user-profile">
+        <div class="user-banner">
+            <img src="{{ url_for('base.banner', filename=current_user.banner) if current_user.banner else url_for('static', filename='images/default_banner.png') }}" />
+        </div>
+        <div class="user-avatar">
+            <img src="{{ url_for('base.avatar', filename=current_user.avatar) if current_user.avatar else url_for('static', filename='images/default_cover.png') }}" />
+        </div>
+        <h2>{{ current_user.username }}</h2>
+        <div id="setting-btn">
+            <img src="{{ url_for('static', filename='images/setting_btn.png') }}"
+                 class="btn" />
+        </div>
+        <div class="setting-modal" id="setting-modal">
+            <div class="setting-inner">
+                <h2>Please Check Your Email</h2>
+                <p>Osu! Web have sended you a 6 digit code to verify your action 😊</p>
+                <form method="POST" action="{{ url_for("user.verify") }}">
+                    {{ form.hidden_tag() }}
+                    <div class="form-row">
+                        {{ form.code(class="form-row", placeholder="Enter verification code")
+                        }} {% for error in form.code.errors %}
+                        <span class="field-error">{{ error }}</span>
+{% endfor %}
+</div>
+<div>{{ form.submit(class="form-row-vb") }}</div>
+</form>
+<button id="close-setting-modal">Close</button>
+</div>
+</div>
 </div>
 <h2>Favorites:</h2>
 <div class="tabs-container">
-  <div class="tabs">
-    <button class="tab-button active" onclick="showTab('beatmaps')">
-      Beatmaps
-    </button>
-    <button class="tab-button" onclick="showTab('discussion')">
-      Discussion
-    </button>
-  </div>
-
-  <div id="beatmaps" class="tab-content" style="display: block">
-    <div class="list-container">
-      <div class="item-list">{% include "components/card.html" %}</div>
-
-      <div class="load-controls">
-        <button class="show-more">Show More</button>
-        <button class="show-less" style="display: none">Show Less</button>
-      </div>
+    <div class="tabs">
+        <button class="tab-button active" onclick="showTab('beatmaps')">Beatmaps</button>
+        <button class="tab-button" onclick="showTab('discussion')">Discussion</button>
     </div>
-  </div>
-
-  <div id="discussion" class="tab-content" style="display: none">
-    <div class="list-container">
-      <div class="item-list">
-        {% include "components/discussion_card.html" %}
-      </div>
-
-      <div class="load-controls">
-        <button class="show-more">Show More</button>
-        <button class="show-less" style="display: none">Show Less</button>
-      </div>
+    <div id="beatmaps" class="tab-content" style="display: block">
+        <div class="list-container">
+            <div class="item-list">{% include "components/card.html" %}</div>
+            <div class="load-controls">
+                <button class="show-more">Show More</button>
+                <button class="show-less" style="display: none">Show Less</button>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <script src="{{ url_for('static', filename='js/content_select.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/load.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/verify.js') }}"></script>
-  {% endblock %}
+    <div id="discussion" class="tab-content" style="display: none">
+        <div class="list-container">
+            <div class="item-list">{% include "components/discussion_card.html" %}</div>
+            <div class="load-controls">
+                <button class="show-more">Show More</button>
+                <button class="show-less" style="display: none">Show Less</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/content_select.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/load.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/verify.js') }}"></script>
+{% endblock %}
 </div>

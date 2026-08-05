@@ -1,22 +1,20 @@
 {% extends 'components/base.html' %} {% block title %}osu! - Upload{% endblock
-%} {% block content %}
+    %} {% block content %}
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 {% block page_header %}
-<div class="page-header">
-  <div class="container">
-    <h2 style="text-align: center">Upload Beatmap</h2>
-  </div>
-</div>
+    <div class="page-header">
+        <div class="container">
+            <h2 style="text-align: center">Upload Beatmap</h2>
+        </div>
+    </div>
 {% endblock %}
-<form
-  action="{{ url_for('upload.upload_store') }}"
-  method="post"
-  enctype="multipart/form-data"
-  class="upload-form"
->
-  {{ form.hidden_tag() }} {% include "components/upload_box.html" %}
-  <div class="form-row upload-actions">{{ form.submit(class_='btn') }}</div>
+<form action="{{ url_for("upload.upload_store") }}"
+      method="post"
+      enctype="multipart/form-data"
+      class="upload-form">
+    {{ form.hidden_tag() }} {% include "components/upload_box.html" %}
+    <div class="form-row upload-actions">{{ form.submit(class_='btn') }}</div>
 </form>
 <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
 {% endblock %}

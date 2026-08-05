@@ -33,7 +33,12 @@ def map_detail(beatmap_id):
     for d in difficulties:
         difficulty_dict = {
             'name': d.map_name,
-            'star': d.star_diff
+            'star': d.star_diff,
+            'hp': d.hp,
+            'od': d.od,
+            'cs': d.cs,
+            'ar': d.ar,
+            'kc': d.kc
         }
         difficulty_list.append(difficulty_dict)
 
@@ -51,6 +56,7 @@ def map_detail(beatmap_id):
         'uploader': uploader,
         'cover_img': cover_img,
         'filepath': bm.filepath,
+        'mode': bm.mode,
         'difficulties': difficulty_list,
     }, favorited=favorited)
 

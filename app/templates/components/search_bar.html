@@ -1,16 +1,10 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/main.css') }}"
-/>
-<form method="POST" action="{{ url_for('beatmaps.search') }}" novalidate>
-  {{ form.hidden_tag() }}
-  <div class="search">
-    {{ form.search(class="form-row", placeholder="Type keywords...") }}
-  </div>
-  <div class="error-line">
-    {% for err in form.search.errors %}{{ err }}{% endfor %}
-  </div>
-  <div class="search-btn">
-    <button type="submit" class="btn">Search</button>
-  </div>
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}" />
+<form method="POST" action="{{ url_for("beatmaps.search") }}" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="search">{{ form.search(class="form-row", placeholder="Type keywords...") }}</div>
+    <div class="error-line">{% for err in form.search.errors %}{{ err }}{% endfor %}</div>
+    <div class="search-btn">
+        <button type="submit" class="btn">Search</button>
+    </div>
 </form>

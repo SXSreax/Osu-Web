@@ -233,3 +233,14 @@
   color: #ffd700;
   font-weight: bold;
 }
+
+.label {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.value {
+  color: #ffd700;
+  font-weight: 400;
+  margin-left: 6px;
+}
