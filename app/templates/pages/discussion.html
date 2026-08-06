@@ -53,7 +53,9 @@
         Posted by {{ ds.user.name }}
         <span class="small-text">Time created: {{ ds.time_created }}</span>
     </p>
-    <h4>{{ ds.content }}</h4>
+    <div class="discussion-body">
+        {{ ds.content|safe }}
+    </div>
 </div>
 <div class="comments-section">
     <h3>Comments ({{ comments|length }})</h3>

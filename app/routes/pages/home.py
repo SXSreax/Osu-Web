@@ -32,7 +32,7 @@ def home():
         
         user = User.query.get(map.uploader)
         if user:
-            uploader = user.username
+            uploader = "********" if user.uploader_h else user.username
         else:
             uploader = "anonymous"
 

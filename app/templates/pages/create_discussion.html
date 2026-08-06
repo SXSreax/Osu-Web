@@ -6,20 +6,21 @@
         </div>
     </div>
 {% endblock %}
-<form action="{{ url_for("community.create_discussion") }}"
+<form id="discussion-form" action="{{ url_for("community.create_discussion") }}"
       method="post"
       enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-row">
         {{ form.title.label }}
         <br />
-        {{ form.title() }}
+        {{ form.title(id='title') }}
     </div>
     <div class="form-row">
         {{ form.content.label }}
-        <br />
-        {{ form.content() }}
+        <div id="editor" style="height:300px;"></div>
+        <input type="hidden" id="content" name="content" />
     </div>
     <div class="form-row">{{ form.submit(class_='btn') }}</div>
 </form>
+<script src="{{ url_for('static', filename='js/quill.js') }}"></script>
 {% endblock %}
