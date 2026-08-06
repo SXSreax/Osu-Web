@@ -20,21 +20,23 @@ from app.routes.components.error import error_bp as error
 
 login_manager = LoginManager()
 
+
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
-    #set up environment keys
+    # set up environment keys
     load_dotenv(".secrets")
     app.config['TOTP_KEY'] = os.getenv("KEY")
 
-    #config
+    # config
     app.config["OSU_CLIENT_ID"] = os.getenv("OSU_CLIENT_ID")
     app.config["OSU_CLIENT_SECRET"] = os.getenv("OSU_CLIENT_SECRET")
     app.config['SECRET_KEY'] = Config.SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
     app.config['AVATAR_FOLDER'] = Config.AVATAR_FOLDER
     app.config['BANNER_FOLDER'] = Config.BANNER_FOLDER
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = (
+        Config.SQLALCHEMY_TRACK_MODIFICATIONS)
     app.config['DEBUG'] = Config.DEBUG
     app.config["MAIL_SERVER"] = Config.MAIL_SERVER
     app.config["MAIL_PORT"] = Config.MAIL_PORT

@@ -1,4 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import (Blueprint,
+                   render_template,
+                   redirect,
+                   url_for,
+                   flash,
+                   current_app)
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 import os
@@ -46,6 +51,7 @@ def fetch_star_rate(beatmapset_id: int, beatmap_id: int, mode: int):
 
     return data.get("difficulty_rating")
 
+
 def get_file_info(beatmap_path):
     map_name = os.path.basename(beatmap_path)
     beatmap_id = None
@@ -87,8 +93,10 @@ def get_file_info(beatmap_path):
                         mode = int(m.group(1))
 
             if current_section == 'difficulty':
-                # Difficulty section contains HPDrainRate (or HPDrain), CircleSize, OverallDifficulty, ApproachRate
-                m = re.match(r'(?:HPDrainRate|HPDrain)\s*:\s*([0-9.+-eE]+)', line)
+                m = re.match(
+                    r'(?:HPDrainRate|HPDrain)\s*:\s*([0-9.+-eE]+)',
+                    line
+                    )
                 if m:
                     try:
                         hp = float(m.group(1))
@@ -121,7 +129,7 @@ def get_file_info(beatmap_path):
                     m = re.match(r'Title\s*:\s*(.+)', line)
                     if m:
                         title = m.group(1).strip()
-                
+
                 elif line.startswith('Artist:') and artist is None:
                     m = re.match(r'Artist\s*:\s*(.+)', line)
                     if m:
@@ -141,7 +149,7 @@ def get_file_info(beatmap_path):
                     m = re.match(r'BeatmapSetID\s*:\s*(\d+)', line)
                     if m:
                         beatmapset_id = int(m.group(1))
-                        
+
         if title:
             if version:
                 map_name = f"{title} [{version}]"
@@ -151,14 +159,24 @@ def get_file_info(beatmap_path):
     except Exception as e:
         print(f"Error extracting IDs from {beatmap_path}: {e}")
 
-    # For mania, key count is represented by CircleSize in the .osu difficulty section
     if mode == 3 and cs is not None:
         try:
             kc = int(cs)
         except Exception:
             kc = None
 
-    return map_name, beatmap_id, beatmapset_id, mode, artist, title, hp, od, cs, ar, kc
+    return (map_name,
+            beatmap_id,
+            beatmapset_id,
+            mode,
+            artist,
+            title,
+            hp,
+            od,
+            cs,
+            ar,
+            kc)
+
 
 def sanitize_id(filename):
     name, ext = os.path.splitext(filename)
@@ -166,16 +184,19 @@ def sanitize_id(filename):
     name = match.group(1)
     return name + ext.lower()
 
+
 def sanitize_filename(filename):
     name, ext = os.path.splitext(filename)
     name = re.sub(r'[^\w\s\-\(\)]', '_', name)
     return name + ext
 
+
 @upload_bp.route('/upload/')
 @login_required
 def upload():
     form = UploadForm()
-    return render_template('pages/upload.html', form = form)
+    return render_template('pages/upload.html', form=form)
+
 
 @upload_bp.route('/upload/store', methods=['POST'])
 def upload_store():
@@ -183,17 +204,20 @@ def upload_store():
     if not form.validate_on_submit():
         flash('Please upload a valid file', "error")
         return render_template('pages/upload.html', form=form)
-    
+
     uploaded_file = form.file.data
     uploader = current_user.id
 
-    if not uploaded_file or not (uploaded_file.filename.endswith('.osz') or uploaded_file.filename.endswith('.zip')):
+    if not uploaded_file or not (
+         uploaded_file.filename.endswith('.osz') or
+         uploaded_file.filename.endswith('.zip')):
         flash('Only accept .osz or .zip files.', "error")
         return redirect(url_for('upload.upload'))
 
     filename = secure_filename(uploaded_file.filename)
-    
-    with tempfile.TemporaryDirectory(dir=os.path.join(current_app.instance_path, 'temp_uploads')) as temp_dir:
+
+    with tempfile.TemporaryDirectory(dir=os.path.join(
+         current_app.instance_path, 'temp_uploads')) as temp_dir:
         temp_zip_path = os.path.join(temp_dir, filename)
         uploaded_file.save(temp_zip_path)
 
@@ -215,44 +239,46 @@ def upload_store():
                     break
             if osu_file_path:
                 break
-                
+
         if not osu_file_path:
             flash('The archive does not contain any .osu file.', "error")
             return redirect(url_for('upload.upload'))
 
-        _, _, beatmapset_id, mode_from_file, artist, title, hp0, od0, cs0, ar0, kc0 = get_file_info(osu_file_path)
+        (_, _, beatmapset_id, mode_from_file, artist, title, hp0, od0,
+         cs0, ar0, kc0) = get_file_info(osu_file_path)
 
         if not beatmapset_id or not artist or not title:
-            flash('Could not extract necessary metadata (BeatmapSetID, Artist, Title) from the .osu file.', "error")
+            flash('Could not extract necessary metadata (BeatmapSetID, '
+                  'Artist, Title) from the .osu file.', "error")
             return redirect(url_for('upload.upload'))
 
         maps_dir = os.path.join(current_app.instance_path, 'maps')
         os.makedirs(maps_dir, exist_ok=True)
-        
+
         final_extract_folder = os.path.join(maps_dir, str(beatmapset_id))
         final_zip_path = os.path.join(maps_dir, str(beatmapset_id) + '.zip')
 
         if os.path.exists(final_extract_folder):
             shutil.rmtree(final_extract_folder)
-    
+
         extracted_items = os.listdir(extract_dir)
         source_dir = extract_dir
-        if len(extracted_items) == 1 and os.path.isdir(os.path.join(extract_dir, extracted_items[0])):
+        if len(extracted_items) == 1 and os.path.isdir(os.path.join(
+             extract_dir, extracted_items[0])):
             source_dir = os.path.join(extract_dir, extracted_items[0])
-        
+
         shutil.copytree(source_dir, final_extract_folder)
-        
-        shutil.copy(temp_zip_path, final_zip_path) 
+
+        shutil.copy(temp_zip_path, final_zip_path)
 
         relative_path = os.path.join('maps', str(beatmapset_id) + '.zip')
-        
+
         existing = Beatmap.query.get(beatmapset_id)
         if existing:
             existing.name = title
             existing.artist = artist
             existing.uploader = uploader
             existing.filepath = relative_path
-            # if mode could be determined from the file, store it on the beatmap
             if mode_from_file is not None:
                 existing.mode = mode_from_file
         else:
@@ -268,12 +294,23 @@ def upload_store():
         db.session.commit()
 
         try:
-            osu_files = [f for f in os.listdir(final_extract_folder) if f.endswith('.osu')]
+            osu_files = [
+                 f for f in os.listdir(final_extract_folder)
+                 if f.endswith('.osu')]
             modes_found = set()
             for osu_file in osu_files:
                 osu_path = os.path.join(final_extract_folder, osu_file)
-                (map_name_file, beatmap_id_file, beatmapset_id_file, mode_file,
-                 artist_file, title_file, hp_file, od_file, cs_file, ar_file, kc_file) = get_file_info(osu_path)
+                (map_name_file,
+                 beatmap_id_file,
+                 beatmapset_id_file,
+                 mode_file,
+                 artist_file,
+                 title_file,
+                 hp_file,
+                 od_file,
+                 cs_file,
+                 ar_file,
+                 kc_file) = get_file_info(osu_path)
 
                 # skip if mode not parsed or no ids
                 if mode_file is None:
@@ -285,7 +322,9 @@ def upload_store():
                     continue
 
                 try:
-                    star_rating = fetch_star_rate(beatmapset_id_file, beatmap_id_file, mode_file)
+                    star_rating = fetch_star_rate(beatmapset_id_file,
+                                                  beatmap_id_file,
+                                                  mode_file)
                 except Exception as e:
                     print(f"Failed to fetch star for {osu_file}: {e}")
                     continue
@@ -300,7 +339,9 @@ def upload_store():
                     map_name=map_name_file
                 ).first()
 
-                relative_diff_path = os.path.join('maps', str(beatmapset_id_file), osu_file)
+                relative_diff_path = os.path.join(
+                    'maps', str(beatmapset_id_file),
+                    osu_file)
 
                 # assign fields according to mode
                 if existing_diff:
@@ -332,13 +373,22 @@ def upload_store():
                     )
                     # add mode-specific fields
                     if mode_file == 0:  # osu
-                        diff_kwargs.update(dict(cs=cs_file, hp=hp_file, od=od_file, ar=ar_file))
+                        diff_kwargs.update(dict(cs=cs_file,
+                                                hp=hp_file,
+                                                od=od_file,
+                                                ar=ar_file))
                     elif mode_file == 1:  # taiko
-                        diff_kwargs.update(dict(hp=hp_file, od=od_file))
+                        diff_kwargs.update(dict(hp=hp_file,
+                                                od=od_file))
                     elif mode_file == 2:  # catch
-                        diff_kwargs.update(dict(cs=cs_file, hp=hp_file, od=od_file, ar=ar_file))
+                        diff_kwargs.update(dict(cs=cs_file,
+                                                hp=hp_file,
+                                                od=od_file,
+                                                ar=ar_file))
                     elif mode_file == 3:  # mania
-                        diff_kwargs.update(dict(kc=kc_file, hp=hp_file, od=od_file))
+                        diff_kwargs.update(dict(kc=kc_file,
+                                                hp=hp_file,
+                                                od=od_file))
 
                     beatmap_diff = BeatmapDiff(**diff_kwargs)
                     db.session.add(beatmap_diff)
@@ -347,14 +397,18 @@ def upload_store():
 
         except Exception as e:
             print(f"Error fetching/storing star ratings: {e}")
-            flash("Beatmap uploaded but failed to fetch star ratings.", "warning")
+            flash("Beatmap uploaded but failed to fetch star ratings.",
+                  "warning")
             return redirect(url_for('upload.upload'))
 
         if modes_found:
             mode_names = {0: 'osu', 1: 'taiko', 2: 'catch', 3: 'mania'}
-            readable = ", ".join(sorted({mode_names.get(m, str(m)) for m in modes_found}))
-            flash(f'Beatmap updated successfully (modes processed: {readable}).', 'success')
+            readable = ", ".join(
+                sorted({mode_names.get(m, str(m)) for m in modes_found}))
+            flash(
+                f'Beatmap updated successfully (modes processed: {readable}).',
+                'success')
         else:
             flash("No beatmap modes were processed.", "warning")
-    
+
     return redirect(url_for('home.home'))

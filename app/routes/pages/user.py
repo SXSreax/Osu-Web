@@ -1,4 +1,12 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request, jsonify, session
+from flask import (Blueprint,
+                   render_template,
+                   flash,
+                   redirect,
+                   url_for,
+                   current_app,
+                   request,
+                   jsonify,
+                   session)
 from flask_login import current_user, login_required
 from flask_mail import Message
 from app.extensions import mail
@@ -12,6 +20,7 @@ import time
 import random
 
 user_bp = Blueprint('user', __name__)
+
 
 @user_bp.route('/user/')
 @login_required
@@ -27,7 +36,11 @@ def user():
         cover_img = None
 
         if os.path.isdir(folder):
-            imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+            imgs = [f for f in os.listdir(folder) if f.lower().endswith((
+                '.jpg',
+                '.jpeg',
+                '.png',
+                '.webp'))]
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
@@ -54,7 +67,8 @@ def user():
             'difficulties': difficulty_list
         })
 
-    favorite_discussion = [fav.discussion for fav in current_user.favorited_discussions]
+    favorite_discussion = [
+        fav.discussion for fav in current_user.favorited_discussions]
 
     discussions = []
     for ds in favorite_discussion:
@@ -72,12 +86,17 @@ def user():
         })
 
     form = VerifyForm()
-    return render_template("pages/user.html", beatmaps=beatmap_card, discussions=discussions, form=form)
+    return render_template("pages/user.html",
+                           beatmaps=beatmap_card,
+                           discussions=discussions,
+                           form=form)
+
 
 @user_bp.route('/user/verify/', methods=["POST"])
 @login_required
 def verify():
-    current_app.logger.info(f"User {current_user.id} triggered settings-action")
+    current_app.logger.info(
+        f"User {current_user.id} triggered settings-action")
 
     key = current_app.config["TOTP_KEY"]
     totp = pyotp.TOTP(key, interval=60)
@@ -90,7 +109,9 @@ def verify():
             attempts = session.get("settings_attempts", 0)
 
             if expiry and expiry > time.time() and attempts > 0:
-                return jsonify(success=True, verified=True, redirect=url_for("user.user_edit"))
+                return jsonify(success=True,
+                               verified=True,
+                               redirect=url_for("user.user_edit"))
 
             reason = None
             if attempts <= 0:
@@ -108,7 +129,8 @@ def verify():
             )
             msg.body = (
                 f"Thank you for keeping up with us.\n"
-                f"You will have 1 minute to enter the code before it expires.\n"
+                f"You will have 1 minute to enter the "
+                f"code before it expires.\n"
                 f"Verification code: {totp.now()}"
             )
             try:
@@ -120,7 +142,8 @@ def verify():
                     reason=reason,
                 )
             except Exception as e:
-                current_app.logger.error(f"Email send failed for user {current_user.id}: {e}")
+                current_app.logger.error(
+                    f"Email send failed for user {current_user.id}: {e}")
                 return jsonify(success=False, message=str(e)), 500
 
     form = VerifyForm()
@@ -150,7 +173,8 @@ def user_edit():
     attempts = session.get("settings_attempts", 0)
     if expiry < time.time():
         session.pop("settings_verified_until", None)
-        flash("Please verify your identity first. Use the setting button", "error")
+        flash("Please verify your identity first. Use the setting button",
+              "error")
         return redirect(url_for("user.user"))
 
     if attempts <= 0:
@@ -167,7 +191,10 @@ def user_edit():
     if form.validate_on_submit():
         if form.reset_avatar.data:
             if current_user.avatar:
-                old_avatar = os.path.join(current_app.instance_path, 'uploads', 'avatar', current_user.avatar)
+                old_avatar = os.path.join(current_app.instance_path,
+                                          'uploads',
+                                          'avatar',
+                                          current_user.avatar)
                 os.remove(old_avatar)
             current_user.avatar = None
             db.session.commit()
@@ -177,7 +204,10 @@ def user_edit():
 
         if form.reset_banner.data:
             if current_user.banner:
-                old_banner = os.path.join(current_app.instance_path, 'uploads', 'banner', current_user.banner)
+                old_banner = os.path.join(current_app.instance_path,
+                                          'uploads',
+                                          'banner',
+                                          current_user.banner)
                 os.remove(old_banner)
             current_user.banner = None
             db.session.commit()
@@ -200,9 +230,15 @@ def user_edit():
             filename = secure_filename(new_avatar.filename)
             ext = os.path.splitext(filename)[1]
             avatar_name = str(current_user.id) + ext
-            avatar_path = os.path.join(current_app.instance_path, 'uploads', 'avatar', avatar_name)
+            avatar_path = os.path.join(current_app.instance_path,
+                                       'uploads',
+                                       'avatar',
+                                       avatar_name)
             if current_user.avatar:
-                old_avatar_path = os.path.join(current_app.instance_path, 'uploads', 'avatar', current_user.avatar)
+                old_avatar_path = os.path.join(current_app.instance_path,
+                                               'uploads',
+                                               'avatar',
+                                               current_user.avatar)
                 if os.path.exists(old_avatar_path):
                     os.remove(old_avatar_path)
             new_avatar.save(avatar_path)
@@ -214,9 +250,15 @@ def user_edit():
             filename = secure_filename(new_banner.filename)
             ext = os.path.splitext(filename)[1]
             banner_name = str(current_user.id) + ext
-            banner_path = os.path.join(current_app.instance_path, 'uploads', 'banner', banner_name)
+            banner_path = os.path.join(current_app.instance_path,
+                                       'uploads',
+                                       'banner',
+                                       banner_name)
             if current_user.banner:
-                old_banner_path = os.path.join(current_app.instance_path, 'uploads', 'banner', current_user.banner)
+                old_banner_path = os.path.join(current_app.instance_path,
+                                               'uploads',
+                                               'banner',
+                                               current_user.banner)
                 if os.path.exists(old_banner_path):
                     os.remove(old_banner_path)
             new_banner.save(banner_path)

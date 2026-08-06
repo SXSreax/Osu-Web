@@ -5,9 +5,11 @@ from app.forms import DiscussionForm
 
 community_bp = Blueprint('community', __name__)
 
+
 @community_bp.route('/community/')
 def community():
-    discussion = Discussion.query.order_by(Discussion.time_created.desc()).all()
+    discussion = Discussion.query.order_by(
+        Discussion.time_created.desc()).all()
     discussions = []
     for ds in discussion:
         user = User.query.get(ds.user_id)
@@ -24,6 +26,7 @@ def community():
         })
 
     return render_template('pages/community.html', discussions=discussions)
+
 
 @community_bp.route('/community/create_discussion/', methods=["GET", "POST"])
 @login_required

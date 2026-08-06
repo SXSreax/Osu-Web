@@ -8,6 +8,7 @@ from urllib.parse import quote
 
 beatmaps_bp = Blueprint('beatmaps', __name__)
 
+
 @beatmaps_bp.route('/beatmaps/')
 def beatmaps():
     form = SearchForm()
@@ -18,9 +19,14 @@ def beatmaps():
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
         folder = os.path.join(maps_dir, map_name)
         cover_img = None
-        
+
         if os.path.isdir(folder):
-            imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+            imgs = [f for f in os.listdir(folder) if f.lower().endswith((
+                '.jpg',
+                '.jpeg',
+                '.png',
+                '.webp'
+                ))]
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
@@ -47,16 +53,19 @@ def beatmaps():
                 'cover_img': cover_img,
                 'difficulties': difficulty_list
             })
-    return render_template('pages/beatmaps.html', beatmaps=beatmap_card, form=form)
+    return render_template('pages/beatmaps.html',
+                           beatmaps=beatmap_card,
+                           form=form)
 
 
 @beatmaps_bp.route('/instance/<path:filepath>')
 def instance(filepath):
     return serve_instance_file(filepath)
 
+
 @beatmaps_bp.route('/get-beatmap-audio/<int:beatmap_id>')
 def get_beatmap_audio(beatmap_id):
-    
+
     bms = Beatmap.query.get(beatmap_id)
     if not bms:
         return jsonify({'error': 'Beatmap not found'}), 404
@@ -68,7 +77,13 @@ def get_beatmap_audio(beatmap_id):
     if not os.path.isdir(folder):
         return jsonify({'error': 'No audio folder found'}), 404
 
-    audio_extensions = ('.mp3', '.ogg', '.m4a', '.flac', '.wav', '.aac', '.wma')
+    audio_extensions = ('.mp3',
+                        '.ogg',
+                        '.m4a',
+                        '.flac',
+                        '.wav',
+                        '.aac',
+                        '.wma')
 
     candidates = []
     for f in os.listdir(folder):
@@ -92,6 +107,7 @@ def get_beatmap_audio(beatmap_id):
         return jsonify({'audio_url': audio_url})
 
     return jsonify({'error': 'Could not select audio file'}), 404
+
 
 @beatmaps_bp.route('/search/', methods=["POST"])
 def search():
@@ -119,9 +135,16 @@ def search():
             cover_img = None
 
             if os.path.isdir(folder):
-                imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+                imgs = [f for f in os.listdir(folder) if f.lower().endswith((
+                    '.jpg',
+                    '.jpeg',
+                    '.png',
+                    '.webp'
+                    ))]
                 if imgs:
-                    cover_img = os.path.join('maps', map_name, random.choice(imgs))
+                    cover_img = os.path.join('maps',
+                                             map_name,
+                                             random.choice(imgs))
 
             difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
             difficulty_list = []

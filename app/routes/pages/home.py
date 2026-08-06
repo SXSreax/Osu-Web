@@ -6,6 +6,7 @@ import random
 
 home_bp = Blueprint('home', __name__)
 
+
 @home_bp.route('/')
 def home():
     map = Beatmap.query.order_by(func.random()).first()
@@ -15,9 +16,13 @@ def home():
         map_name = os.path.splitext(os.path.basename(map.filepath))[0]
         folder = os.path.join(maps_dir, map_name)
         cover_img = None
-        
+
         if os.path.isdir(folder):
-            imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+            imgs = [f for f in os.listdir(folder) if f.lower().endswith((
+                '.jpg',
+                '.jpeg',
+                '.png',
+                '.webp'))]
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
@@ -29,7 +34,7 @@ def home():
                 'star': d.star_diff
             }
             difficulty_list.append(difficulty_dict)
-        
+
         user = User.query.get(map.uploader)
         if user:
             uploader = "********" if user.uploader_h else user.username

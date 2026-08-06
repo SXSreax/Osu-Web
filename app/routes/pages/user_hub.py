@@ -1,10 +1,17 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
+from flask import (Blueprint,
+                   render_template,
+                   flash,
+                   redirect,
+                   url_for,
+                   current_app,
+                   request)
 from flask_login import current_user, login_required
 from app.models import Beatmap, BeatmapDiff, Discussion, User, db
 import os
 import random
 
 user_hub_bp = Blueprint('user_hub', __name__)
+
 
 @user_hub_bp.route('/user_hub/')
 @login_required
@@ -20,7 +27,11 @@ def user_hub():
         cover_img = None
 
         if os.path.isdir(folder):
-            imgs = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+            imgs = [f for f in os.listdir(folder) if f.lower().endswith((
+                '.jpg',
+                '.jpeg',
+                '.png',
+                '.webp'))]
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
@@ -46,7 +57,7 @@ def user_hub():
             'cover_img': cover_img,
             'difficulties': difficulty_list
         })
-    
+
     ds_card = Discussion.query.filter_by(user_id=current_user.id).all()
 
     discussions = []
@@ -65,7 +76,10 @@ def user_hub():
             }
         })
 
-    return render_template('pages/user_hub.html', beatmaps=beatmap_card, discussions=discussions)
+    return render_template('pages/user_hub.html',
+                           beatmaps=beatmap_card,
+                           discussions=discussions)
+
 
 @user_hub_bp.route("/user_hub/hide", methods=["POST"])
 @login_required

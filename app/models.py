@@ -6,36 +6,43 @@ import uuid
 
 db = SQLAlchemy()
 
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(
+        uuid.uuid4()))
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     avatar = db.Column(db.String(255), nullable=True)
     banner = db.Column(db.String(255), nullable=True)
     uploader_h = db.Column(db.Boolean, nullable=False, default=False)
-    
+
     def __repr__(self):
         return f'<User {self.username}>'
 
     def get_id(self):
         return str(self.id)
-    
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-    
+
+
 class Favorite(db.Model):
     __tablename__ = 'favorites'
 
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
+    user_id = db.Column(db.String(36),
+                        db.ForeignKey('users.id'),
+                        nullable=False)
+    map_id = db.Column(db.Integer,
+                       db.ForeignKey('beatmaps.id'),
+                       nullable=False)
 
     user = db.relationship('User', backref='favorites')
     beatmap = db.relationship('Beatmap', backref='favorites')
@@ -46,6 +53,7 @@ class Favorite(db.Model):
             name='unique_user_map_favorite'
         ),
     )
+
 
 class Beatmap(db.Model):
     __tablename__ = 'beatmaps'
@@ -65,19 +73,25 @@ class BeatmapDiff(db.Model):
     __tablename__ = 'beatmaps_diff'
 
     id = db.Column(db.Integer, primary_key=True)
-    map_id = db.Column(db.Integer, db.ForeignKey('beatmaps.id'), nullable=False)
+    map_id = db.Column(db.Integer,
+                       db.ForeignKey('beatmaps.id'),
+                       nullable=False)
     map_name = db.Column(db.String(255), nullable=False)
     star_diff = db.Column(db.Float, nullable=False)
     filepath = db.Column(db.String(1024), nullable=False)
-    hp = db.Column(db.Float, nullable=True)        # HP Drain
-    od = db.Column(db.Float, nullable=True)        # Accuracy / Overall Difficulty
-    cs = db.Column(db.Float, nullable=True)        # Circle Size
-    ar = db.Column(db.Float, nullable=True)        # Approach Rate
-    kc = db.Column(db.Integer, nullable=True)    # Key Count
+    hp = db.Column(db.Float, nullable=True)
+    od = db.Column(db.Float, nullable=True)
+    cs = db.Column(db.Float, nullable=True)
+    ar = db.Column(db.Float, nullable=True)
+    kc = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
-        return f'<BeatmapDiff {self.map_id} - {self.map_name} ({self.star_diff})>'
-    
+        return (
+            f'<BeatmapDiff {self.map_id} - {self.map_name} '
+            f'({self.star_diff})>'
+        )
+
+
 class Discussion(db.Model):
     __tablename__ = 'discussion'
 
@@ -96,6 +110,7 @@ class Discussion(db.Model):
         lazy=True
     )
 
+
 class Comment(db.Model):
     __tablename__ = 'comments'
 
@@ -103,16 +118,23 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     time_created = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), nullable=False)
-    
+    discussion_id = db.Column(db.Integer,
+                              db.ForeignKey('discussion.id'),
+                              nullable=False)
+
     user = db.relationship('User', backref='comments')
     discussion = db.relationship('Discussion', back_populates='comments')
+
 
 class Favorite_Discussion(db.Model):
     __tablename__ = 'favorited_discussions'
 
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), primary_key=True)
-    discussion_id = db.Column(db.Integer, db.ForeignKey('discussion.id'), primary_key=True)
+    user_id = db.Column(db.String(36),
+                        db.ForeignKey('users.id'),
+                        primary_key=True)
+    discussion_id = db.Column(db.Integer,
+                              db.ForeignKey('discussion.id'),
+                              primary_key=True)
 
     user = db.relationship('User', backref='favorited_discussions')
     discussion = db.relationship('Discussion', backref='likes')
