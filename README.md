@@ -66,7 +66,7 @@ You can obtain the file in one of the following ways:
    ```python
    import pyotp
 
-   key = pytop.random_base32()
+   key = pyotp.random_base32()
    print("key")
    ```
 
