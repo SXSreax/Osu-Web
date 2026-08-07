@@ -23,7 +23,7 @@
       </div>
       <div
         class="beatmap-content"
-        style="background-image: url({{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }})"
+        data-cover-image="{{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}"
       >
         <a
           href="{{ url_for('map.map_detail', beatmap_id=bm.id) }}"

@@ -40,7 +40,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   applyStarColors();
+  applyCoverImages();
 });
+
+function applyCoverImages() {
+  document.querySelectorAll("[data-cover-image]").forEach((element) => {
+    const coverImage = element.dataset.coverImage;
+    if (coverImage) {
+      element.style.backgroundImage = `url(${coverImage})`;
+    }
+  });
+}
 
 function lerpColor(color1, color2, t) {
   const r = Math.round(color1[0] + (color2[0] - color1[0]) * t);

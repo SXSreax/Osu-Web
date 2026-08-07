@@ -23,7 +23,15 @@ document.addEventListener("keydown", (e) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   applyStarColors();
+  applyCoverImage();
 });
+
+function applyCoverImage() {
+  const wrapper = document.querySelector(".map-content-wrapper");
+  if (wrapper && wrapper.dataset.coverImage) {
+    wrapper.style.backgroundImage = `url(${wrapper.dataset.coverImage})`;
+  }
+}
 
 function lerpColor(color1, color2, t) {
   const r = Math.round(color1[0] + (color2[0] - color1[0]) * t);

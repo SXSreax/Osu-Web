@@ -8,7 +8,7 @@ bm.artist }} - osu!{% endblock %} {% block content %}
 </div>
 <div
   class="map-content-wrapper"
-  style="background-image: url({{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }})"
+  data-cover-image="{{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}"
 >
   <div class="map-detail">
     <div class="map-info-section">
