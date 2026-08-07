@@ -4,10 +4,6 @@
 
 ## Installation/Setup
 
-**You can watch the setup video below or use the method to run this program**
-
-### Setup video
-
 ### Download
 
 Use the command below at your selected directory to first download program
