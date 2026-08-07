@@ -13,12 +13,29 @@ def check_id(user_id):
 
 @signup_bp.route('/signup/', methods=['GET', 'POST'])
 def signup():
+    """
+    Register a new user account.
+
+    Inputs:
+        - GET: None
+        - POST: signup form data for username, email, and password
+
+    Processing:
+        - Validate the form and check for duplicate username or email.
+        - Create a new user account and hash the password.
+
+    Outputs:
+        - Renders the signup form or redirects to the login page after success.
+    """
     form = UserForm()
     if form.validate_on_submit():
+        # Collect the submitted account details.
         username = form.username.data
+        # Normalize the email so duplicate checks and logins stay consistent.
         email = form.email.data.lower()
         password = form.password.data
 
+        # Check whether the username or email already exists.
         exist_username = User.query.filter_by(username=username).first()
         exist_email = User.query.filter_by(email=email).first()
         if exist_username:
@@ -30,6 +47,7 @@ def signup():
             return redirect(url_for("signup.signup"))
 
         while True:
+            # Keep generating IDs until an unused UUID is found.
             user_id = str(uuid.uuid4())
             if not check_id(user_id):
                 break

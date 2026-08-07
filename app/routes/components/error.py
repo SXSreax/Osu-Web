@@ -5,6 +5,7 @@ error_bp = Blueprint('error', __name__)
 
 @error_bp.app_errorhandler(401)
 def unauthorized(e):
+    # Set error details for the 401 page
     code = "401"
     error_message = "Unauthorized login, you will need an account"
     soln = "Login or signup in to continue"
@@ -16,6 +17,7 @@ def unauthorized(e):
 
 @error_bp.app_errorhandler(404)
 def not_found(e):
+    # Set error details for the 404 page
     code = "404"
     error_message = "Page not found"
     soln = "Redirct to home page"

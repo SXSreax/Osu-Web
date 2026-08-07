@@ -9,10 +9,12 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from PIL import Image
 import re
 
+# Email pattern used to validate login and signup form input.
 EMAIL_REGEX = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]+$')
 
 
 def check_avatar(form, field):
+    # Validate avatar image size and aspect ratio before upload.
     if not field.data:
         return
 
@@ -30,6 +32,7 @@ def check_avatar(form, field):
 
 
 def check_banner(form, field):
+    # Validate banner image size and aspect ratio before upload.
     if not field.data:
         return
 
@@ -48,6 +51,7 @@ def check_banner(form, field):
 
 
 class UploadForm(FlaskForm):
+    # Form for uploading a beatmap archive file.
     file = FileField('Beatmap file (zip or osz)', validators=[
         FileRequired(message='Please select a file'),
         FileAllowed(['zip', 'osz'],
@@ -57,6 +61,7 @@ class UploadForm(FlaskForm):
 
 
 class UserForm(FlaskForm):
+    # Form for creating a new user account.
     username = StringField(
         'Username',
         validators=[DataRequired(message="Username is required."),
@@ -87,6 +92,7 @@ class UserForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    # Form for logging in with a username or email and password.
     identity = StringField(
         "Username or Email",
         validators=[
@@ -120,6 +126,7 @@ class LoginForm(FlaskForm):
 
 
 class UserEditForm(FlaskForm):
+    # Form for editing profile information and profile images.
     username = StringField(
         'Username',
         validators=[Optional(),
@@ -161,6 +168,7 @@ class UserEditForm(FlaskForm):
 
 
 class DiscussionForm(FlaskForm):
+    # Form for creating a new discussion post.
     title = StringField(
         'Title',
         validators=[DataRequired(message="Title is required"),
@@ -188,6 +196,7 @@ class DiscussionForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
+    # Form for adding a comment to a discussion.
     content = TextAreaField(
         'Comment',
         validators=[
@@ -200,11 +209,13 @@ class CommentForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
+    # Form for searching beatmaps and content.
     search = StringField("Searched", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 
 class VerifyForm(FlaskForm):
+    # Form for entering a verification code during account security checks.
     code = StringField(
         'Code',
         validators=[

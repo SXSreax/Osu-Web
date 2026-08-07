@@ -8,9 +8,24 @@ community_bp = Blueprint('community', __name__)
 
 @community_bp.route('/community/')
 def community():
+    """
+    Render the community discussion page.
+
+    Inputs:
+        - GET: None
+
+    Processing:
+        - Fetch discussions ordered by creation time.
+        - Gather each discussion's author details for display.
+
+    Outputs:
+        - Renders the community page with the prepared discussion list.
+    """
+    # Show the newest discussions first so recent activity is easy to find.
     discussion = Discussion.query.order_by(
         Discussion.time_created.desc()).all()
     discussions = []
+    # Gather all relevant discussion data for display.
     for ds in discussion:
         user = User.query.get(ds.user_id)
 
@@ -31,8 +46,24 @@ def community():
 @community_bp.route('/community/create_discussion/', methods=["GET", "POST"])
 @login_required
 def create_discussion():
+    """
+    Create a new discussion entry.
+
+    Inputs:
+        - GET: None
+        - POST: discussion title and content from the form
+
+    Processing:
+        - On GET: Show the discussion creation form.
+        - On POST: Validate the form, create a discussion, and save it.
+
+    Outputs:
+        - Renders the creation form (GET)
+        - Redirects back to the community page after a successful post.
+    """
     form = DiscussionForm()
     if form.validate_on_submit():
+        # Collect the submitted discussion details.
         title = form.data.get("title")
         content = form.data.get("content")
 
@@ -45,6 +76,7 @@ def create_discussion():
         db.session.add(discussion)
         db.session.commit()
         flash("Created discussion", "success")
+        # Redirect after saving so the page refreshes with the new discussion.
         return redirect(url_for('community.community'))
 
     return render_template('pages/create_discussion.html', form=form)

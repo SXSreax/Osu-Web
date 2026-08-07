@@ -146,6 +146,45 @@ body {
   color: #f062a1;
 }
 
+.page-title {
+  text-align: center;
+  color: #f062a1;
+}
+
+.error-message {
+  color: red;
+}
+
+.user-edit-form {
+  display: contents;
+}
+
+.audio-player-hidden {
+  display: none;
+}
+
+.discussion-like-count {
+  font-size: medium;
+  color: #ff66aa;
+  font-weight: normal;
+}
+
+.editor-shell {
+  height: 300px;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
 .user-edit {
   margin: -23px;
   margin-top: -33px;

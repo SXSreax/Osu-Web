@@ -5,6 +5,7 @@
       <div class="cover-info">
         <img
           class="user-avatar"
+          alt="Discussion author avatar"
           src="{{ url_for('base.avatar', filename=discussion.user.avatar) if discussion.user.avatar else url_for('static', filename='images/default_cover.png') }}"
         />
         <p>Posted by {{ discussion.user.name }}</p>
@@ -12,9 +13,7 @@
       <div class="info">
         <h2>
           {{ discussion.title }}
-          <span style="font-size: medium; color: #ff66aa; font-weight: normal"
-            >👍{{ discussion.like }}</span
-          >
+          <span class="discussion-like-count">👍{{ discussion.like }}</span>
         </h2>
         <p>{{ discussion.content|safe }}</p>
       </div>

@@ -10,13 +10,33 @@ discussion_bp = Blueprint('discussion', __name__)
 @discussion_bp.route('/discussion/<int:discussion_id>',
                      methods=['GET', 'POST'])
 def discussion(discussion_id):
+    """
+    Display a discussion thread and handle new comments.
+
+    Inputs:
+        - GET: discussion ID from the route
+        - POST: comment content from the form
+
+    Processing:
+        - Load the discussion and its author.
+        - Validate and save a new comment when submitted.
+        - Prepare the discussion and comment data for rendering.
+
+    Outputs:
+        - Renders the discussion page with comments and form state.
+        - Redirects back to the discussion after a successful comment
+            submission.
+    """
     ds = Discussion.query.get_or_404(discussion_id)
     user = User.query.get(ds.user_id)
 
     form = CommentForm()
 
     if form.validate_on_submit():
+        # Collect the submitted comment and save it to the discussion.
         if not current_user.is_authenticated:
+            # Require a login before creating a comment to avoid
+            # anonymous posting.
             flash("You must be logged in to comment.", "danger")
             return redirect(url_for("discussion.discussion",
                                     discussion_id=discussion_id))
@@ -32,6 +52,7 @@ def discussion(discussion_id):
         return redirect(url_for("discussion.discussion",
                                 discussion_id=discussion_id))
 
+    # Gather all comments in chronological order for display.
     comments = Comment.query.filter_by(
         discussion_id=discussion_id).order_by(Comment.time_created.asc()).all()
 
@@ -47,6 +68,7 @@ def discussion(discussion_id):
         }
     }
 
+    # Check whether the current user has already favorited this discussion.
     favorited = False
     if current_user.is_authenticated:
         favorited = Favorite_Discussion.query.filter_by(
@@ -64,11 +86,27 @@ def discussion(discussion_id):
 @discussion_bp.route('/discussion/<int:discussion_id>/favorite',
                      methods=['POST'])
 def favorite(discussion_id):
+    """
+    Toggle the favorite status for a discussion.
+
+    Inputs:
+        - POST: discussion ID from the route
+
+    Processing:
+        - Check whether the current user already favorited the discussion.
+        - Add or remove the favorite record and adjust the discussion
+            like count.
+
+    Outputs:
+        - Returns JSON indicating whether the discussion was added or removed.
+    """
     existing = Favorite_Discussion.query.filter_by(
         user_id=current_user.id,
         discussion_id=discussion_id).first()
 
     if existing:
+        # Remove the favorite entry when the user already liked it
+        # to toggle it off.
         db.session.delete(existing)
         status = "removed"
         db.session.execute(

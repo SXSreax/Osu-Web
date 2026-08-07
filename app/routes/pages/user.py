@@ -25,10 +25,27 @@ user_bp = Blueprint('user', __name__)
 @user_bp.route('/user/')
 @login_required
 def user():
+    """
+    Render the current user's profile page.
+
+    Inputs:
+        - GET: None
+
+    Processing:
+        - Load the user's favorite beatmaps and discussions.
+        - Prepare display data for the profile template.
+
+    Outputs:
+        - Renders the user profile page with the collected favorites and
+            verification form.
+    """
+    # Load the current user's favorite beatmaps from the relationship table.
     favorite_maps = [fav.beatmap for fav in current_user.favorites]
 
     beatmap_card = []
     maps_dir = os.path.join(current_app.instance_path, 'maps')
+
+    # Gather favorite beatmap cards for the profile page.
 
     for bms in favorite_maps:
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
@@ -67,6 +84,8 @@ def user():
             'difficulties': difficulty_list
         })
 
+    # Gather the user's favorite discussions for display.
+    # Load favorite discussions so the profile page can show them.
     favorite_discussion = [
         fav.discussion for fav in current_user.favorited_discussions]
 
@@ -95,6 +114,20 @@ def user():
 @user_bp.route('/user/verify/', methods=["POST"])
 @login_required
 def verify():
+    """
+    Verify the user's identity before allowing profile settings access.
+
+    Inputs:
+        - POST: JSON action data or a verification form submission
+
+    Processing:
+        - Send a one-time verification code when needed.
+        - Validate the submitted code and update the session state.
+
+    Outputs:
+        - Returns JSON for verification flow steps or redirects to the profile
+            edit page.
+    """
     current_app.logger.info(
         f"User {current_user.id} triggered settings-action")
 
@@ -103,6 +136,7 @@ def verify():
     print(totp.now())
 
     if request.is_json:
+        # Handle the JSON-based verification flow for the settings modal.
         data = request.get_json(silent=True) or {}
         if data.get("action") == "open_settings":
             expiry = session.get("settings_verified_until", 0)
@@ -122,6 +156,8 @@ def verify():
             session.pop("settings_verified_until", None)
             session.pop("settings_attempts", None)
 
+            # Send the verification code by email so the user can
+            # confirm their identity.
             msg = Message(
                 "Verification Code from Osu!Web",
                 sender="osuweb123@gmail.com",
@@ -148,6 +184,7 @@ def verify():
 
     form = VerifyForm()
     if form.validate_on_submit():
+        # Validate the submitted one-time password from the form.
         code = str(form.code.data).zfill(6)
 
         if totp.verify(code, valid_window=1):
@@ -169,6 +206,20 @@ def verify():
 @user_bp.route('/user/edit/', methods=["GET", "POST"])
 @login_required
 def user_edit():
+    """
+    Allow the current user to edit profile information and upload images.
+
+    Inputs:
+        - GET: None
+        - POST: profile form data and optional image uploads
+
+    Processing:
+        - Check verification status before allowing edits.
+        - Update profile fields and save uploaded avatar or banner files.
+
+    Outputs:
+        - Renders the edit page or redirects back to the profile after saving.
+    """
     expiry = session.get("settings_verified_until", 0)
     attempts = session.get("settings_attempts", 0)
     if expiry < time.time():
@@ -185,12 +236,17 @@ def user_edit():
     form = UserEditForm()
 
     if request.method == "GET":
+        # Pre-fill the form with the current user's existing values.
         form.username.data = current_user.username
         form.email.data = current_user.email
 
     if form.validate_on_submit():
+        # Apply the profile changes submitted in the edit form.
         if form.reset_avatar.data:
+            # Reset the avatar to remove the current image from the profile.
             if current_user.avatar:
+                # Remove the old image before saving a replacement to
+                # avoid stale files.
                 old_avatar = os.path.join(current_app.instance_path,
                                           'uploads',
                                           'avatar',
@@ -203,6 +259,7 @@ def user_edit():
             return redirect(url_for("user.user_edit"))
 
         if form.reset_banner.data:
+            # Reset the banner to remove the current header image.
             if current_user.banner:
                 old_banner = os.path.join(current_app.instance_path,
                                           'uploads',
@@ -216,15 +273,19 @@ def user_edit():
             return redirect(url_for("user.user_edit"))
 
         if form.username.data:
+            # Update the username when the user submits a new one.
             current_user.username = form.username.data
 
         if form.email.data:
+            # Normalize the email before storing it to keep it consistent.
             current_user.email = form.email.data.lower()
 
         if form.new_password.data:
+            # Hash the new password before saving it to the user record.
             current_user.set_password(form.new_password.data)
 
         if isinstance(form.avatar.data, FileStorage):
+            # Save a new avatar file when the form includes an uploaded image.
             new_avatar = form.avatar.data
             new_avatar.stream.seek(0)
             filename = secure_filename(new_avatar.filename)
@@ -245,6 +306,7 @@ def user_edit():
             current_user.avatar = avatar_name
 
         if isinstance(form.banner.data, FileStorage):
+            # Save a new banner file when the form includes an uploaded image.
             new_banner = form.banner.data
             new_banner.stream.seek(0)
             filename = secure_filename(new_banner.filename)
@@ -264,6 +326,7 @@ def user_edit():
             new_banner.save(banner_path)
             current_user.banner = banner_name
 
+        # Commit the profile changes once all updates are prepared.
         db.session.commit()
 
         flash("Profile updated successfully.", "success")

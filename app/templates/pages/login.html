@@ -10,7 +10,7 @@
         </div>
     {% endblock %}
     <div class="wrap">
-        <form method="POST" action="{{ url_for("login.login") }}" novalidate>
+        <form method="post" action="{{ url_for("login.login") }}" novalidate>
             {{ form.hidden_tag() }}
             <label for="identity">Username or Email:</label>
             {{ form.identity(class="form-row") }} {% if form.identity.errors %}

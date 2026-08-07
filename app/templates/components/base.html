@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="osu!web beatmap community and upload platform" />
     <title>{% block title %}osu!Web{% endblock %}</title>
     <link rel="icon"
           type="image/png"
@@ -46,8 +48,7 @@
                             </div>
                         {% else %}
                             <a href="{{ url_for("login.login") }}">
-                                <img src="{{ url_for('static', filename='images/default_cover.png') }}">
-                            </img>
+                                <img src="{{ url_for('static', filename='images/default_cover.png') }}" alt="Default user avatar" />
                             </a>
                         {% endif %}
                     </div>
@@ -61,9 +62,9 @@
         </div>
     </div>
     <footer class="site-footer">
-        <div class="container">&copy; {{ current_year }} Developed by Kyle</div>
+        <div class="container">© {{ current_year }} Developed by Kyle</div>
     </footer>
 </div>
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </body>
 </html>
-<script src="{{ url_for('static', filename='js/base.js') }}"></script>

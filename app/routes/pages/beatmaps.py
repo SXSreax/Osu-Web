@@ -11,9 +11,25 @@ beatmaps_bp = Blueprint('beatmaps', __name__)
 
 @beatmaps_bp.route('/beatmaps/')
 def beatmaps():
+    """
+    Render the beatmaps listing page.
+
+    Inputs:
+        - GET: None
+
+    Processing:
+        - Fetch all beatmaps from the database.
+        - Build card data with cover images, uploader details,
+            and difficulty information.
+        - Pass the prepared data to the beatmaps template.
+
+    Outputs:
+        - Renders the beatmaps page with the collected card data.
+    """
     form = SearchForm()
     maps = Beatmap.query.all()
     beatmap_card = []
+    # Gather all relevant data for each beatmap.
     for bms in maps:
         maps_dir = os.path.join(current_app.instance_path, 'maps')
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
@@ -31,6 +47,7 @@ def beatmaps():
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
         user = User.query.get(bms.uploader)
+        # Hide the uploader name when the user has opted out for privacy.
         if user:
             uploader = "********" if user.uploader_h else user.username
         else:
@@ -60,12 +77,38 @@ def beatmaps():
 
 @beatmaps_bp.route('/instance/<path:filepath>')
 def instance(filepath):
+    """
+    Serve a file from the instance directory.
+
+    Inputs:
+        - GET: a relative file path
+
+    Processing:
+        - Forward the requested path to the instance file-serving helper.
+
+    Outputs:
+        - Returns the requested file from the instance directory.
+    """
     return serve_instance_file(filepath)
 
 
 @beatmaps_bp.route('/get-beatmap-audio/<int:beatmap_id>')
 def get_beatmap_audio(beatmap_id):
+    """
+    Return an audio file URL for a beatmap.
 
+    Inputs:
+        - GET: beatmap ID from the route parameter
+
+    Processing:
+        - Fetch the beatmap record.
+        - Search the beatmap folder for supported audio files.
+        - Select the first valid candidate and build a URL.
+
+    Outputs:
+        - Returns the audio URL as JSON.
+        - Returns an error message if no suitable audio file is found.
+    """
     bms = Beatmap.query.get(beatmap_id)
     if not bms:
         return jsonify({'error': 'Beatmap not found'}), 404
@@ -85,6 +128,7 @@ def get_beatmap_audio(beatmap_id):
                         '.aac',
                         '.wma')
 
+    # Scan the beatmap folder for supported audio files.
     candidates = []
     for f in os.listdir(folder):
         full_path = os.path.join(folder, f)
@@ -111,6 +155,20 @@ def get_beatmap_audio(beatmap_id):
 
 @beatmaps_bp.route('/search/', methods=["POST"])
 def search():
+    """
+    Search for beatmaps based on form input.
+
+    Inputs:
+        - POST: search text from the form
+
+    Processing:
+        - Validate the submitted search form.
+        - Query beatmaps by ID, name, artist, or uploader.
+        - Build result cards with cover images and difficulty data.
+
+    Outputs:
+        - Renders the search results page with the collected beatmap data.
+    """
     form = SearchForm()
     beatmap_card = []
     q = ""
@@ -121,6 +179,8 @@ def search():
         maps_dir = os.path.join(current_app.instance_path, 'maps')
 
         if q:
+            # Search by several fields so users can find maps by ID,
+            # name, artist, or uploader.
             search = f"%{q}%"
             results = Beatmap.query.filter(
                 Beatmap.id.ilike(search)
@@ -129,6 +189,7 @@ def search():
                 | User.username.ilike(search)
             ).limit(100).all()
 
+        # Gather all relevant data for each search result.
         for bms in results:
             map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
             folder = os.path.join(maps_dir, map_name)

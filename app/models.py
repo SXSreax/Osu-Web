@@ -8,6 +8,7 @@ db = SQLAlchemy()
 
 
 class User(db.Model, UserMixin):
+    # User table storing account information and profile settings.
     __tablename__ = 'users'
 
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(
@@ -33,6 +34,7 @@ class User(db.Model, UserMixin):
 
 
 class Favorite(db.Model):
+    # Favorite table linking a user to a beatmap they liked.
     __tablename__ = 'favorites'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -56,6 +58,7 @@ class Favorite(db.Model):
 
 
 class Beatmap(db.Model):
+    # Beatmap table storing the main beatmap record and file path.
     __tablename__ = 'beatmaps'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -70,6 +73,7 @@ class Beatmap(db.Model):
 
 
 class BeatmapDiff(db.Model):
+    # Beatmap difficulty table storing per-difficulty stats and file info.
     __tablename__ = 'beatmaps_diff'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -93,6 +97,7 @@ class BeatmapDiff(db.Model):
 
 
 class Discussion(db.Model):
+    # Discussion table storing community posts and their metadata.
     __tablename__ = 'discussion'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -112,6 +117,7 @@ class Discussion(db.Model):
 
 
 class Comment(db.Model):
+    # Comment table storing replies made under a discussion.
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -127,6 +133,7 @@ class Comment(db.Model):
 
 
 class Favorite_Discussion(db.Model):
+    # Favorite discussion table linking users to discussions they liked.
     __tablename__ = 'favorited_discussions'
 
     user_id = db.Column(db.String(36),

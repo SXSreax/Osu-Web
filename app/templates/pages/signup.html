@@ -10,7 +10,7 @@
     </div>
 {% endblock %}
 <div class="wrap">
-    <form method="POST" action="{{ url_for("signup.signup") }}" novalidate>
+    <form method="post" action="{{ url_for("signup.signup") }}" novalidate>
         {{ form.hidden_tag() }}
         <label for="username">Username:</label>
         {{ form.username(class="form-row") }} {% if form.username.errors %}

@@ -16,10 +16,27 @@ user_hub_bp = Blueprint('user_hub', __name__)
 @user_hub_bp.route('/user_hub/')
 @login_required
 def user_hub():
+    """
+    Render the current user's hub with their beatmaps and discussions.
+
+    Inputs:
+        - GET: None
+
+    Processing:
+        - Load the user's uploaded beatmaps and discussions.
+        - Prepare display data for both sections.
+
+    Outputs:
+        - Renders the user hub page with the prepared beatmap and discussion
+            lists.
+    """
+    # Only load the current user's uploads for this hub page.
     maps = Beatmap.query.filter_by(uploader=current_user.id)
 
     beatmap_card = []
     maps_dir = os.path.join(current_app.instance_path, 'maps')
+
+    # Gather beatmap card data for the current user's uploads.
 
     for bms in maps:
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
@@ -58,6 +75,8 @@ def user_hub():
             'difficulties': difficulty_list
         })
 
+    # Gather the current user's discussion entries for display.
+    # Only show discussions created by the signed-in user.
     ds_card = Discussion.query.filter_by(user_id=current_user.id).all()
 
     discussions = []
@@ -84,6 +103,19 @@ def user_hub():
 @user_hub_bp.route("/user_hub/hide", methods=["POST"])
 @login_required
 def hide():
+    """
+    Update the current user's uploader visibility preference.
+
+    Inputs:
+        - POST: hide_uploader flag from the form
+
+    Processing:
+        - Save the visibility preference to the current user record.
+
+    Outputs:
+        - Redirects the user back to the user hub page.
+    """
+    # Persist the visibility preference so it applies across the site.
     current_user.uploader_h = request.form.get("hide_uploader") == "1"
     db.session.commit()
     flash("Uploader visibility updated", "success")

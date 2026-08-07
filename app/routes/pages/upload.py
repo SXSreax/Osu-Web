@@ -20,10 +20,20 @@ upload_bp = Blueprint('upload', __name__)
 
 
 def fetch_star_rate(beatmapset_id: int, beatmap_id: int, mode: int):
-    """Fetch difficulty rating (star) for a specific beatmap and mode.
-
-    mode: 0=osu, 1=taiko, 2=fruits/catch, 3=mania
     """
+    Fetch difficulty rating data for a specific beatmap and mode.
+
+    Inputs:
+        - beatmapset ID, beatmap ID, and mode number
+
+    Processing:
+        - Request an OAuth token from the osu! API.
+        - Query the API for the beatmap's difficulty rating.
+
+    Outputs:
+        - Returns the beatmap's difficulty rating as a number.
+    """
+    # Request an access token from the osu! API.
     token_res = requests.post(
         "https://osu.ppy.sh/oauth/token",
         json={
@@ -53,6 +63,19 @@ def fetch_star_rate(beatmapset_id: int, beatmap_id: int, mode: int):
 
 
 def get_file_info(beatmap_path):
+    """
+    Extract beatmap metadata from an .osu file.
+
+    Inputs:
+        - Path to an .osu file
+
+    Processing:
+        - Read the file content and parse metadata and difficulty sections.
+        - Extract values such as title, artist, IDs, and gameplay stats.
+
+    Outputs:
+        - Returns a tuple containing the parsed beatmap information.
+    """
     map_name = os.path.basename(beatmap_path)
     beatmap_id = None
     beatmapset_id = None
@@ -66,6 +89,7 @@ def get_file_info(beatmap_path):
     kc = None
 
     try:
+        # Read the .osu file using UTF-8 first, then fall back to Latin-1.
         try:
             with open(beatmap_path, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -77,6 +101,7 @@ def get_file_info(beatmap_path):
         lines = content.splitlines()
         version = None
 
+        # Parse the .osu file section by section.
         for line in lines:
             line = line.strip()
             if not line or line.startswith('//'):
@@ -159,6 +184,7 @@ def get_file_info(beatmap_path):
     except Exception as e:
         print(f"Error extracting IDs from {beatmap_path}: {e}")
 
+    # Mania maps use key count instead of circle size.
     if mode == 3 and cs is not None:
         try:
             kc = int(cs)
@@ -194,17 +220,45 @@ def sanitize_filename(filename):
 @upload_bp.route('/upload/')
 @login_required
 def upload():
+    """
+    Render the upload page.
+
+    Inputs:
+        - GET: None
+
+    Processing:
+        - Create an upload form for the user.
+
+    Outputs:
+        - Renders the upload page.
+    """
     form = UploadForm()
     return render_template('pages/upload.html', form=form)
 
 
 @upload_bp.route('/upload/store', methods=['POST'])
 def upload_store():
+    """
+    Store an uploaded beatmap archive and process its contents.
+
+    Inputs:
+        - POST: uploaded .osz or .zip file from the form
+
+    Processing:
+        - Validate the uploaded archive.
+        - Extract the files and locate the .osu data.
+        - Save the beatmap package and store difficulty metadata.
+
+    Outputs:
+        - Redirects back to the home page with a success or error message.
+    """
     form = UploadForm()
     if not form.validate_on_submit():
         flash('Please upload a valid file', "error")
         return render_template('pages/upload.html', form=form)
 
+    # Collect the uploaded archive and current user information.
+    # Store the current user's ID as the uploader for the uploaded beatmap.
     uploaded_file = form.file.data
     uploader = current_user.id
 
@@ -218,9 +272,12 @@ def upload_store():
 
     with tempfile.TemporaryDirectory(dir=os.path.join(
          current_app.instance_path, 'temp_uploads')) as temp_dir:
+        # Use a temporary directory so extracted files do not pollute
+        # the app permanently.
         temp_zip_path = os.path.join(temp_dir, filename)
         uploaded_file.save(temp_zip_path)
 
+        # Extract the archive into a temporary folder for inspection.
         extract_dir = os.path.join(temp_dir, 'extracted')
         os.makedirs(extract_dir, exist_ok=True)
 
@@ -231,6 +288,7 @@ def upload_store():
             flash('The uploaded file is not a valid zip archive.', "error")
             return redirect(url_for('upload.upload'))
 
+        # Find the first .osu file inside the extracted archive.
         osu_file_path = None
         for root, dirs, files in os.walk(extract_dir):
             for file in files:
@@ -252,6 +310,7 @@ def upload_store():
                   'Artist, Title) from the .osu file.', "error")
             return redirect(url_for('upload.upload'))
 
+        # Prepare the permanent storage location for the beatmap files.
         maps_dir = os.path.join(current_app.instance_path, 'maps')
         os.makedirs(maps_dir, exist_ok=True)
 
@@ -261,6 +320,7 @@ def upload_store():
         if os.path.exists(final_extract_folder):
             shutil.rmtree(final_extract_folder)
 
+        # Handle archives that contain a single top-level folder.
         extracted_items = os.listdir(extract_dir)
         source_dir = extract_dir
         if len(extracted_items) == 1 and os.path.isdir(os.path.join(
@@ -273,6 +333,8 @@ def upload_store():
 
         relative_path = os.path.join('maps', str(beatmapset_id) + '.zip')
 
+        # Update an existing beatmap record instead of creating
+        # duplicates when the same set is uploaded again.
         existing = Beatmap.query.get(beatmapset_id)
         if existing:
             existing.name = title
@@ -294,6 +356,7 @@ def upload_store():
         db.session.commit()
 
         try:
+            # Process every .osu file found in the extracted beatmap folder.
             osu_files = [
                  f for f in os.listdir(final_extract_folder)
                  if f.endswith('.osu')]
@@ -312,7 +375,8 @@ def upload_store():
                  ar_file,
                  kc_file) = get_file_info(osu_path)
 
-                # skip if mode not parsed or no ids
+                # Skip files that do not expose a parseable mode to
+                # avoid bad difficulty rows.
                 if mode_file is None:
                     continue
 

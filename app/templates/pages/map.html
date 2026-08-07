@@ -1,109 +1,178 @@
 {% extends 'components/base.html' %} {% block title %}{{ bm.name }} by {{
-    bm.artist }} - osu!{% endblock %} {% block content %}
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/map.css') }}" />
-    <div class="page-header">
-        {% block page_header %}
-            <div class="container">
-                <h2>Beatmap Info</h2>
-            </div>
-            </div>
-        {% endblock %}
-        <div class="map-content-wrapper"
-             style="background-image: url('{{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }}')">
-            <div class="map-detail">
-                <div class="map-info-section">
-                    <div class="map-info-overlay">
-                        <div class="map-info-name">{{ bm.name }}</div>
-                        <div class="map-info-artist">by {{ bm.artist }}</div>
-                        <div class="map-info-uploader">Uploaded by {{ bm.uploader }}</div>
-                        <div class="map-btn">
-                            <button class="btn" id="download-trigger-btn">Download</button>
-                            <div class="heart-container" title="Like">
-                                <form action="{{ url_for('map.favorite', beatmap_id=bm.id) }}"
-                                      method="POST">
-                                    <input type="checkbox"
-                                           class="checkbox"
-                                           data-map="{{ bm.id }}"
-                                           {% if favorited %}checked{% endif %}>
-                                    <div class="svg-container">
-                                        <svg viewBox="0 0 24 24"
-                                             class="svg-outline"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z">
-                                            </path>
-                                        </svg>
-                                        <svg viewBox="0 0 24 24"
-                                             class="svg-filled"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z">
-                                            </path>
-                                        </svg>
-                                        <svg class="svg-celebrate"
-                                             width="100"
-                                             height="100"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <polygon points="10,10 20,20"></polygon>
-                                            <polygon points="10,50 20,50"></polygon>
-                                            <polygon points="20,80 30,70"></polygon>
-                                            <polygon points="90,10 80,20"></polygon>
-                                            <polygon points="90,50 80,50"></polygon>
-                                            <polygon points="80,80 70,70"></polygon>
-                                        </svg>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="maps">Maps:</div>
-                        <div class="star-row">
-                            {% for diff in bm.difficulties|sort(attribute='star') %} {#
-Calculate color based on star rating #} {% set star = diff.star %}
-                            {% if star < 2.0 %} {% set color_class = "star-color-0" %} {% elif
-                                star < 2.7 %} {% set color_class = "star-color-1" %} {% elif star <
-                                    4.0 %} {% set color_class = "star-color-3" %} {% elif star < 5.3 %}
-                                {% set color_class = "star-color-4" %} {% elif star < 6.5 %} {% set
-                                    color_class = 'star-color-5' %} {% else %} {% set color_class = "star-color-8" %} {% endif %}
-                                <div class="star-circle {{ color_class }}"
-                                     data-star="{{ star }}"
-                                     data-name="{{ diff.name }}"
-                                     {% if diff.hp is not none %}data-hp="{{ diff.hp }}"{% endif %}
-                                     {% if diff.od is not none %}data-od="{{ diff.od }}"{% endif %}
-                                     {% if diff.cs is not none %}data-cs="{{ diff.cs }}"{% endif %}
-                                     {% if diff.ar is not none %}data-ar="{{ diff.ar }}"{% endif %}
-                                     {% if diff.kc is not none %}data-kc="{{ diff.kc }}"{% endif %}></div>
-                                {% endfor %}
-                            </div>
-                            <div id="star-info">
-                                <span class="star-name"></span> <span class="star-rate"></span>
-                                <br>
-                                <div class="kc"></div>
-                                <div class="cs"></div>
-                                <div class="hp"></div>
-                                <div class="od"></div>
-                                <div class="ar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="download-modal" class="download-modal">
-                    <div class="download-modal-overlay"></div>
-                    <div class="download-modal-content">
-                        <h3>Download Format</h3>
-                        <p>Choose your preferred format:</p>
-                        <div class="download-format-buttons">
-                            <a href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='osz') }}"
-                               class="download-format-btn osz-btn">
-                                <strong>.osz</strong>
-                                <small>osu! format</small>
-                            </a>
-                            <a href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='zip') }}"
-                               class="download-format-btn zip-btn">
-                                <strong>.zip</strong>
-                                <small>Standard zip</small>
-                            </a>
-                        </div>
-                        <button id="close-modal-btn" class="close-modal-btn">&times;</button>
-                    </div>
-                </div>
-                <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-{% endblock %}
+bm.artist }} - osu!{% endblock %} {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}" />
+<div class="page-header">
+  <div class="container">
+    <h2>Beatmap Info</h2>
+  </div>
+</div>
+<div
+  class="map-content-wrapper"
+  style="background-image: url({{ url_for('beatmaps.instance', filepath=bm.cover_img) if bm.cover_img else url_for('static', filename='images/default_cover.png') }})"
+>
+  <div class="map-detail">
+    <div class="map-info-section">
+      <div class="map-info-overlay">
+        <div class="map-info-name">{{ bm.name }}</div>
+        <div class="map-info-artist">by {{ bm.artist }}</div>
+        <div class="map-info-uploader">Uploaded by {{ bm.uploader }}</div>
+        <div class="map-btn">
+          <button class="btn" id="download-trigger-btn">Download</button>
+          <div class="heart-container" title="Like">
+            <form
+              action="{{ url_for('map.favorite', beatmap_id=bm.id) }}"
+              method="post"
+            >
+              <input
+                type="checkbox"
+                class="checkbox"
+                data-map="{{ bm.id }}"
+                {%
+                if
+                favorited
+                %}checked{%
+                endif
+                %}
+              />
+              <div class="svg-container">
+                <svg
+                  viewBox="0 0 24 24"
+                  class="svg-outline"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z"
+                  ></path>
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  class="svg-filled"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"
+                  ></path>
+                </svg>
+                <svg
+                  class="svg-celebrate"
+                  width="100"
+                  height="100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polygon points="10,10 20,20"></polygon>
+                  <polygon points="10,50 20,50"></polygon>
+                  <polygon points="20,80 30,70"></polygon>
+                  <polygon points="90,10 80,20"></polygon>
+                  <polygon points="90,50 80,50"></polygon>
+                  <polygon points="80,80 70,70"></polygon>
+                </svg>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="maps">Maps:</div>
+        <div class="star-row">
+          {% for diff in bm.difficulties|sort(attribute='star') %} {# Calculate
+          color based on star rating #} {% set star = diff.star %} {% if star <
+          2.0 %} {% set color_class = "star-color-0" %} {% elif star < 2.7 %} {%
+          set color_class = "star-color-1" %} {% elif star < 4.0 %} {% set
+          color_class = "star-color-3" %} {% elif star < 5.3 %} {% set
+          color_class = "star-color-4" %} {% elif star < 6.5 %} {% set
+          color_class = 'star-color-5' %} {% else %} {% set color_class =
+          "star-color-8" %} {% endif %}
+          <div
+            class="star-circle {{ color_class }}"
+            data-star="{{ star }}"
+            data-name="{{ diff.name }}"
+            {%
+            if
+            diff.hp
+            is
+            not
+            none
+            %}data-hp="{{ diff.hp }}"
+            {%
+            endif
+            %}
+            {%
+            if
+            diff.od
+            is
+            not
+            none
+            %}data-od="{{ diff.od }}"
+            {%
+            endif
+            %}
+            {%
+            if
+            diff.cs
+            is
+            not
+            none
+            %}data-cs="{{ diff.cs }}"
+            {%
+            endif
+            %}
+            {%
+            if
+            diff.ar
+            is
+            not
+            none
+            %}data-ar="{{ diff.ar }}"
+            {%
+            endif
+            %}
+            {%
+            if
+            diff.kc
+            is
+            not
+            none
+            %}data-kc="{{ diff.kc }}"
+            {%
+            endif
+            %}
+          ></div>
+          {% endfor %}
+        </div>
+        <div id="star-info">
+          <span class="star-name"></span> <span class="star-rate"></span>
+          <br />
+          <div class="kc"></div>
+          <div class="cs"></div>
+          <div class="hp"></div>
+          <div class="od"></div>
+          <div class="ar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="download-modal" class="download-modal">
+    <div class="download-modal-overlay"></div>
+    <div class="download-modal-content">
+      <h3>Download Format</h3>
+      <p>Choose your preferred format:</p>
+      <div class="download-format-buttons">
+        <a
+          href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='osz') }}"
+          class="download-format-btn osz-btn"
+        >
+          <strong>.osz</strong>
+          <small>osu! format</small>
+        </a>
+        <a
+          href="{{ url_for('map.download_beatmap', beatmap_id=bm.id, format='zip') }}"
+          class="download-format-btn zip-btn"
+        >
+          <strong>.zip</strong>
+          <small>Standard zip</small>
+        </a>
+      </div>
+      <button id="close-modal-btn" class="close-modal-btn">×</button>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  {% endblock %}
+</div>
