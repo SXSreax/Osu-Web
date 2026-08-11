@@ -1,6 +1,6 @@
 <p align="center"> <img src="app/static/images/default_banner.png" alt="OSU!Web Banner" width="900"> </p>
 
-<h1 style="text-align: center; font-weight: 700; color: #ff66aa;">OSU!Web</h1>
+<h1 align="center" style="color: #ff66aa;">OSU!Web</h1>
 
 <p align="center"> Osu!Web is a self-developed community website for Osu! or any rhythm-game players where users can sign up, upload and preview beatmaps, save favourites, and participate in discussions. It provides a simple, modern platform for discovering and sharing beatmaps with the community. </p>
 
