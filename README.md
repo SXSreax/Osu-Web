@@ -1,6 +1,18 @@
-# OSU!Web
+<p align="center"> <img src="app/static/images/default_banner.png" alt="OSU!Web Banner" width="900"> </p>
 
-**Osu!web** is a community website for **Osu!** or any rhythm-game players where users can sign up, upload and preview beatmaps, save favourites, and participate in discussions. It provides a simple, modern platform for discovering and sharing beatmaps with the community.
+<h1 style="text-align: center; font-weight: 700; color: #ff66aa;">OSU!Web</h1>
+
+<p align="center"> Osu!Web is a self-developed community website for Osu! or any rhythm-game players where users can sign up, upload and preview beatmaps, save favourites, and participate in discussions. It provides a simple, modern platform for discovering and sharing beatmaps with the community. </p>
+
+<h2 align="center"> Build With </h2>
+
+<p align="center">
+This section list any major **frameworks/libraries** used to make this program possible.
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=python,flask,sqlite,js,html,css,git,github,vscode" />
+</p>
 
 ## Installation/Setup
 
@@ -15,27 +27,34 @@ git clone https://github.com/SXSreax/Osu-Web.git
 ### Creating a Python Virtual Environment
 
 1. Open a terminal **(use cmd)** in the project's **root directory** (the same directory containing `requirements.txt`).
-2. Create a Python virtual environment using the codes (**YOUR VENV SHOULD BE AT ROOT DIRECTORY**):
+2. Use python download from the python official page --> **[Python](https://www.python.org/)** **OR** Create a Python virtual environment using the codes (**YOUR VENV SHOULD BE AT ROOT DIRECTORY**):
+
+3. Create venv folder **(optional)**:
 
 ```cmd
 python -m venv .venv
 ```
 
-3. Activate the virtual environment:
+4. Activate the virtual environment **(optional)**:
 
 ```cmd
 .venv\Scripts\activate
 ```
 
-4. Install the required packages from **requirements.txt**:
+5. Install the required packages from **requirements.txt**:
 
 ```cmd
 pip install -r requirements.txt
 ```
 
-5. The virtual environment is now created and should be ready.
+6. The virtual environment is now created and should be ready.
 
 ### .Secrets
+
+<p style="display: flex; align-items: center; gap: 8px;">
+  <img src="app/static/images/key.svg" alt="Key" width="20" height="20">
+  <strong style="font-size: 20px;">.secrets</strong>
+</p>
 
 This project requires a `.secrets` file to run. Regardless of how you obtain the file, **rename it to `.secrets`** before placing it in the project's **root directory** (where run.py is).
 
@@ -97,3 +116,21 @@ To run the program:
 ```cmd
 python run.py
 ```
+
+### User **can**:
+
+- 🏠 Visit the homepage and learn about OSU!Web.
+- 🎵 Browse available osu!mania beatmaps.
+- 🔎 Explore and discover new beatmaps.
+- 📄 View detailed beatmap information.
+- 🔊 Preview beatmap audio.
+- ⬇️ Download beatmaps.
+- ❤️ Like beatmaps and discussions.
+- ⭐ Save beatmaps and discussions to their favourites.
+- 📤 Upload their own beatmaps.
+- 👤 Create and manage their own profile.
+- 🖼️ Change their avatar and banner.
+- 💬 Create community discussions.
+- 💭 Comment on existing discussions.
+- 👀 View other users' uploaded content.
+- 🚪 Log out of their account.
