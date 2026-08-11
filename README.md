@@ -7,7 +7,7 @@
 <h2 align="center"> Build With </h2>
 
 <p align="center">
-This section list any major **frameworks/libraries** used to make this program possible.
+This section list any major frameworks/libraries used to make this program possible.
 </p>
 
 <p align="center">
@@ -134,3 +134,14 @@ python run.py
 - 💭 Comment on existing discussions.
 - 👀 View other users' uploaded content.
 - 🚪 Log out of their account.
+
+## Acknowledge
+
+Big Thanks to:
+- osu!
+- Flask
+- Python
+- Material Design Icons
+- GitHub
+- Our teachers and classmates
+- The osu! community
