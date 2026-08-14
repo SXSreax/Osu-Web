@@ -1,0 +1,58 @@
+osu file format v14
+
+[General]
+AudioFilename: 123.mp3
+AudioLeadIn: 0
+PreviewTime: 168878
+Countdown: 0
+SampleSet: Soft
+StackLeniency: 0.7
+Mode: 3
+LetterboxInBreaks: 0
+SpecialStyle: 0
+WidescreenStoryboard: 1
+
+[Editor]
+DistanceSpacing: 1
+BeatDivisor: 6
+GridSize: 4
+TimelineZoom: 3.159999
+
+[Metadata]
+Title:Bocchi the Rock! 4K LN Songs pack
+TitleUnicode:Bocchi the Rock! 4K LN Songs pack
+Artist:kessoku band
+ArtistUnicode:結束バンド
+Creator:Begin
+Version:delete
+Source:ぼっち・ざ・ろっく！
+Tags:long note eZmmR Castella -SoraIro- SoraIro Draftz [HD]Draftz bocchi the rock anime japanese rock jrock j-rock ラブソングが歌えない Love Song ga Utaenai なにが悪い Nani ga Warui 星座になれたら Seiza ni Naretara Distortion!! カラカラ Karakara ひみつ基地 Himitsu Kichi ギターと孤独と蒼い惑星 Guitar to Kodoku to Aoi Hoshi 忘れてやらない Wasurete Yaranai フラッシュバッカー Flashbacker 青春コンプレックス Seishun Complex あのバンド Ano Band ひとりぼっち東京 Hitoribocchi Tokyo 小さな海 Chiisana Umi gotou hitori 後藤ひとり aoyama yoshino 青山吉能 yamada ryo 山田リョウ kita ikuyo 喜多郁代 ijichi nijika 伊地知虹夏
+BeatmapID:3950362
+BeatmapSetID:1891661
+
+[Difficulty]
+HPDrainRate:9
+CircleSize:4
+OverallDifficulty:5
+ApproachRate:5
+SliderMultiplier:1.4
+SliderTickRate:1
+
+[Events]
+//Background and Video events
+0,0,"bg.jpg",0,0
+//Break Periods
+//Storyboard Layer 0 (Background)
+//Storyboard Layer 1 (Fail)
+//Storyboard Layer 2 (Pass)
+//Storyboard Layer 3 (Foreground)
+//Storyboard Layer 4 (Overlay)
+//Storyboard Sound Samples
+
+[TimingPoints]
+83,500,4,2,0,100,1,0
+
+
+[HitObjects]
+64,192,599833,5,0,0:0:0:0:
+448,192,599833,1,0,0:0:0:0:

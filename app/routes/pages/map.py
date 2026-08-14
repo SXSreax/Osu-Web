@@ -43,9 +43,11 @@ def map_detail(beatmap_id):
         if imgs:
             cover_img = os.path.join('maps', base_name, random.choice(imgs))
 
-    user = User.query.get(bm.uploader)
-    if user:
-        uploader = "********" if user.uploader_h else user.username
+    if bm.uploader_user:
+        if bm.uploader_user.uploader_h:
+            uploader = "********"
+        else:
+            uploader = bm.uploader_user.username
     else:
         uploader = "anonymous"
 

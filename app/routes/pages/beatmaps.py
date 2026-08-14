@@ -46,10 +46,11 @@ def beatmaps():
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
-        user = User.query.get(bms.uploader)
-        # Hide the uploader name when the user has opted out for privacy.
-        if user:
-            uploader = "********" if user.uploader_h else user.username
+        if bms.uploader_user:
+            if bms.uploader_user.uploader_h:
+                uploader = "********"
+            else:
+                uploader = bms.uploader_user.username
         else:
             uploader = "anonymous"
 
@@ -215,9 +216,11 @@ def search():
                     'star': d.star_diff
                 })
 
-            user = User.query.get(bms.uploader)
-            if user:
-                uploader = user.username
+            if bms.uploader_user:
+                if bms.uploader_user.uploader_h:
+                    uploader = "********"
+                else:
+                    uploader = bms.uploader_user.username
             else:
                 uploader = "anonymous"
 

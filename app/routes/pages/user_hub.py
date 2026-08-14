@@ -52,9 +52,11 @@ def user_hub():
             if imgs:
                 cover_img = os.path.join('maps', map_name, random.choice(imgs))
 
-        user = User.query.get(bms.uploader)
-        if user:
-            uploader = user.username
+        if bms.uploader_user:
+            if bms.uploader_user.uploader_h:
+                uploader = "********"
+            else:
+                uploader = bms.uploader_user.username
         else:
             uploader = "anonymous"
 

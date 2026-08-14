@@ -64,7 +64,17 @@ class Beatmap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
     artist = db.Column(db.String(255), nullable=True)
-    uploader = db.Column(db.String(120), nullable=True)
+    uploader = db.Column(
+        db.String(36),
+        db.ForeignKey('users.id'),
+        nullable=True
+    )
+
+    uploader_user = db.relationship(
+        'User',
+        foreign_keys=[uploader]
+    )
+
     filepath = db.Column(db.String(1024), nullable=False)
     mode = db.Column(db.Integer, nullable=False, default=0)
 
@@ -104,7 +114,11 @@ class Discussion(db.Model):
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
     time_created = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(
+        db.String(36),
+        db.ForeignKey('users.id'),
+        nullable=False
+    )
     host = db.relationship('User', backref='discussions')
     like = db.Column(db.Integer, default=0)
 
@@ -123,7 +137,11 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     time_created = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(
+        db.String(36),
+        db.ForeignKey('users.id'),
+        nullable=False
+        )
     discussion_id = db.Column(db.Integer,
                               db.ForeignKey('discussion.id'),
                               nullable=False)
