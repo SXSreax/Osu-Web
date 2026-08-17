@@ -152,13 +152,13 @@ class UserEditForm(FlaskForm):
     )
     avatar = FileField('Change avatar', validators=[
         Optional(),
-        FileAllowed(['jpg', 'jpeg', 'png', 'webp'],
+        FileAllowed(['jpg', 'jpeg', 'png', 'webp', 'gif'],
                     message='Only png, jpg, jpeg, webp files are allowed'),
         check_avatar
     ])
     banner = FileField('Change banner', validators=[
         Optional(),
-        FileAllowed(['jpg', 'jpeg', 'png', 'webp'],
+        FileAllowed(['jpg', 'jpeg', 'png', 'webp', 'gif'],
                     message='Only png, jpg, jpeg, webp files are allowed'),
         check_banner
     ])
