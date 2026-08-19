@@ -43,7 +43,8 @@ def beatmaps():
                     '.jpg',
                     '.jpeg',
                     '.png',
-                    '.webp'
+                    '.webp',
+                    'gif'
                 ))
             ]
 
