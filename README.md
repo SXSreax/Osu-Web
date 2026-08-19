@@ -120,7 +120,7 @@ python run.py
 ### User **can**:
 
 - 🏠 Visit the homepage and learn about OSU!Web.
-- 🎵 Browse available osu!mania beatmaps.
+- 🎵 Browse available beatmaps.
 - 🔎 Explore and discover new beatmaps.
 - 📄 View detailed beatmap information.
 - 🔊 Preview beatmap audio.
@@ -135,9 +135,14 @@ python run.py
 - 👀 View other users' uploaded content.
 - 🚪 Log out of their account.
 
+### Downloading Beatmaps
+
+To download beatmaps go to **[Offical Osu Page](https://osu.ppy.sh/)** and download beatmaps on the **[Beatmaps Page](https://osu.ppy.sh/beatmapsets)**
+
 ## Acknowledge
 
 Big Thanks to:
+
 - osu!
 - Flask
 - Python
