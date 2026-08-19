@@ -1,2 +1,8 @@
+[project]
+name = "osu-web"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = []
+
 [tool.vercel]
 entrypoint = "run:app"
