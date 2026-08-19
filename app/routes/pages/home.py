@@ -33,13 +33,48 @@ def home():
         cover_img = None
 
         if os.path.isdir(folder):
-            imgs = [f for f in os.listdir(folder) if f.lower().endswith((
-                '.jpg',
-                '.jpeg',
-                '.png',
-                '.webp'))]
-            if imgs:
-                cover_img = os.path.join('maps', map_name, random.choice(imgs))
+            imgs = [
+                f for f in os.listdir(folder)
+                if f.lower().endswith((
+                    '.jpg',
+                    '.jpeg',
+                    '.png',
+                    '.webp',
+                    'gif'
+                ))
+            ]
+
+            common_backgrounds = [
+                'bg.jpg',
+                'background.jpg',
+                'background.png',
+                'bg.png',
+                'BG.jpg',
+                'background@2x.jpg',
+                'bg_1.jpg',
+                'bg2.jpg'
+            ]
+
+            matching_backgrounds = [
+                f for f in common_backgrounds
+                if f in imgs
+            ]
+
+            if matching_backgrounds:
+                # Use the first matching common background
+                cover_img = os.path.join(
+                    'maps',
+                    map_name,
+                    matching_backgrounds[0]
+                )
+
+            elif imgs:
+                # No common background found, choose a random image
+                cover_img = os.path.join(
+                    'maps',
+                    map_name,
+                    random.choice(imgs)
+                )
 
         # Collect the beatmap's available difficulties.
         difficulties = BeatmapDiff.query.filter_by(map_id=map.id).all()
