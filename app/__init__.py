@@ -25,8 +25,10 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     # set up environment keys
-    load_dotenv(".secrets")
-    app.config['TOTP_KEY'] = os.getenv("KEY")
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    load_dotenv(os.path.join(BASE_DIR, ".secrets"))
+
+    app.config["TOTP_KEY"] = os.getenv("KEY")
 
     # config
     app.config["OSU_CLIENT_ID"] = os.getenv("OSU_CLIENT_ID")
