@@ -53,6 +53,7 @@ def fetch_star_rate(beatmapset_id: int, beatmap_id: int, mode: int):
         2: 'fruits',
         3: 'mania'
     }
+    # Fall back to osu! when an unknown mode is returned by the source file.
     mode_name = mode_map.get(mode, 'osu')
     url = f"https://osu.ppy.sh/api/v2/beatmaps/{beatmap_id}?mode={mode_name}"
     response = requests.get(url, headers=headers)
@@ -93,6 +94,7 @@ def get_file_info(beatmap_path):
         try:
             with open(beatmap_path, 'r', encoding='utf-8') as f:
                 content = f.read()
+        # Some legacy beatmap files are not UTF-8, so retry with Latin-1.
         except UnicodeDecodeError:
             with open(beatmap_path, 'r', encoding='latin-1') as f:
                 content = f.read()
@@ -104,19 +106,24 @@ def get_file_info(beatmap_path):
         # Parse the .osu file section by section.
         for line in lines:
             line = line.strip()
+            # Ignore blank lines and comments because they carry no metadata.
             if not line or line.startswith('//'):
                 continue
 
+            # Track the active section so identical keys mean the right thing.
             if line.startswith('[') and line.endswith(']'):
                 current_section = line[1:-1].lower()
                 continue
 
+            # Read the gameplay mode from the General section only.
             if current_section == 'general':
                 if line.startswith('Mode:'):
                     m = re.match(r'Mode\s*:\s*(\d+)', line)
+                    # Store the mode only when the value is a valid integer.
                     if m:
                         mode = int(m.group(1))
 
+            # Parse numeric gameplay settings from the Difficulty section.
             if current_section == 'difficulty':
                 m = re.match(
                     r'(?:HPDrainRate|HPDrain)\s*:\s*([0-9.+-eE]+)',
@@ -125,6 +132,7 @@ def get_file_info(beatmap_path):
                 if m:
                     try:
                         hp = float(m.group(1))
+                    # Invalid numeric metadata should not reject the file.
                     except ValueError:
                         hp = None
 
@@ -175,6 +183,7 @@ def get_file_info(beatmap_path):
                     if m:
                         beatmapset_id = int(m.group(1))
 
+        # Prefer a title plus version for the display name when available.
         if title:
             if version:
                 map_name = f"{title} [{version}]"
@@ -185,6 +194,7 @@ def get_file_info(beatmap_path):
         print(f"Error extracting IDs from {beatmap_path}: {e}")
 
     # Mania maps use key count instead of circle size.
+    # Mania stores key count in CircleSize, so convert it separately.
     if mode == 3 and cs is not None:
         try:
             kc = int(cs)
@@ -253,6 +263,7 @@ def upload_store():
         - Redirects back to the home page with a success or error message.
     """
     form = UploadForm()
+    # Reject invalid form data before saving or inspecting the upload.
     if not form.validate_on_submit():
         flash('Please upload a valid file', "error")
         return render_template('pages/upload.html', form=form)
@@ -262,6 +273,7 @@ def upload_store():
     uploaded_file = form.file.data
     uploader = current_user.id
 
+    # Accept only uploads with the archive extensions handled below.
     if not uploaded_file or not (
          uploaded_file.filename.endswith('.osz') or
          uploaded_file.filename.endswith('.zip')):
@@ -281,6 +293,7 @@ def upload_store():
         extract_dir = os.path.join(temp_dir, 'extracted')
         os.makedirs(extract_dir, exist_ok=True)
 
+        # Extraction is isolated so a malformed archive can be reported safely.
         try:
             with zipfile.ZipFile(temp_zip_path, 'r') as zip_ref:
                 zip_ref.extractall(extract_dir)
@@ -292,12 +305,14 @@ def upload_store():
         osu_file_path = None
         for root, dirs, files in os.walk(extract_dir):
             for file in files:
+                # The first .osu file supplies the set-level metadata.
                 if file.endswith('.osu'):
                     osu_file_path = os.path.join(root, file)
                     break
             if osu_file_path:
                 break
 
+        # Stop when the archive contains assets but no beatmap definition.
         if not osu_file_path:
             flash('The archive does not contain any .osu file.', "error")
             return redirect(url_for('upload.upload'))
@@ -305,6 +320,7 @@ def upload_store():
         (_, _, beatmapset_id, mode_from_file, artist, title, hp0, od0,
          cs0, ar0, kc0) = get_file_info(osu_file_path)
 
+        # These fields are required to create a usable beatmap record.
         if not beatmapset_id or not artist or not title:
             flash('Could not extract necessary metadata (BeatmapSetID, '
                   'Artist, Title) from the .osu file.', "error")
@@ -317,12 +333,14 @@ def upload_store():
         final_extract_folder = os.path.join(maps_dir, str(beatmapset_id))
         final_zip_path = os.path.join(maps_dir, str(beatmapset_id) + '.zip')
 
+        # Replace old files so re-uploading a set removes stale assets.
         if os.path.exists(final_extract_folder):
             shutil.rmtree(final_extract_folder)
 
         # Handle archives that contain a single top-level folder.
         extracted_items = os.listdir(extract_dir)
         source_dir = extract_dir
+        # Unwrap archives that place all files inside one top-level directory.
         if len(extracted_items) == 1 and os.path.isdir(os.path.join(
              extract_dir, extracted_items[0])):
             source_dir = os.path.join(extract_dir, extracted_items[0])
@@ -335,15 +353,19 @@ def upload_store():
 
         # Update an existing beatmap record instead of creating
         # duplicates when the same set is uploaded again.
+        # Upsert the set record so repeated uploads do not create duplicates.
         existing = Beatmap.query.get(beatmapset_id)
+        # Update the existing row while preserving its database identity.
         if existing:
             existing.name = title
             existing.artist = artist
             existing.uploader = uploader
             existing.filepath = relative_path
+            # Keep a previously known mode when the new file omits it.
             if mode_from_file is not None:
                 existing.mode = mode_from_file
         else:
+            # Insert a new set with a neutral osu! mode when none was parsed.
             beatmap = Beatmap(
                 id=beatmapset_id,
                 name=title,
@@ -353,6 +375,7 @@ def upload_store():
                 mode=mode_from_file if mode_from_file is not None else 0
             )
             db.session.add(beatmap)
+        # Persist set metadata before creating its individual difficulties.
         db.session.commit()
 
         try:
@@ -361,6 +384,7 @@ def upload_store():
                  f for f in os.listdir(final_extract_folder)
                  if f.endswith('.osu')]
             modes_found = set()
+            # Parse and upsert every difficulty definition in the set.
             for osu_file in osu_files:
                 osu_path = os.path.join(final_extract_folder, osu_file)
                 (map_name_file,
@@ -377,14 +401,17 @@ def upload_store():
 
                 # Skip files that do not expose a parseable mode to
                 # avoid bad difficulty rows.
+                # Without a mode, the row cannot be mapped to gameplay fields.
                 if mode_file is None:
                     continue
 
                 modes_found.add(mode_file)
 
+                # Skip files without IDs needed for API and database lookups.
                 if not (beatmap_id_file and beatmapset_id_file):
                     continue
 
+                # Star ratings come from osu!'s API and may fail independently.
                 try:
                     star_rating = fetch_star_rate(beatmapset_id_file,
                                                   beatmap_id_file,
@@ -393,11 +420,13 @@ def upload_store():
                     print(f"Failed to fetch star for {osu_file}: {e}")
                     continue
 
+                # Do not store a difficulty when the API returned no rating.
                 if star_rating is None:
                     continue
 
                 star_truncated = int(star_rating * 100) / 100
 
+                # Match a row by set and difficulty name for an upsert.
                 existing_diff = BeatmapDiff.query.filter_by(
                     map_id=beatmapset_id_file,
                     map_name=map_name_file
@@ -408,9 +437,11 @@ def upload_store():
                     osu_file)
 
                 # assign fields according to mode
+                # Update the existing difficulty so metadata stays current.
                 if existing_diff:
                     existing_diff.star_diff = star_truncated
                     existing_diff.filepath = relative_diff_path
+                    # Each mode exposes a different subset of gameplay fields.
                     if mode_file == 0:  # osu
                         existing_diff.cs = cs_file
                         existing_diff.hp = hp_file
@@ -429,6 +460,7 @@ def upload_store():
                         existing_diff.hp = hp_file
                         existing_diff.od = od_file
                 else:
+                    # Build a new difficulty row when this map/version is new.
                     diff_kwargs = dict(
                         map_id=beatmapset_id_file,
                         map_name=map_name_file,
@@ -436,6 +468,7 @@ def upload_store():
                         filepath=relative_diff_path
                     )
                     # add mode-specific fields
+                    # Populate only the fields supported by the parsed mode.
                     if mode_file == 0:  # osu
                         diff_kwargs.update(dict(cs=cs_file,
                                                 hp=hp_file,
@@ -455,16 +488,20 @@ def upload_store():
                                                 od=od_file))
 
                     beatmap_diff = BeatmapDiff(**diff_kwargs)
+                    # Stage the new difficulty for the batch commit below.
                     db.session.add(beatmap_diff)
 
+            # Commit all difficulty updates together after processing the set.
             db.session.commit()
 
+        # Keep the set upload successful even when rating enrichment fails.
         except Exception as e:
             print(f"Error fetching/storing star ratings: {e}")
             flash("Beatmap uploaded but failed to fetch star ratings.",
                   "warning")
             return redirect(url_for('upload.upload'))
 
+        # Report the modes successfully discovered for user feedback.
         if modes_found:
             mode_names = {0: 'osu', 1: 'taiko', 2: 'catch', 3: 'mania'}
             readable = ", ".join(

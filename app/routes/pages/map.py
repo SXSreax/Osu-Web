@@ -24,6 +24,7 @@ def map_detail(beatmap_id):
     Outputs:
         - Renders the beatmap detail page with the prepared data.
     """
+    # Load the beatmap or return 404 before reading related files and rows.
     bm = Beatmap.query.get_or_404(beatmap_id)
 
     maps_dir = os.path.join(current_app.instance_path, 'maps')
@@ -32,6 +33,7 @@ def map_detail(beatmap_id):
 
     # Find a cover image from the beatmap folder when available.
     cover_img = None
+    # Artwork is optional, so continue with no cover when storage is absent.
     if os.path.isdir(folder):
         # Use a random image from the beatmap folder when a cover is available.
         imgs = [f for f in os.listdir(folder) if f.lower().endswith((
@@ -40,10 +42,13 @@ def map_detail(beatmap_id):
             '.png',
             '.webp'
             ))]
+        # Choose an image only when the folder contains supported artwork.
         if imgs:
             cover_img = os.path.join('maps', base_name, random.choice(imgs))
 
+    # Apply uploader privacy before sending the name to the template.
     if bm.uploader_user:
+        # Mask the username when the uploader enabled hidden mode.
         if bm.uploader_user.uploader_h:
             uploader = "********"
         else:
@@ -52,8 +57,10 @@ def map_detail(beatmap_id):
         uploader = "anonymous"
 
     # Gather all difficulty entries for this beatmap.
+    # Fetch the gameplay settings associated with this beatmap.
     difficulties = BeatmapDiff.query.filter_by(map_id=bm.id).all()
     difficulty_list = []
+    # Convert difficulty rows into the display structure used by the page.
     for d in difficulties:
         difficulty_dict = {
             'name': d.map_name,
@@ -68,6 +75,7 @@ def map_detail(beatmap_id):
 
     # Check whether the current user has already favorited this beatmap.
     favorited = False
+    # Anonymous visitors have no favorite row to query.
     if current_user.is_authenticated:
         favorited = Favorite.query.filter_by(
             user_id=current_user.id,
@@ -101,12 +109,14 @@ def download_beatmap(beatmap_id, format):
     Outputs:
         - Returns the archive as a downloadable file.
     """
+    # Confirm the database record exists before locating its archive folder.
     bm = Beatmap.query.get_or_404(beatmap_id)
 
     maps_dir = os.path.join(current_app.instance_path, 'maps')
     base_name = os.path.splitext(os.path.basename(bm.filepath))[0]
     folder = os.path.join(maps_dir, base_name)
 
+    # Do not create an archive when the extracted beatmap files are missing.
     if not os.path.isdir(folder):
         return 'Beatmap folder not found', 404
 
@@ -121,6 +131,7 @@ def download_beatmap(beatmap_id, format):
                 zip_file.write(file_path, os.path.relpath(file_path, folder))
 
     zip_buffer.seek(0)
+    # Preserve OSZ downloads while treating every other value as ZIP.
     extension = 'osz' if format.lower() == 'osz' else 'zip'
     return send_file(zip_buffer,
                      mimetype='application/zip',
@@ -143,16 +154,20 @@ def favorite(beatmap_id):
     Outputs:
         - Returns JSON indicating whether the favorite was added or removed.
     """
+    # Query the relation to determine which side of the toggle to apply.
     existing = Favorite.query.filter_by(
         user_id=current_user.id,
         map_id=beatmap_id).first()
 
+    # Delete an existing relation to remove the favorite.
     if existing:
         db.session.delete(existing)
         status = "removed"
     else:
+        # Create the relation when the beatmap is not already favorited.
         db.session.add(Favorite(user_id=current_user.id, map_id=beatmap_id))
         status = "added"
 
+    # Persist the favorite toggle before returning its new status.
     db.session.commit()
     return jsonify({"status": status})

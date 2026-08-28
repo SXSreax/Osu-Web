@@ -24,22 +24,27 @@ def login():
     Outputs:
         - Renders the login page or redirects to the home page.
     """
+    # Already active users should not create a second login session.
     if current_user.is_active:
         # Redirect authenticated users away from the login page to
         # prevent duplicate sessions.
         flash("Already logined in, logout first to relogin", "warning")
         return redirect(url_for('home.home'))
     form = LoginForm()
+    # Query and verify credentials only after form validation succeeds.
     if form.validate_on_submit():
         # Collect the submitted login credentials.
         id = form.identity.data
         password = form.password.data
 
+        # Try the username field first because it is the primary login label.
         user = User.query.filter_by(username=id).first()
 
+        # If no username matched, allow the account email as an alternative.
         if not user:
             user = User.query.filter_by(email=id).first()
 
+        # Authenticate only when a user exists and the password hash matches.
         if user and check_password_hash(user.password, password):
             login_user(user)
             # old login session

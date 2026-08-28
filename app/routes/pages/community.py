@@ -22,10 +22,12 @@ def community():
         - Renders the community page with the prepared discussion list.
     """
     # Show the newest discussions first so recent activity is easy to find.
+    # Query discussions newest-first so the page shows recent activity first.
     discussion = Discussion.query.order_by(
         Discussion.time_created.desc()).all()
     discussions = []
     # Gather all relevant discussion data for display.
+    # Resolve each discussion author for the card shown in the template.
     for ds in discussion:
         user = User.query.get(ds.user_id)
 
@@ -35,6 +37,7 @@ def community():
             'content': ds.content,
             'like': ds.like,
             'user': {
+                # Use a fallback when an old discussion has no user.
                 'name': user.username if user else "Unknown",
                 'avatar': user.avatar if user else None
             }
@@ -62,6 +65,7 @@ def create_discussion():
         - Redirects back to the community page after a successful post.
     """
     form = DiscussionForm()
+    # Persist a discussion only after WTForms validation succeeds.
     if form.validate_on_submit():
         # Collect the submitted discussion details.
         title = form.data.get("title")
@@ -73,6 +77,7 @@ def create_discussion():
             user_id=current_user.id
         )
 
+        # Stage the new row, then commit it before redirecting to the listing.
         db.session.add(discussion)
         db.session.commit()
         flash("Created discussion", "success")

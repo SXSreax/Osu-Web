@@ -23,15 +23,18 @@ def home():
         - Renders the home page with the featured beatmap data.
     """
     # Pick a random featured beatmap so the home page feels varied.
+    # Select one database record at random for the featured card.
     map = Beatmap.query.order_by(func.random()).first()
     beatmap_card = []
     # Gather all relevant data for the featured beatmap.
+    # An empty database is valid, so render the page with no featured card.
     if map:
         maps_dir = os.path.join(current_app.instance_path, 'maps')
         map_name = os.path.splitext(os.path.basename(map.filepath))[0]
         folder = os.path.join(maps_dir, map_name)
         cover_img = None
 
+        # Search for artwork only when the beatmap's asset folder exists.
         if os.path.isdir(folder):
             imgs = [
                 f for f in os.listdir(folder)
@@ -60,6 +63,7 @@ def home():
                 if f in imgs
             ]
 
+            # Prefer a standard background filename for consistent artwork.
             if matching_backgrounds:
                 # Use the first matching common background
                 cover_img = os.path.join(
@@ -68,6 +72,7 @@ def home():
                     matching_backgrounds[0]
                 )
 
+            # Fall back to a supported image when no standard name exists.
             elif imgs:
                 # No common background found, choose a random image
                 cover_img = os.path.join(
@@ -77,8 +82,10 @@ def home():
                 )
 
         # Collect the beatmap's available difficulties.
+        # Load all difficulty rows linked to the featured beatmap.
         difficulties = BeatmapDiff.query.filter_by(map_id=map.id).all()
         difficulty_list = []
+        # Convert database rows into template-friendly dictionaries.
         for d in difficulties:
             difficulty_dict = {
                 'name': d.map_name,
@@ -86,6 +93,7 @@ def home():
             }
             difficulty_list.append(difficulty_dict)
 
+        # Resolve the uploader so privacy and missing-user fallbacks can apply.
         user = User.query.get(map.uploader)
         # Hide the uploader name when the user has chosen to keep it private.
         if user:

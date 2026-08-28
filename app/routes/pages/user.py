@@ -40,6 +40,7 @@ def user():
             verification form.
     """
     # Load the current user's favorite beatmaps from the relationship table.
+    # Load beatmaps through the current user's favorite relationship.
     favorite_maps = [fav.beatmap for fav in current_user.favorites]
 
     beatmap_card = []
@@ -47,11 +48,13 @@ def user():
 
     # Gather favorite beatmap cards for the profile page.
 
+    # Build display cards for each favorited beatmap.
     for bms in favorite_maps:
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
         folder = os.path.join(maps_dir, map_name)
         cover_img = None
 
+        # Artwork is optional, so render the card even without a folder.
         if os.path.isdir(folder):
             imgs = [
                 f for f in os.listdir(folder)
@@ -80,6 +83,7 @@ def user():
                 if f in imgs
             ]
 
+            # Prefer the standard background filename when it exists.
             if matching_backgrounds:
                 # Use the first matching common background
                 cover_img = os.path.join(
@@ -88,6 +92,7 @@ def user():
                     matching_backgrounds[0]
                 )
 
+            # Fall back to another supported image when needed.
             elif imgs:
                 # No common background found, choose a random image
                 cover_img = os.path.join(
@@ -96,6 +101,7 @@ def user():
                     random.choice(imgs)
                 )
 
+        # Query the difficulty metadata for this favorited beatmap.
         difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
         difficulty_list = []
         for d in difficulties:
@@ -104,7 +110,9 @@ def user():
                 'star': d.star_diff
             })
 
+        # Respect the uploader's privacy preference in the favorite card.
         if bms.uploader_user:
+            # Mask the uploader name when hidden mode is enabled.
             if bms.uploader_user.uploader_h:
                 uploader = "********"
             else:
@@ -123,10 +131,12 @@ def user():
 
     # Gather the user's favorite discussions for display.
     # Load favorite discussions so the profile page can show them.
+    # Load discussions through the current user's favorite relationship.
     favorite_discussion = [
         fav.discussion for fav in current_user.favorited_discussions]
 
     discussions = []
+    # Resolve each discussion author for the profile card.
     for ds in favorite_discussion:
         user = User.query.get(ds.user_id)
 
@@ -172,19 +182,23 @@ def verify():
     totp = pyotp.TOTP(key, interval=60)
     print(totp.now())
 
+    # JSON requests drive the modal's pre-verification and email flow.
     if request.is_json:
         # Handle the JSON-based verification flow for the settings modal.
         data = request.get_json(silent=True) or {}
+        # Only the settings action needs to inspect verification state.
         if data.get("action") == "open_settings":
             expiry = session.get("settings_verified_until", 0)
             attempts = session.get("settings_attempts", 0)
 
+            # Reuse an unexpired verification session while attempts remain.
             if expiry and expiry > time.time() and attempts > 0:
                 return jsonify(success=True,
                                verified=True,
                                redirect=url_for("user.user_edit"))
 
             reason = None
+            # Record why a previous verification session cannot be reused.
             if attempts <= 0:
                 reason = "attempts_exhausted"
             elif expiry and expiry <= time.time():
@@ -206,6 +220,7 @@ def verify():
                 f"code before it expires.\n"
                 f"Verification code: {totp.now()}"
             )
+            # Email delivery can fail independently of the session workflow.
             try:
                 mail.send(msg)
                 return jsonify(
@@ -220,10 +235,12 @@ def verify():
                 return jsonify(success=False, message=str(e)), 500
 
     form = VerifyForm()
+    # Validate the submitted code before changing session permissions.
     if form.validate_on_submit():
         # Validate the submitted one-time password from the form.
         code = str(form.code.data).zfill(6)
 
+        # A valid one-time code grants temporary access to profile settings.
         if totp.verify(code, valid_window=1):
             timeout = 30 * 60
             attempts = 11
@@ -234,6 +251,7 @@ def verify():
         else:
             flash("Invalid verification code. Please try again.", "error")
     else:
+        # Surface form validation errors before returning to the profile page.
         for error in form.code.errors:
             flash(error, "error")
 
@@ -259,12 +277,14 @@ def user_edit():
     """
     expiry = session.get("settings_verified_until", 0)
     attempts = session.get("settings_attempts", 0)
+    # Expired verification must be cleared before redirecting to the profile.
     if expiry < time.time():
         session.pop("settings_verified_until", None)
         flash("Please verify your identity first. Use the setting button",
               "error")
         return redirect(url_for("user.user"))
 
+    # Block edits after the allowed number of settings requests is exhausted.
     if attempts <= 0:
         flash("Too many attempts, please verify again later.", "error")
         return redirect(url_for("user.user"))
@@ -272,15 +292,19 @@ def user_edit():
     session["settings_attempts"] -= 1
     form = UserEditForm()
 
+    # GET requests populate the form; POST requests are handled below.
     if request.method == "GET":
         # Pre-fill the form with the current user's existing values.
         form.username.data = current_user.username
         form.email.data = current_user.email
 
+    # Apply changes only after the profile form passes validation.
     if form.validate_on_submit():
         # Apply the profile changes submitted in the edit form.
+        # Reset actions take priority over normal profile updates.
         if form.reset_avatar.data:
             # Reset the avatar to remove the current image from the profile.
+            # Delete the stored file when a previous avatar is recorded.
             if current_user.avatar:
                 # Remove the old image before saving a replacement to
                 # avoid stale files.
@@ -290,13 +314,16 @@ def user_edit():
                                           current_user.avatar)
                 os.remove(old_avatar)
             current_user.avatar = None
+            # Commit the reset before redirecting back to the edit page.
             db.session.commit()
             flash("Avatar has been reset.", "success")
             session["settings_attempts"] += 1
             return redirect(url_for("user.user_edit"))
 
+        # Handle banner reset using the same database and file cleanup rules.
         if form.reset_banner.data:
             # Reset the banner to remove the current header image.
+            # Remove the old banner file when one is associated with the user.
             if current_user.banner:
                 old_banner = os.path.join(current_app.instance_path,
                                           'uploads',
@@ -304,11 +331,13 @@ def user_edit():
                                           current_user.banner)
                 os.remove(old_banner)
             current_user.banner = None
+            # Commit the banner reset before returning to the form.
             db.session.commit()
             flash("Banner has been reset.", "success")
             session["settings_attempts"] += 1
             return redirect(url_for("user.user_edit"))
 
+        # Update optional profile fields only when a new value was submitted.
         if form.username.data:
             # Update the username when the user submits a new one.
             current_user.username = form.username.data
@@ -321,6 +350,7 @@ def user_edit():
             # Hash the new password before saving it to the user record.
             current_user.set_password(form.new_password.data)
 
+        # Replace the avatar only when the upload contains a file.
         if isinstance(form.avatar.data, FileStorage):
             # Save a new avatar file when the form includes an uploaded image.
             new_avatar = form.avatar.data
@@ -332,6 +362,7 @@ def user_edit():
                                        'uploads',
                                        'avatar',
                                        avatar_name)
+            # Remove the previous file so extensions cannot leave stale assets.
             if current_user.avatar:
                 old_avatar_path = os.path.join(current_app.instance_path,
                                                'uploads',
@@ -342,6 +373,7 @@ def user_edit():
             new_avatar.save(avatar_path)
             current_user.avatar = avatar_name
 
+        # Replace the banner only when the upload contains a file.
         if isinstance(form.banner.data, FileStorage):
             # Save a new banner file when the form includes an uploaded image.
             new_banner = form.banner.data
@@ -353,6 +385,7 @@ def user_edit():
                                        'uploads',
                                        'banner',
                                        banner_name)
+            # Remove the previous banner before saving the replacement.
             if current_user.banner:
                 old_banner_path = os.path.join(current_app.instance_path,
                                                'uploads',
@@ -364,6 +397,7 @@ def user_edit():
             current_user.banner = banner_name
 
         # Commit the profile changes once all updates are prepared.
+        # Persist all profile field and file-name changes in one transaction.
         db.session.commit()
 
         flash("Profile updated successfully.", "success")

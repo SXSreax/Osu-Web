@@ -31,6 +31,7 @@ def user_hub():
             lists.
     """
     # Only load the current user's uploads for this hub page.
+    # Query only beatmaps owned by the authenticated user.
     maps = Beatmap.query.filter_by(uploader=current_user.id)
 
     beatmap_card = []
@@ -38,11 +39,13 @@ def user_hub():
 
     # Gather beatmap card data for the current user's uploads.
 
+    # Enrich each owned beatmap with files and difficulty rows for display.
     for bms in maps:
         map_name = os.path.splitext(os.path.basename(bms.filepath))[0]
         folder = os.path.join(maps_dir, map_name)
         cover_img = None
 
+        # Continue without artwork when the beatmap folder is unavailable.
         if os.path.isdir(folder):
             imgs = [
                 f for f in os.listdir(folder)
@@ -71,6 +74,7 @@ def user_hub():
                 if f in imgs
             ]
 
+            # Prefer a conventional background filename when present.
             if matching_backgrounds:
                 # Use the first matching common background
                 cover_img = os.path.join(
@@ -79,6 +83,7 @@ def user_hub():
                     matching_backgrounds[0]
                 )
 
+            # Use another image when no conventional background exists.
             elif imgs:
                 # No common background found, choose a random image
                 cover_img = os.path.join(
@@ -87,7 +92,9 @@ def user_hub():
                     random.choice(imgs)
                 )
 
+        # Apply uploader privacy before exposing the owner name.
         if bms.uploader_user:
+            # Mask the name when the owner selected hidden uploader mode.
             if bms.uploader_user.uploader_h:
                 uploader = "********"
             else:
@@ -95,6 +102,7 @@ def user_hub():
         else:
             uploader = "anonymous"
 
+        # Load only the difficulties belonging to this owned beatmap.
         difficulties = BeatmapDiff.query.filter_by(map_id=bms.id).all()
         difficulty_list = []
         for d in difficulties:
@@ -114,9 +122,11 @@ def user_hub():
 
     # Gather the current user's discussion entries for display.
     # Only show discussions created by the signed-in user.
+    # Query discussions authored by the current user for the second section.
     ds_card = Discussion.query.filter_by(user_id=current_user.id).all()
 
     discussions = []
+    # Resolve the author once before constructing discussion card data.
     for ds in ds_card:
         user = User.query.get(ds.user_id)
 
@@ -153,7 +163,9 @@ def hide():
         - Redirects the user back to the user hub page.
     """
     # Persist the visibility preference so it applies across the site.
+    # Convert the submitted flag into the boolean stored by the model.
     current_user.uploader_h = request.form.get("hide_uploader") == "1"
+    # Commit the preference so privacy is applied on future pages.
     db.session.commit()
     flash("Uploader visibility updated", "success")
     return redirect(url_for("user_hub.user_hub"))

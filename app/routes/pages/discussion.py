@@ -27,13 +27,17 @@ def discussion(discussion_id):
         - Redirects back to the discussion after a successful comment
             submission.
     """
+    # Load the thread or let Flask return 404 for an invalid ID.
     ds = Discussion.query.get_or_404(discussion_id)
+    # Fetch the author separately so missing users get a fallback label.
     user = User.query.get(ds.user_id)
 
     form = CommentForm()
 
+    # Process a comment only for a valid POST submission.
     if form.validate_on_submit():
         # Collect the submitted comment and save it to the discussion.
+        # Comments require an authenticated author on this public page.
         if not current_user.is_authenticated:
             # Require a login before creating a comment to avoid
             # anonymous posting.
@@ -46,6 +50,7 @@ def discussion(discussion_id):
             user_id=current_user.id,
             discussion_id=discussion_id
         )
+        # Save the comment before redirecting to prevent duplicate submissions.
         db.session.add(new_comment)
         db.session.commit()
         flash("Comment added!", "success")
@@ -53,6 +58,7 @@ def discussion(discussion_id):
                                 discussion_id=discussion_id))
 
     # Gather all comments in chronological order for display.
+    # Load comments oldest-first so the conversation reads naturally.
     comments = Comment.query.filter_by(
         discussion_id=discussion_id).order_by(Comment.time_created.asc()).all()
 
@@ -70,6 +76,7 @@ def discussion(discussion_id):
 
     # Check whether the current user has already favorited this discussion.
     favorited = False
+    # Anonymous visitors cannot have a favorite relation to look up.
     if current_user.is_authenticated:
         favorited = Favorite_Discussion.query.filter_by(
             user_id=current_user.id,
@@ -100,21 +107,25 @@ def favorite(discussion_id):
     Outputs:
         - Returns JSON indicating whether the discussion was added or removed.
     """
+    # Find the current user's relation to decide whether to add or remove it.
     existing = Favorite_Discussion.query.filter_by(
         user_id=current_user.id,
         discussion_id=discussion_id).first()
 
+    # An existing row means this request is toggling the favorite off.
     if existing:
         # Remove the favorite entry when the user already liked it
         # to toggle it off.
         db.session.delete(existing)
         status = "removed"
+        # Keep the denormalized like counter in sync with the relation row.
         db.session.execute(
             update(Discussion)
             .where(Discussion.id == discussion_id)
             .values(like=Discussion.like - 1)
         )
     else:
+        # No relation exists, so create one and increment the counter.
         db.session.add(Favorite_Discussion(
             user_id=current_user.id,
             discussion_id=discussion_id))
@@ -125,5 +136,6 @@ def favorite(discussion_id):
             .values(like=Discussion.like + 1)
         )
 
+    # Commit both the relation change and counter update atomically.
     db.session.commit()
     return jsonify({"status": status})
